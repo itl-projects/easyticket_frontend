@@ -3,9 +3,9 @@
   "licence": "MIT",
   "version": "1.0.0",
   "private": false,
- "engines":{
-    "node":"14.15.4",
-    "npm":"7.20.1"
+  "engines": {
+    "node": "14.15.4",
+    "npm": "7.20.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -73,7 +73,7 @@
     "simplebar-react": "^2.3.5",
     "web-vitals": "^2.1.0",
     "yup": "^0.32.9",
-"@iconify-icons/tabler": "^1.1.5",
+    "@iconify-icons/tabler": "^1.1.5"
   },
   "devDependencies": {
     "@babel/core": "^7.14.8",

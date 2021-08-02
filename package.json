@@ -72,12 +72,12 @@
     "simplebar": "^5.3.5",
     "simplebar-react": "^2.3.5",
     "web-vitals": "^2.1.0",
-    "yup": "^0.32.9"
+    "yup": "^0.32.9",
+"@iconify-icons/tabler": "^1.1.5",
   },
   "devDependencies": {
     "@babel/core": "^7.14.8",
     "@babel/eslint-parser": "^7.14.7",
-    "@iconify-icons/tabler": "^1.1.5",
     "@types/react-notifications-component": "^3.1.1",
     "eslint": "^7.31.0",
     "eslint-config-airbnb": "^18.2.1",

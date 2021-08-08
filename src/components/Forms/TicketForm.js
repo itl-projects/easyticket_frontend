@@ -1,4 +1,6 @@
 import * as Yup from 'yup';
+import PropTypes from 'prop-types';
+import { useState } from 'react';
 import { useFormik, Form, FormikProvider } from 'formik';
 // material
 import {
@@ -7,53 +9,117 @@ import {
   InputAdornment,
   Grid,
   FormControlLabel,
-  Switch
+  Switch,
+  Button
 } from '@material-ui/core';
 import { Icon } from '@iconify/react';
 import flightIcon from '@iconify/icons-ic/baseline-flight';
-import flightTackoffIcon from '@iconify/icons-ic/baseline-flight-takeoff';
-import flightLandIcon from '@iconify/icons-ic/baseline-flight-land';
+// import flightTackoffIcon from '@iconify/icons-ic/baseline-flight-takeoff';
+// import flightLandIcon from '@iconify/icons-ic/baseline-flight-land';
 import ticketIcon from '@iconify/icons-ic/baseline-airplane-ticket';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
-import DatePicker from '@material-ui/lab/DatePicker';
+import { DesktopDateTimePicker } from '@material-ui/lab';
+import { formatISO } from 'date-fns';
+import frLocale from 'date-fns/locale/fr';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import AirportAutocomplete from '../FormComponents/AirportAutocomplete';
+import AirlineAutocomplete from '../FormComponents/AirlineAutocomplete';
+import { ticketsAPI } from '../../services/admin';
+import { successMessage, errorMessage, warningMessage } from '../../utils/helperFunctions';
 // ----------------------------------------------------------------------
 
-export default function TicketForm() {
-  const userAddSchema = Yup.object().shape({
-    userType: Yup.string().required('userType is required'),
-    commision: Yup.string(),
-    firstName: Yup.string().required('First name is required'),
-    lastName: Yup.string().required('Last name is required'),
-    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    phone: Yup.string().required('Phone number is required'),
-    companyName: Yup.string().required('Agency/Company name is required'),
-    state: Yup.string().required('State is required'),
-    city: Yup.string().required('City is required'),
-    panNumber: Yup.string()
+TicketForm.propTypes = {
+  submitRef: PropTypes.func,
+  closeModal: PropTypes.func
+};
+
+export default function TicketForm({ submitRef, closeModal }) {
+  const ticketAddSchema = Yup.object().shape({
+    departureDateTime: Yup.date().required('Departure datetime is required'),
+    arrivalDateTime: Yup.date().required('Arrival datetime is required'),
+    source: Yup.number().required('Source is required'),
+    destination: Yup.number()
+      .notOneOf([Yup.ref('source'), null], 'Source and destination cannot be same')
+      .required('Destination is required'),
+    airline: Yup.string().required('Airline is required'),
+    flightNumber: Yup.string().required('Flight number is required'),
+    price: Yup.number()
+      .typeError('Please enter only numbers')
+      .positive()
+      .min(1)
+      .required('Ticket price is required'),
+    quantity: Yup.number()
+      .typeError('Please enter only numbers')
+      .positive()
+      .min(1)
+      .required('Ticket quantity is required'),
+    isRefundable: Yup.boolean(),
+    isHotDeal: Yup.boolean()
   });
 
   const formik = useFormik({
     initialValues: {
-      userType: '',
-      commision: '',
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      companyName: '',
-      state: '',
-      city: '',
-      panNumber: ''
+      departureDateTime: formatISO(new Date()),
+      arrivalDateTime: formatISO(new Date()),
+      source: '',
+      destination: '',
+      airline: '',
+      flightNumber: '',
+      price: '',
+      quantity: '1',
+      isRefundable: false,
+      isHotDeal: false
     },
-    validationSchema: userAddSchema,
-    onSubmit: () => {}
+    validationSchema: ticketAddSchema,
+    onSubmit: async () => {
+      setSubmitting(true);
+      const res = await ticketsAPI.addTicket(values);
+      setSubmitting(false);
+      if (res && res.status === 201) {
+        successMessage(res.data.message);
+        closeModal(true);
+        return;
+      }
+      if (res && res.data) {
+        if (res.data && res.status === 400) {
+          if (typeof res.data.message === 'object' && res.data.message.length > 0) {
+            res.data.message.forEach((el) => {
+              warningMessage(el);
+            });
+            return;
+          }
+          warningMessage(res.data.message);
+          return;
+        }
+      }
+      errorMessage('Something went wrong. Try later.');
+    }
   });
 
-  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+  const {
+    errors,
+    touched,
+    values,
+    isSubmitting,
+    handleSubmit,
+    getFieldProps,
+    setFieldValue,
+    setSubmitting
+  } = formik;
+  const [value, setValue] = useState(new Date());
+  const [value2, setValue2] = useState(new Date());
 
   return (
     <FormikProvider value={formik}>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isSubmitting}
+        onClick={() => setSubmitting(false)}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Grid
           container
@@ -63,73 +129,82 @@ export default function TicketForm() {
           mt={0}
           px={12}
         >
-          <Grid item xs={12}>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DatePicker
-                label="Travel Date"
-                {...getFieldProps('firstName')}
-                error={Boolean(touched.firstName && errors.firstName)}
-                helperText={touched.firstName && errors.firstName}
-                renderInput={(params) => <TextField {...params} />}
+          <Grid item xs={6}>
+            <LocalizationProvider dateAdapter={AdapterDateFns} locale={frLocale}>
+              <DesktopDateTimePicker
+                label="Departure DateTime"
+                ampm={false}
+                minDate={new Date()}
+                ampmInClock={false}
+                value={value}
+                onChange={(newValue) => {
+                  setFieldValue('departureDateTime', formatISO(newValue));
+                  setValue(newValue);
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    fullWidth
+                    error={Boolean(touched.departureDateTime && errors.departureDateTime)}
+                    helperText={touched.departureDateTime && errors.departureDateTime}
+                    size="small"
+                  />
+                )}
               />
             </LocalizationProvider>
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              fullWidth
-              type="text"
-              label="From"
-              {...getFieldProps('firstName')}
-              error={Boolean(touched.firstName && errors.firstName)}
-              helperText={touched.firstName && errors.firstName}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton edge="end">
-                      <Icon icon={flightTackoffIcon} />
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }}
+            <LocalizationProvider dateAdapter={AdapterDateFns} locale={frLocale}>
+              <DesktopDateTimePicker
+                label="Arrival DateTime"
+                value={value2}
+                ampm={false}
+                minDate={value}
+                ampmInClock={false}
+                onChange={(newValue) => {
+                  setFieldValue('arrivalDateTime', formatISO(newValue));
+                  setValue2(newValue);
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    fullWidth
+                    error={Boolean(touched.arrivalDateTime && errors.arrivalDateTime)}
+                    helperText={touched.arrivalDateTime && errors.arrivalDateTime}
+                    size="small"
+                  />
+                )}
+              />
+            </LocalizationProvider>
+          </Grid>
+          <Grid item xs={6}>
+            <AirportAutocomplete
+              label="Source"
+              value={values.source}
+              onChange={(v) => setFieldValue('source', v)}
+              error={Boolean(touched.source && errors.source)}
+              helperText={touched.source && errors.source}
+              size="small"
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              fullWidth
-              type="text"
-              label="To"
-              {...getFieldProps('lastName')}
-              error={Boolean(touched.lastName && errors.lastName)}
-              helperText={touched.lastName && errors.lastName}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton edge="end">
-                      <Icon icon={flightLandIcon} />
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }}
+            <AirportAutocomplete
+              label="Destination"
+              value={values.destination}
+              onChange={(v) => setFieldValue('destination', v)}
+              error={Boolean(touched.destination && errors.destination)}
+              helperText={touched.destination && errors.destination}
+              size="small"
             />
           </Grid>
 
           <Grid item xs={6}>
-            <TextField
-              fullWidth
-              type="text"
+            <AirlineAutocomplete
               label="Airline"
-              {...getFieldProps('phone')}
-              error={Boolean(touched.phone && errors.phone)}
-              helperText={touched.phone && errors.phone}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton edge="end">
-                      <Icon icon={flightIcon} />
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }}
+              value={values.airline}
+              onChange={(v) => setFieldValue('airline', v)}
+              error={Boolean(touched.airline && errors.airline)}
+              helperText={touched.airline && errors.airline}
             />
           </Grid>
           <Grid item xs={6}>
@@ -137,9 +212,9 @@ export default function TicketForm() {
               fullWidth
               type="text"
               label="Flight Number"
-              {...getFieldProps('companyName')}
-              error={Boolean(touched.companyName && errors.companyName)}
-              helperText={touched.companyName && errors.companyName}
+              {...getFieldProps('flightNumber')}
+              error={Boolean(touched.flightNumber && errors.flightNumber)}
+              helperText={touched.flightNumber && errors.flightNumber}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -149,6 +224,7 @@ export default function TicketForm() {
                   </InputAdornment>
                 )
               }}
+              size="small"
             />
           </Grid>
           <Grid item xs={6}>
@@ -156,12 +232,13 @@ export default function TicketForm() {
               fullWidth
               type="text"
               label="Price"
-              {...getFieldProps('state')}
-              error={Boolean(touched.state && errors.state)}
-              helperText={touched.state && errors.state}
+              {...getFieldProps('price')}
+              error={Boolean(touched.price && errors.price)}
+              helperText={touched.price && errors.price}
               InputProps={{
                 endAdornment: <InputAdornment position="end">$</InputAdornment>
               }}
+              size="small"
             />
           </Grid>
           <Grid item xs={6}>
@@ -169,9 +246,9 @@ export default function TicketForm() {
               fullWidth
               type="text"
               label="Quantity"
-              {...getFieldProps('city')}
-              error={Boolean(touched.city && errors.city)}
-              helperText={touched.city && errors.city}
+              {...getFieldProps('quantity')}
+              error={Boolean(touched.quantity && errors.quantity)}
+              helperText={touched.quantity && errors.quantity}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -181,15 +258,25 @@ export default function TicketForm() {
                   </InputAdornment>
                 )
               }}
+              size="small"
             />
           </Grid>
           <Grid item xs={6}>
-            <FormControlLabel control={<Switch />} label="Is Refundable?" />
+            <FormControlLabel
+              control={<Switch />}
+              label="Is Refundable?"
+              {...getFieldProps('isRefundable')}
+            />
           </Grid>
           <Grid item xs={6}>
-            <FormControlLabel control={<Switch />} label="Is Hot Deal?" />
+            <FormControlLabel
+              control={<Switch />}
+              label="Is Hot Deal?"
+              {...getFieldProps('isHotDeal')}
+            />
           </Grid>
         </Grid>
+        <Button hidden ref={submitRef} type="submit" />
       </Form>
     </FormikProvider>
   );

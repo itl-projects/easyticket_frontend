@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { sentenceCase } from 'change-case';
-import Box from '@material-ui/core/Box';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -10,9 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import IconButton from '@material-ui/core/IconButton';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
-import { visuallyHidden } from '@material-ui/utils';
 import { Icon } from '@iconify/react';
 import creditCardFill from '@iconify/icons-eva/credit-card-fill';
 import eyeFill from '@iconify/icons-eva/eye-outline';
@@ -86,22 +83,22 @@ function EnhancedTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'center' : 'left'}
+            align={headCell.numeric ? 'left' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
-            <TableSortLabel
+            {headCell.label}
+            {/* <TableSortLabel
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
             >
-              {headCell.label}
               {orderBy === headCell.id ? (
                 <Box component="span" sx={visuallyHidden}>
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                 </Box>
               ) : null}
-            </TableSortLabel>
+            </TableSortLabel> */}
           </TableCell>
         ))}
         <TableCell align="center" padding="none">
@@ -159,7 +156,7 @@ export default function EnhancedTable() {
   return (
     <Paper sx={{ width: '100%', px: 4 }}>
       <TableContainer>
-        <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size="medium">
+        <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size="small">
           <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
           <TableBody>
             {data.map((row, index) => {
@@ -170,17 +167,15 @@ export default function EnhancedTable() {
                   <TableCell id={labelId} scope="row" padding="none">
                     {page * 10 + index + 1}
                   </TableCell>
-                  <TableCell align="center">{row.profile.company || 'Not Available'}</TableCell>
-                  <TableCell align="center"> {row.username}</TableCell>
-                  {row.role === USER_ROLES.USER && <TableCell align="center">Agent</TableCell>}
-                  {row.role === USER_ROLES.SUPPLIER && (
-                    <TableCell align="center">Supplier</TableCell>
-                  )}
-                  {row.role === USER_ROLES.ADMIN && <TableCell align="center">Private</TableCell>}
-                  <TableCell align="center">{row.profile.city}</TableCell>
-                  <TableCell align="center">{row.profile.state}</TableCell>
-                  <TableCell align="center">
-                    <Label variant="ghost" color={(row.status !== 1 && 'error') || 'success'}>
+                  <TableCell align="left">{row.profile.company || 'Not Available'}</TableCell>
+                  <TableCell align="left"> {row.username}</TableCell>
+                  {row.role === USER_ROLES.USER && <TableCell align="left">Agent</TableCell>}
+                  {row.role === USER_ROLES.SUPPLIER && <TableCell align="left">Supplier</TableCell>}
+                  {row.role === USER_ROLES.ADMIN && <TableCell align="left">Private</TableCell>}
+                  <TableCell align="left">{row.profile.city}</TableCell>
+                  <TableCell align="left">{row.profile.state}</TableCell>
+                  <TableCell align="left">
+                    <Label color={(row.status !== 1 && 'error') || 'success'}>
                       {sentenceCase(row.status ? 'Active' : 'In Active')}
                     </Label>
                   </TableCell>

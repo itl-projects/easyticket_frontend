@@ -24,7 +24,7 @@ AppActiveUsers.propTypes = {
 export default function AppActiveUsers({ title, accualCount, totalCount }) {
   return (
     <RootStyle>
-      <Typography variant="h3" mb={0}>
+      <Typography variant="h4" mb={0}>
         {accualCount}/{totalCount}
       </Typography>
       <Typography sx={{ opacity: 0.72 }} variant="overline" display="block">

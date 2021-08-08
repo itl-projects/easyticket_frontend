@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+
 import { useFormik, Form, FormikProvider } from 'formik';
 import { Icon } from '@iconify/react';
 import eyeFill from '@iconify/icons-eva/eye-fill';
@@ -20,10 +20,10 @@ import {
 import { LoadingButton } from '@material-ui/lab';
 import { setUserData } from '../../../store/actions/authAction';
 import { loginUser } from '../../../services/auth';
+import { successMessage } from '../../../utils/helperFunctions';
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState(false);
@@ -41,14 +41,11 @@ export default function LoginForm() {
     },
     validationSchema: LoginSchema,
     onSubmit: async () => {
-      console.log(values);
       const res = await loginUser({ email: values.email, password: values.password });
       setSubmitting(false);
       if (res && res.status === 201) {
         dispatch(setUserData(res.data));
-        setTimeout(() => {
-          navigate('/dashboard', { replace: true });
-        }, 100);
+        successMessage('Logged in Successfully ');
         return;
       }
       setLoginError(true);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -10,6 +10,13 @@ import TicketForm from '../Forms/TicketForm';
 export default function TicketModalModal() {
   const adminContext = useAdminContext();
   const { showTicketModal, toggleShowTicketModal } = adminContext;
+  const submitRef = useRef(null);
+
+  const submitForm = () => {
+    if (submitRef.current) {
+      submitRef.current.click();
+    }
+  };
 
   return (
     <div>
@@ -24,13 +31,13 @@ export default function TicketModalModal() {
           Create Ticket
         </MuiDialogTitle>
         <MuiDialogContent dividers>
-          <TicketForm />
+          <TicketForm submitRef={submitRef} closeModal={toggleShowTicketModal} />
         </MuiDialogContent>
         <MuiDialogActions>
           <Button color="error" variant="outlined" onClick={toggleShowTicketModal}>
             cancel
           </Button>
-          <Button onClick={toggleShowTicketModal} color="primary" variant="outlined">
+          <Button onClick={submitForm} color="primary" variant="outlined">
             create ticket
           </Button>
         </MuiDialogActions>

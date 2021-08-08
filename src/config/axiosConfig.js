@@ -3,7 +3,7 @@ import axios from 'axios';
 import { store } from '../store';
 
 const axiosInstance = axios.create({
-  baseURL: 'https://easyticketapi.herokuapp.com/api/v1/'
+  baseURL: process.env.REACT_APP_API_ENDPOINT
 });
 
 // This allows you to intercept the request before it is sent and alter headers or anyting else that is passed to the axios config.

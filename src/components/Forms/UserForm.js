@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useFormik, Form, FormikProvider } from 'formik';
 // material
@@ -11,6 +12,11 @@ import { USER_TYPES } from '../../utils/constants';
 import { usersAPI } from '../../services/admin';
 import { successMessage, errorMessage, warningMessage } from '../../utils/helperFunctions';
 // ----------------------------------------------------------------------
+
+UserForm.propTypes = {
+  submitRef: PropTypes.any,
+  closeModal: PropTypes.func
+};
 
 export default function UserForm({ submitRef, closeModal }) {
   const userAddSchema = Yup.object().shape({
@@ -58,8 +64,8 @@ export default function UserForm({ submitRef, closeModal }) {
             return;
           }
           warningMessage(res.data.message);
+          return;
         }
-        return;
       }
       errorMessage('Something went wrong. Try later.');
     }

@@ -57,7 +57,7 @@ export default function TicketListPage() {
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DatePicker
                       label="Start Date"
-                      renderInput={(params) => <TextField {...params} fullWidth />}
+                      renderInput={(params) => <TextField size="small" {...params} fullWidth />}
                     />
                   </LocalizationProvider>
                 </Grid>
@@ -65,18 +65,19 @@ export default function TicketListPage() {
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DatePicker
                       label="End Date"
-                      renderInput={(params) => <TextField {...params} fullWidth />}
+                      renderInput={(params) => <TextField size="small" {...params} fullWidth />}
                     />
                   </LocalizationProvider>
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
-                  <TextField label="Uploaded By" select fullWidth>
+                  <TextField size="small" label="Uploaded By" select fullWidth>
                     <MenuItem>Admin</MenuItem>
                     <MenuItem>Supplier</MenuItem>
                   </TextField>
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <TextField
+                    size="small"
                     fullWidth
                     type="text"
                     label="Airline"
@@ -93,6 +94,7 @@ export default function TicketListPage() {
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <TextField
+                    size="small"
                     fullWidth
                     type="text"
                     label="From"
@@ -109,6 +111,7 @@ export default function TicketListPage() {
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <TextField
+                    size="small"
                     fullWidth
                     type="text"
                     label="To"
@@ -127,7 +130,7 @@ export default function TicketListPage() {
             </Card>
           </Grid>
           <Grid item xs={12} lg={4} my={2}>
-            <Card sx={{ p: 2 }}>
+            <Card sx={{ px: 2, py: 1.2 }}>
               <Grid
                 columnSpacing={{ xs: 1, sm: 2, md: 3, lg: 1 }}
                 container
@@ -145,7 +148,7 @@ export default function TicketListPage() {
           </Grid>
         </Grid>
 
-        <Card>
+        <Card sx={{ px: 0 }}>
           <Tickets />
         </Card>
       </Container>

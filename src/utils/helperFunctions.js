@@ -1,6 +1,6 @@
 import { store as notifincationStore } from 'react-notifications-component';
 import { format, intervalToDuration } from 'date-fns';
-import { AIRLINES } from './constants';
+import { AIRLINES, USER_ROLES } from './constants';
 import AIRPORTS from '../data/airports.json';
 
 export const successMessage = (message) => {
@@ -79,9 +79,16 @@ export const getAirportNameById = (id) =>
     : 'Not Available';
 
 export const getUserRoleName = (role) => {
-  if (role === 1) return 'Agent';
-  if (role === 2) return 'Admin';
-  return 'Supplier';
+  switch (role) {
+    case USER_ROLES.USER:
+      return 'Agent';
+    case USER_ROLES.SUPPLIER:
+      return 'Supplier';
+    case USER_ROLES.ADMIN:
+      return 'Admin';
+    default:
+      return 'Unknown';
+  }
 };
 
 export const getDateDuration = (startDate, endDate) => {

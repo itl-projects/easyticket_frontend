@@ -1,6 +1,10 @@
-import { useState } from 'react';
+import { useState, useRef, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Icon } from '@iconify/react';
+import homeFill from '@iconify/icons-eva/home-fill';
+import personFill from '@iconify/icons-eva/person-fill';
+import settings2Fill from '@iconify/icons-eva/settings-2-fill';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // material
 import { styled, alpha } from '@material-ui/core/styles';
 import {
@@ -14,11 +18,17 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
-  Button
+  Button,
+  MenuItem,
+  Box
 } from '@material-ui/core';
 // components
 import { DrawerLogo } from '../../components/Logos';
 import { removeUserData } from '../../store/actions/authAction';
+import { useAuth } from '../../context/AuthContext';
+// components
+import MenuPopover from '../../components/MenuPopover';
+import { USER_ROLES } from '../../utils/constants';
 // ----------------------------------------------------------------------
 const APPBAR_MOBILE = 64;
 const APPBAR_DESKTOP = 92;
@@ -44,12 +54,56 @@ const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
 export default function DashboardHeader() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const auth = useAuth();
 
+  const anchorRef = useRef(null);
+  const [open, setOpen] = useState(false);
   const [logoutDialog, setLogoutDialog] = useState(false);
 
   const logoutUser = () => {
     dispatch(removeUserData());
     navigate('/', { replace: true });
+  };
+
+  const MENU_OPTIONS = useMemo(() => {
+    if (!auth.user) return [];
+    switch (auth.user.role) {
+      case USER_ROLES.ADMIN:
+        return [
+          {
+            label: 'Home',
+            icon: homeFill,
+            linkTo: '/dashboard'
+          },
+          {
+            label: 'Settings',
+            icon: settings2Fill,
+            linkTo: '/dashboard/settings'
+          }
+        ];
+      case USER_ROLES.USER:
+        return [
+          {
+            label: 'Home',
+            icon: homeFill,
+            linkTo: '/dashboard'
+          },
+          {
+            label: 'My Bookings',
+            icon: personFill,
+            linkTo: '/dashboard/bookedtickets'
+          }
+        ];
+      default:
+        return [];
+    }
+  }, [auth]);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
   };
   return (
     <RootStyle>
@@ -106,7 +160,42 @@ export default function DashboardHeader() {
             </Grid>
             <Grid item xs={10} lg={10} sx={{ pt: 0 }}>
               <Grid display="flex" justifyContent="flex-end" columnGap={2}>
-                <Typography variant="body2">contact</Typography>
+                <Button
+                  ref={anchorRef}
+                  onClick={handleOpen}
+                  variant="contained"
+                  color="inherit"
+                  disableElevation
+                >
+                  My Account
+                </Button>
+                <MenuPopover
+                  open={open}
+                  onClose={handleClose}
+                  anchorEl={anchorRef.current}
+                  sx={{ width: 220 }}
+                >
+                  {MENU_OPTIONS.map((option) => (
+                    <MenuItem
+                      key={option.label}
+                      to={option.linkTo}
+                      component={RouterLink}
+                      onClick={2}
+                      sx={{ typography: 'body2', py: 1, px: 2.5 }}
+                    >
+                      <Box
+                        component={Icon}
+                        icon={option.icon}
+                        sx={{
+                          mr: 2,
+                          width: 24,
+                          height: 24
+                        }}
+                      />
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </MenuPopover>
               </Grid>
             </Grid>
           </Grid>

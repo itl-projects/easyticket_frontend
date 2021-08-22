@@ -74,7 +74,11 @@ export default function AgentDashboard() {
                 <Card sx={{ px: 1, pt: 1, pb: 2, background: '#ffffffb8' }}>
                   <Grid container>
                     <Tabs value={activeTab} onChange={handleTabChange}>
-                      <Tab label="ONE WAY" sx={{ background: '#31ca6e', color: 'white', px: 8 }} />
+                      <Tab
+                        label="ONE WAY"
+                        sx={{ background: '#31ca6e', px: 8 }}
+                        style={{ color: 'white' }}
+                      />
                     </Tabs>
                     {/* </Grid> */}
                   </Grid>

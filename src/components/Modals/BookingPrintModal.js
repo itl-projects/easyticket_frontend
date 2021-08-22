@@ -63,10 +63,10 @@ export default function BookingPrintModal() {
       </MuiDialogActions>
       <PDFViewer showToolbar height="100%" title="booking-print">
         <Document
-          author="Easy Ticket"
-          creator="Easy Ticket"
-          title="booking refid"
-          subject="flight ticket"
+          author="EasyTicket"
+          creator="EasyTicket"
+          title={booking?.bookingRef}
+          subject={booking?.bookingRef}
         >
           <Page size="A4" style={styles.page} orientation="portrait">
             <View style={styles.section1}>

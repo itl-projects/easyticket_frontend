@@ -87,7 +87,7 @@ export default function SingleBookingDetailTable({ passengers }) {
           <EnhancedTableHead />
           <TableBody>
             {passengers &&
-              passengers.map((row, index) => (
+              passengers.reverse().map((row, index) => (
                 <TableRow hover tabIndex={-1} key={row.id}>
                   <TableCell component="th" scope="row">
                     {index + 1}

@@ -77,11 +77,7 @@ function EnhancedTableHead() {
     <TableHead>
       <TableRow>
         {headCells.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            align={headCell.numeric ? 'left' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'normal'}
-          >
+          <TableCell key={headCell.id} align="center">
             {headCell.label}
           </TableCell>
         ))}
@@ -126,7 +122,7 @@ export default function EnhancedTable() {
   }, [getUsers, showAgentModal]);
 
   return (
-    <Paper sx={{ width: '100%', px: 4 }}>
+    <Paper sx={{ width: '100%' }}>
       <TableContainer>
         <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size="small">
           <EnhancedTableHead />
@@ -137,7 +133,7 @@ export default function EnhancedTable() {
                 if (row.profile === null) return null;
                 return (
                   <TableRow hover tabIndex={-1} key={row.id}>
-                    <TableCell id={labelId} scope="row" padding="none">
+                    <TableCell id={labelId} scope="row">
                       {page * 10 + index + 1}
                     </TableCell>
                     <TableCell align="left">{row.profile.company || 'Not Available'}</TableCell>
@@ -146,8 +142,8 @@ export default function EnhancedTable() {
                     <TableCell align="left">{row.profile.city}</TableCell>
                     <TableCell align="left">{row.profile.state}</TableCell>
                     <TableCell align="left">
-                      <Label color={(row.status !== 1 && 'error') || 'success'}>
-                        {sentenceCase(row.status ? 'Active' : 'In Active')}
+                      <Label color={row.isActive ? 'success' : 'error'}>
+                        {sentenceCase(row.isActive ? 'Active' : 'In Active')}
                       </Label>
                     </TableCell>
                     <TableCell align="center">₹ {row.commision}</TableCell>
@@ -172,7 +168,7 @@ export default function EnhancedTable() {
         </Table>
       </TableContainer>
       {loading && <TableSkeleton />}
-      {data.length <= 0 && (
+      {!loading && data.length <= 0 && (
         <Typography sx={{ my: 3 }} textAlign="center" variant="h5">
           No Record found !
         </Typography>

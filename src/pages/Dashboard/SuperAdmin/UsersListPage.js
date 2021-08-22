@@ -116,7 +116,7 @@ export default function UserListPage() {
                 direction="column"
                 rowGap={1}
               >
-                <Grid xs={12}>
+                <Grid>
                   <AppActiveUsers title="Active Agents" accualCount={24} totalCount={67} />
                 </Grid>
                 <Grid>

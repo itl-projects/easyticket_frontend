@@ -15,16 +15,25 @@ export default function UpdatePNRModal() {
 
   return (
     <div>
-      <Dialog onClose={toggleShowUpdatePNRModal} open={showUpdatePNRModal} maxWidth="lg" fullWidth>
-        <MuiDialogTitle onClose={toggleShowUpdatePNRModal}>Update PNR</MuiDialogTitle>
+      <Dialog
+        onClose={() => toggleShowUpdatePNRModal(null)}
+        open={showUpdatePNRModal !== null}
+        maxWidth="lg"
+        fullWidth
+      >
+        <MuiDialogTitle onClose={() => toggleShowUpdatePNRModal(null)}>UPDATE PNR</MuiDialogTitle>
         <MuiDialogContent dividers>
-          <UpdatePNRForm />
+          <UpdatePNRForm
+            bookingId={showUpdatePNRModal?.id}
+            ticketId={showUpdatePNRModal?.ticket.id}
+            closeModal={() => toggleShowUpdatePNRModal(null)}
+          />
           <Grid item sx={{ mt: 2 }}>
-            <SingleBookingDetailTable />
+            <SingleBookingDetailTable passengers={showUpdatePNRModal?.passengers} />
           </Grid>
         </MuiDialogContent>
         <MuiDialogActions>
-          <Button color="error" variant="outlined" onClick={toggleShowUpdatePNRModal}>
+          <Button color="error" variant="outlined" onClick={() => toggleShowUpdatePNRModal(null)}>
             Close
           </Button>
         </MuiDialogActions>

@@ -22,6 +22,8 @@ import { styled } from '@material-ui/core/styles';
 import { tableCellClasses } from '@material-ui/core/TableCell';
 import { getAirlineNameById, getAirportNameById } from '../../../utils/helperFunctions';
 import Page from '../../../components/Page';
+import BookingPrintModal from '../../../components/Modals/BookingPrintModal';
+import { useAdminContext } from '../../../context/AdminContext';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -43,6 +45,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 export default function ConfirmBooking() {
   const navigate = useNavigate();
   const { booking } = useSelector((state) => state.booking);
+  const adminContext = useAdminContext();
+  const { toggleShowBookingPrintModal } = adminContext;
 
   if (!booking) window.history.back();
 
@@ -60,7 +64,13 @@ export default function ConfirmBooking() {
             >
               Go back
             </Button>
-            <Button variant="contained" color="info" disableElevation>
+            <Button
+              variant="contained"
+              color="info"
+              disableElevation
+              onClick={() => toggleShowBookingPrintModal(true)}
+              disabled={!booking.pnr}
+            >
               Print
             </Button>
           </Grid>
@@ -99,10 +109,14 @@ export default function ConfirmBooking() {
                 <Stack
                   dir="column"
                   alignItems="center"
-                  sx={{ border: 2, borderColor: '#ffa500', px: 3, py: 1 }}
+                  sx={{ border: 2, borderColor: '#31ca6e', px: 3, py: 1 }}
                 >
                   <Typography variant="caption">AIRLINE PNR</Typography>
-                  <Typography color="red" variant="subtitle1">
+                  <Typography
+                    color={booking.pnr ? 'primary' : 'red'}
+                    variant="subtitle1"
+                    sx={{ textTransform: 'uppercase' }}
+                  >
                     {booking.pnr ? booking.pnr : 'Processing...'}
                   </Typography>
                 </Stack>
@@ -122,7 +136,7 @@ export default function ConfirmBooking() {
                   </Typography>
                 </Grid>
               }
-              sx={{ p: 1, background: 'orange', color: '#fff' }}
+              sx={{ p: 1, background: '#31ca6e', color: '#fff' }}
             />
             <TableContainer>
               <Table sx={{ minWidth: 650 }}>
@@ -137,29 +151,31 @@ export default function ConfirmBooking() {
                 <TableBody>
                   <TableRow>
                     <StyledTableCell component="th" scope="row">
-                      <Typography variant="body1">
+                      <Typography variant="subtitle2">
                         {getAirlineNameById(booking.ticket.airline)}
                       </Typography>
+                      <Typography variant="body1">{booking.ticket.flightNumber}</Typography>
+
                       <Typography>{booking.bookingNumber}</Typography>
                     </StyledTableCell>
                     <StyledTableCell align="left">
-                      <Typography variant="body1">
+                      <Typography variant="subtitle2">
                         {getAirportNameById(booking.ticket.source)}
                       </Typography>
-                      <Typography variant="caption">
+                      <Typography variant="body2">
                         {format(new Date(booking.ticket.departureDateTime), 'dd-MM-yyyy HH:mm')}
                       </Typography>
                     </StyledTableCell>
                     <StyledTableCell align="left">
-                      <Typography variant="body1">
+                      <Typography variant="subtitle2">
                         {getAirportNameById(booking.ticket.destination)}
                       </Typography>
-                      <Typography variant="caption">
+                      <Typography variant="body2">
                         {format(new Date(booking.ticket.arrivalDateTime), 'dd-MM-yyyy HH:mm')}
                       </Typography>
                     </StyledTableCell>
                     <StyledTableCell align="left">
-                      <Typography variant="body1">No Stop</Typography>
+                      <Typography variant="subtitle2">No Stop</Typography>
                       <Typography variant="subtitle2">
                         {booking.ticket.isRefundable ? 'Refundable' : 'Non-Refundable'}
                       </Typography>
@@ -173,7 +189,7 @@ export default function ConfirmBooking() {
           <Card sx={{ my: 1 }}>
             <CardHeader
               subheader="Passenger(s) Detail"
-              subheaderTypographyProps={{ color: 'white' }}
+              subheaderTypographyProps={{ color: 'white', variant: 'body2' }}
               sx={{ py: 1, background: 'grey', color: '#fffff', px: 3 }}
             />
             <TableContainer>
@@ -186,7 +202,7 @@ export default function ConfirmBooking() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {booking.passengers.map((pass, i) => (
+                  {booking.passengers.reverse().map((pass, i) => (
                     <TableRow key={`passenger-${i}`}>
                       <StyledTableCell component="th" scope="row">
                         {i + 1}
@@ -204,7 +220,11 @@ export default function ConfirmBooking() {
           </Card>
 
           <Card sx={{ my: 1 }}>
-            <CardHeader subheader="booking Inclusions" sx={{ py: 1, px: 3 }} />
+            <CardHeader
+              subheader="Booking Inclusions"
+              sx={{ py: 1, px: 3 }}
+              subheaderTypographyProps={{ color: '#323232', variant: 'body2' }}
+            />
             <TableContainer>
               <Table sx={{ minWidth: 650 }}>
                 <TableHead>
@@ -237,13 +257,13 @@ export default function ConfirmBooking() {
             </TableContainer>
           </Card>
           <Grid container sx={{ mt: 2 }}>
-            <Grid item display="flex" justifyContent="center" lg={12}>
-              <Typography variant="h5" textAlign="center">
+            <Grid item display="flex" justifyContent="center" xs={12} alignItems="center">
+              <Typography variant="overline" textAlign="center" sx={{ fontSize: 18 }}>
                 Important Information
               </Typography>
             </Grid>
             <Grid item display="flex" justifyContent="start" lg={12} sx={{ mt: 3 }}>
-              <Typography variant="subtitle2">
+              <Typography variant="body2">
                 1. This ticket is Non Refundable & Non Changeable.
                 <br /> 2. All Guests, including children and infants, must present valid
                 identification at check-in.
@@ -264,6 +284,7 @@ export default function ConfirmBooking() {
           </Grid>
         </Stack>
       </Container>
+      <BookingPrintModal />
     </Page>
   );
 }

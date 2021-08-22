@@ -27,7 +27,7 @@ export default function ConfirmBooking() {
   return (
     <Page title="Dashboard | Booking Detail">
       <Container>
-        <Grid lg={12} justifyContent="center" alignItems="center" display="flex">
+        <Grid container justifyContent="center" alignItems="center" display="flex">
           <Card variant="outlined" sx={{ width: '100%' }}>
             <CardHeader
               title="Booking Confirmation"

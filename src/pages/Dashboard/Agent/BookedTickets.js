@@ -1,7 +1,7 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { sentenceCase } from 'change-case';
+import { useFormik, Form, FormikProvider } from 'formik';
 import {
   Card,
   Grid,
@@ -15,33 +15,41 @@ import {
   Table,
   TableHead,
   TableBody,
-  TablePagination
+  TablePagination,
+  List,
+  ListItem,
+  ListItemText,
+  TextField
 } from '@material-ui/core';
-import { format } from 'date-fns';
+import { format, formatISO } from 'date-fns';
 import { styled } from '@material-ui/core/styles';
 import { tableCellClasses } from '@material-ui/core/TableCell';
+import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
+import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
+import { DesktopDatePicker, LoadingButton } from '@material-ui/lab';
+import frLocale from 'date-fns/locale/fr';
 import Label from '../../../components/Label';
 import Page from '../../../components/Page';
 import { bookingsAPI } from '../../../services/agent';
 import { TableSkeleton } from '../../../components/skeletons';
-import { getAirlineNameById } from '../../../utils/helperFunctions';
+import { formatPrice, getAirlineNameById } from '../../../utils/helperFunctions';
 import { setBookingData, removeBookingData } from '../../../store/actions/bookingAction';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.grey[300],
     color: theme.palette.common.black,
-    paddingLeft: 24,
+    paddingLeft: 8,
     paddingTop: 4,
-    paddingRight: 24,
+    paddingRight: 8,
     paddingBottom: 4,
     fontSize: 12,
     textTransform: 'capitalize'
   },
   [`&.${tableCellClasses.body}`]: {
-    paddingLeft: 24,
+    paddingLeft: 8,
     paddingTop: 4,
-    paddingRight: 24,
+    paddingRight: 8,
     paddingBottom: 4
   }
 }));
@@ -55,6 +63,26 @@ export default function ConfirmBooking() {
   const [totalBookings, setTotalBookings] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [loading, setLoading] = useState(false);
+  const [fromDate, setFromDate] = useState(null);
+  const [toDate, setToDate] = useState(null);
+  const [travelDate, setTravelDate] = useState(null);
+
+  const formik = useFormik({
+    initialValues: {
+      bookingRef: '',
+      fromDate: '',
+      toDate: '',
+      travelDate: '',
+      pnr: ''
+    },
+    onSubmit: async () => {
+      // navigate('/dashboard/searchTicket', { replace: false, state: { ...values } });
+      getMyBookings();
+    }
+  });
+
+  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps, setFieldValue } =
+    formik;
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -67,9 +95,18 @@ export default function ConfirmBooking() {
 
   const getMyBookings = async () => {
     setLoading(true);
-    const res = await bookingsAPI.getBookings(page + 1, rowsPerPage);
+    const data = {
+      page: page + 1,
+      limit: rowsPerPage,
+      bookingRef: values.bookingRef,
+      fromDate: values.fromDate,
+      toDate: values.toDate,
+      travelDate: values.travelDate,
+      pnr: values.pnr
+    };
+    const res = await bookingsAPI.getBookings(data);
     setLoading(false);
-    if (res && res.status === 200) {
+    if (res && res.status === 201) {
       setTotalBookings(res.data.data.meta.totalItems);
       setBookings(res.data.data.items);
     }
@@ -96,6 +133,97 @@ export default function ConfirmBooking() {
     <Page title="Dashboard | Booking Detail">
       <Container>
         <Stack>
+          <FormikProvider value={formik}>
+            <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+              <Grid
+                container
+                spacing={2}
+                justifyContent="center"
+                sx={{ mb: 5 }}
+                alignItems="flex-end"
+              >
+                <Grid xs={12} item lg={2} md={2}>
+                  <Typography sx={{ mb: 1, pl: 1 }}>PNR</Typography>
+                  <TextField
+                    fullWidth
+                    type="text"
+                    placeholder="PNR"
+                    {...getFieldProps('pnr')}
+                    error={Boolean(touched.quantity && errors.quantity)}
+                    helperText={touched.quantity && errors.quantity}
+                    size="small"
+                  />
+                </Grid>
+                <Grid xs={12} item lg={2} md={2}>
+                  <Typography sx={{ mb: 1, pl: 1 }}>Booking Ref</Typography>
+                  <TextField
+                    fullWidth
+                    type="text"
+                    placeholder="Booking Ref"
+                    {...getFieldProps('bookingRef')}
+                    error={Boolean(touched.quantity && errors.quantity)}
+                    helperText={touched.quantity && errors.quantity}
+                    size="small"
+                  />
+                </Grid>
+                <Grid xs={12} item lg={2} md={2}>
+                  <Typography sx={{ mb: 1, pl: 1 }}>From Date</Typography>
+                  <LocalizationProvider dateAdapter={AdapterDateFns} locale={frLocale}>
+                    <DesktopDatePicker
+                      placeholder="From Date"
+                      value={fromDate}
+                      onChange={(newValue) => {
+                        setFieldValue('fromDate', newValue);
+                        setFromDate(newValue);
+                      }}
+                      renderInput={(params) => <TextField {...params} fullWidth size="small" />}
+                    />
+                  </LocalizationProvider>
+                </Grid>
+                <Grid xs={12} item lg={2} md={2}>
+                  <Typography sx={{ mb: 1, pl: 1 }}>To Date</Typography>
+                  <LocalizationProvider dateAdapter={AdapterDateFns} locale={frLocale}>
+                    <DesktopDatePicker
+                      placeholder="To Date"
+                      value={toDate}
+                      onChange={(newValue) => {
+                        setFieldValue('toDate', newValue);
+                        setToDate(newValue);
+                      }}
+                      renderInput={(params) => <TextField {...params} fullWidth size="small" />}
+                    />
+                  </LocalizationProvider>
+                </Grid>
+                <Grid xs={12} item lg={2} md={2}>
+                  <Typography sx={{ mb: 1, pl: 1 }}>Travel Date</Typography>
+                  <LocalizationProvider dateAdapter={AdapterDateFns} locale={frLocale}>
+                    <DesktopDatePicker
+                      placeholder="Travel Date"
+                      minDate={new Date()}
+                      value={travelDate}
+                      onChange={(newValue) => {
+                        setFieldValue('travelDate', newValue);
+                        setTravelDate(newValue);
+                      }}
+                      renderInput={(params) => <TextField {...params} fullWidth size="small" />}
+                    />
+                  </LocalizationProvider>
+                </Grid>
+                <Grid xs={12} item lg={2} md={2} justifyContent="center">
+                  <LoadingButton
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    loading={isSubmitting}
+                    fullWidth
+                  >
+                    Search Flight
+                  </LoadingButton>
+                </Grid>
+              </Grid>
+            </Form>
+          </FormikProvider>
+
           <Grid container justifyContent="center">
             <Typography variant="h5" textAlign="center">
               My Bookings
@@ -108,12 +236,12 @@ export default function ConfirmBooking() {
                   <TableRow>
                     <StyledTableCell align="center">SI.No.</StyledTableCell>
                     <StyledTableCell align="center">Booking Ref</StyledTableCell>
-                    <StyledTableCell align="left">Date</StyledTableCell>
-                    <StyledTableCell align="left">Airline</StyledTableCell>
+                    <StyledTableCell align="center">Booking Date</StyledTableCell>
+                    <StyledTableCell align="center">Airline</StyledTableCell>
                     <StyledTableCell align="left">Travel Date</StyledTableCell>
                     <StyledTableCell align="left">Pax Name</StyledTableCell>
                     <StyledTableCell align="center">PNR</StyledTableCell>
-                    <StyledTableCell align="left">Booking Amount</StyledTableCell>
+                    <StyledTableCell align="center">Booking Amount</StyledTableCell>
                     <StyledTableCell align="center">Actions</StyledTableCell>
                   </TableRow>
                 </TableHead>
@@ -122,33 +250,55 @@ export default function ConfirmBooking() {
                     !loading &&
                     bookings.map((item, index) => (
                       <TableRow key={`booking-item-${index}`}>
-                        <StyledTableCell align="left">{page * 10 + index + 1}</StyledTableCell>
-                        <StyledTableCell align="left">{item.bookingRef}</StyledTableCell>
-                        <StyledTableCell align="left" width="185">
-                          {format(new Date(item.creationDate), 'dd-MM-yyyy HH:mm::ss')}
+                        <StyledTableCell align="center">{page * 10 + index + 1}</StyledTableCell>
+                        <StyledTableCell align="center">{item.bookingRef}</StyledTableCell>
+                        <StyledTableCell align="center" width="185">
+                          {format(
+                            new Date(new Date(item.creationDate.replace(/(....Z)/, ''))),
+                            'dd-MM-yyyy HH:mm:ss'
+                          )}
                         </StyledTableCell>
-                        <StyledTableCell align="left" width="120">
+                        <StyledTableCell align="center" width="120">
                           {getAirlineNameById(item.ticket.airline)}
                         </StyledTableCell>
-                        <StyledTableCell align="left" width="180">
+                        <StyledTableCell align="left" width="150">
                           {format(new Date(item.ticket.departureDateTime), 'dd-MM-yyyy HH:mm')}
                         </StyledTableCell>
                         <StyledTableCell align="left" width="180">
-                          <ul>
+                          {/* <ul> */}
+                          <List dense sx={{ py: 0 }}>
                             {item.passengers.map((el, i) => (
+                              <ListItem
+                                key={`${el.title} ${el.firstName} ${el.firstName}-${i}`}
+                                disableGutters
+                                disablePadding
+                              >
+                                <ListItemText
+                                  sx={{ textTransform: 'capitalize' }}
+                                  primary={`${el.title}. ${el.firstName} ${el.lastName}`}
+                                />
+                              </ListItem>
+                            ))}
+                          </List>
+                          {/* {item.passengers.map((el, i) => (
                               <li key={`${el.title} ${el.firstName} ${el.firstName}-${i}`}>
                                 {sentenceCase(`${el.title} ${el.firstName} ${el.lastName}`)}
                               </li>
-                            ))}
-                          </ul>
+                            ))} */}
+                          {/* </ul> */}
                         </StyledTableCell>
-                        <StyledTableCell align="left" width="100">
-                          <Label color={item.pnr ? 'success' : 'error'}>
+                        <StyledTableCell align="center" width="100">
+                          <Label
+                            color={item.pnr ? 'success' : 'error'}
+                            sx={{ textTransform: 'uppercase' }}
+                          >
                             {item.pnr ? item.pnr : 'Pending'}
                           </Label>
                         </StyledTableCell>
-                        <StyledTableCell align="left">₹ {item.amount}</StyledTableCell>
-                        <StyledTableCell align="center">
+                        <StyledTableCell align="center" width="120">
+                          ₹ {formatPrice(item.amount)}
+                        </StyledTableCell>
+                        <StyledTableCell align="center" width="100">
                           <Button onClick={() => viewBookingDetail(item)}>View</Button>
                         </StyledTableCell>
                       </TableRow>
@@ -159,7 +309,7 @@ export default function ConfirmBooking() {
             <Stack sx={{ p: 2 }} dir="column">
               {loading && <TableSkeleton />}
             </Stack>
-            {bookings.length <= 0 && (
+            {!loading && bookings.length <= 0 && (
               <Typography sx={{ my: 3 }} textAlign="center" variant="h5">
                 No bookings found !
               </Typography>

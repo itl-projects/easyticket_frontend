@@ -102,3 +102,11 @@ export const getDateDuration = (startDate, endDate) => {
   if (minutes) result += `${minutes} min`;
   return result;
 };
+
+export const formatPrice = (price) => {
+  price = price.toString();
+  let lastThree = price.substring(price.length - 3);
+  const otherNumbers = price.substring(0, price.length - 3);
+  if (otherNumbers !== '') lastThree = `,${lastThree}`;
+  return otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ',') + lastThree;
+};

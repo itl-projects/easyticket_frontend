@@ -18,11 +18,13 @@ import AdminSetting from './pages/Dashboard/SuperAdmin/Setting';
 
 // Agent dashboard pages
 import AgentDashboard from './pages/Dashboard/Agent';
+import TicketSearch from './pages/Dashboard/Agent/TicketSearch';
 import ConfirmBooking from './pages/Dashboard/Agent/ConfirmBooking';
 import BookingDetail from './pages/Dashboard/Agent/BookingDetail';
 import BookedTickets from './pages/Dashboard/Agent/BookedTickets';
 import BookingSuccess from './pages/Dashboard/Agent/BookingSuccess';
 import BookingFailed from './pages/Dashboard/Agent/BookingFailed';
+import AgentProfile from './pages/Dashboard/Agent/Profile';
 
 import { USER_ROLES } from './utils/constants';
 
@@ -67,11 +69,31 @@ export default function Router() {
             auth.user.role === USER_ROLES.ADMIN && { path: 'credits', element: <Credits /> },
             auth.user.role === USER_ROLES.ADMIN && { path: 'settings', element: <AdminSetting /> },
             auth.user.role === USER_ROLES.ADMIN && { path: 'tickets', element: <TicketList /> },
-            { path: '/confirmBooking', element: <ConfirmBooking /> },
-            { path: '/bookingdetail', element: <BookingDetail /> },
-            { path: '/bookedtickets', element: <BookedTickets /> },
-            { path: '/bookingsuccess', element: <BookingSuccess /> },
-            { path: '/bookingfailed', element: <BookingFailed /> }
+            auth.user.role === USER_ROLES.USER && {
+              path: '/confirmBooking',
+              element: <ConfirmBooking />
+            },
+            auth.user.role === USER_ROLES.USER && {
+              path: '/bookingdetail',
+              element: <BookingDetail />
+            },
+            auth.user.role === USER_ROLES.USER && {
+              path: '/bookedtickets',
+              element: <BookedTickets />
+            },
+            auth.user.role === USER_ROLES.USER && {
+              path: '/bookingsuccess',
+              element: <BookingSuccess />
+            },
+            auth.user.role === USER_ROLES.USER && {
+              path: '/bookingfailed',
+              element: <BookingFailed />
+            },
+            auth.user.role === USER_ROLES.USER && {
+              path: '/searchTicket',
+              element: <TicketSearch />
+            },
+            auth.user.role === USER_ROLES.USER && { path: '/profile', element: <AgentProfile /> }
           ]
         }
       : {}

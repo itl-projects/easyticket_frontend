@@ -7,11 +7,14 @@ import Autocomplete from '@material-ui/core/Autocomplete';
 import AIRPORTS from '../../data/airports';
 
 export default function AirportAutocomplete({ label, value, onChange, error, helperText }) {
-  const getValue = React.useEffect(
-    () =>
-      AIRPORTS.filter((el) => el.ID === value) ? AIRPORTS.filter((el) => el.ID === value)[0] : null,
-    [value]
-  );
+  const getValue = React.useMemo(() => {
+    if (!Number.isNaN(value)) {
+      if (AIRPORTS.filter((el) => el.ID === Number(value)).length)
+        return AIRPORTS.filter((el) => el.ID === Number(value))[0];
+      return null;
+    }
+    return null;
+  }, [value]);
 
   return (
     <Autocomplete
@@ -23,7 +26,6 @@ export default function AirportAutocomplete({ label, value, onChange, error, hel
       onChange={(e, v) => {
         onChange(v ? v.ID : '');
       }}
-      // name="source"
       renderOption={(props, option) => (
         <Box
           component="li"
@@ -34,14 +36,14 @@ export default function AirportAutocomplete({ label, value, onChange, error, hel
           {option.label}&nbsp;-&nbsp;<span>({option.value})</span>
         </Box>
       )}
-      // {...getFieldProps('source')}
       renderInput={(params) => (
         <TextField
           {...params}
-          label={label}
+          // label={label}
           error={error}
           helperText={helperText}
           size="small"
+          placeholder={label}
           // InputProps={{
           //   ...params.inputProps,
           //   endAdornment: (

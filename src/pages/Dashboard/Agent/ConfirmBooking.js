@@ -13,7 +13,8 @@ import {
   Divider,
   MenuItem,
   FormControlLabel,
-  Container
+  Container,
+  Box
 } from '@material-ui/core';
 import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider, FieldArray } from 'formik';
@@ -23,7 +24,8 @@ import {
   getAirlineNameById,
   getAirportNameById,
   warningMessage,
-  getDateDuration
+  getDateDuration,
+  formatPrice
 } from '../../../utils/helperFunctions';
 import { bookingsAPI } from '../../../services/agent';
 import Page from '../../../components/Page';
@@ -39,16 +41,17 @@ export default function ConfirmBooking() {
       Yup.object().shape({
         title: Yup.string().required('Title is required'),
         firstName: Yup.string().required('First name is required'),
-        lastName: Yup.string().required('Last name is required'),
-        mobile: Yup.string()
-          .max(10, 'Invalid mobile number')
-          .min(10, 'Invalid mobile number')
-          .required('Mobile is required'),
-        email: Yup.string().email().required('Email is required'),
-        note: Yup.string()
+        lastName: Yup.string().required('Last name is required')
       })
     ),
-    agree: Yup.boolean().oneOf([true], 'You must accept the terms and conditions')
+    agree: Yup.boolean().oneOf([true], 'You must accept the terms and conditions'),
+    markup: Yup.number(),
+    mobile: Yup.string()
+      .max(10, 'Invalid mobile number')
+      .min(10, 'Invalid mobile number')
+      .required('Mobile is required'),
+    email: Yup.string().email().required('Email is required'),
+    note: Yup.string()
   });
 
   const _initialValues = useMemo(() => {
@@ -56,10 +59,7 @@ export default function ConfirmBooking() {
       {
         title: '',
         firstName: '',
-        lastName: '',
-        mobile: '',
-        email: '',
-        note: ''
+        lastName: ''
       }
     ];
     if (flight) {
@@ -69,16 +69,17 @@ export default function ConfirmBooking() {
         p.push({
           title: '',
           firstName: '',
-          lastName: '',
-          mobile: '',
-          email: '',
-          note: ''
+          lastName: ''
         });
       }
     }
     return {
       passengers: p,
-      agree: false
+      agree: false,
+      markup: 0,
+      mobile: '',
+      email: '',
+      note: ''
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flight]);
@@ -88,12 +89,19 @@ export default function ConfirmBooking() {
     validationSchema: bookingSchema,
     onSubmit: async () => {
       setSubmitting(true);
+      const passengers = values.passengers.map((item) => ({
+        ...item,
+        mobile: values.mobile,
+        email: values.email,
+        note: values.note
+      }));
       const data = {
         ticket: flight.id,
         quantity: parseInt(flight.passengers, 10),
-        passengers: values.passengers
+        passengers,
+        markup: values.markup || 0
       };
-
+      console.log(data);
       const res = await bookingsAPI.bookFlight(data);
       setSubmitting(false);
       if (res && res.status === 201) {
@@ -135,11 +143,18 @@ export default function ConfirmBooking() {
     setFieldError
   } = formik;
 
+  const totalAmount = useMemo(() => {
+    try {
+      return flight.price * parseInt(flight.passengers, 10) + values.markup;
+    } catch (err) {
+      return flight.price * parseInt(flight.passengers, 10);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [values.markup]);
+
   if (!flight) window.history.back();
 
-  const totalAmount = flight.price * parseInt(flight.passengers, 10);
   const tickerFare = flight.price * parseInt(flight.passengers, 10);
-  const mockupPrice = 0;
 
   return (
     <Page title="Dashboard | Confirm Booking">
@@ -200,20 +215,22 @@ export default function ConfirmBooking() {
               <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
                 <Card sx={{ my: 1 }}>
                   <CardHeader
-                    subheader="September 14, 2016"
-                    sx={{ p: 1, background: 'wheat', color: '#000' }}
+                    subheader="Traveller Details - Kindly Fill Traveller Details as per ID"
+                    subheaderTypographyProps={{ variant: 'body2', color: '#323232' }}
+                    sx={{ p: 1, background: '##00AB55b8', color: '#fff' }}
                   />
                   <CardContent>
+                    {JSON.stringify(values.passengers)}
                     <FieldArray
                       name="passengers"
-                      render={(arrayHelpers) =>
+                      render={(_) =>
                         values.passengers.map((passenger, index) => (
                           <Grid
                             container
                             spacing={2}
                             justifyContent="center"
                             key={`passenger-info-${index}`}
-                            sx={{ mt: 1 }}
+                            sx={{ mt: index > 0 ? 1 : -1 }}
                           >
                             <Grid xs={12} item lg={3} md={4}>
                               <TextField
@@ -221,11 +238,11 @@ export default function ConfirmBooking() {
                                 select
                                 type="text"
                                 label="Title"
-                                {...getFieldProps(`passengers[${index}.title]`)}
+                                {...getFieldProps(`passengers[${index}].title`)}
                                 size="small"
                                 error={Boolean(
                                   errors.passengers &&
-                                    errors.passengers.length > index &&
+                                    errors.passengers[index] &&
                                     errors.passengers[index].title &&
                                     touched.passengers &&
                                     touched.passengers[index] &&
@@ -233,7 +250,7 @@ export default function ConfirmBooking() {
                                 )}
                                 helperText={
                                   errors.passengers &&
-                                  errors.passengers.length > index &&
+                                  errors.passengers[index] &&
                                   touched.passengers &&
                                   touched.passengers[index] &&
                                   touched.passengers[index].title &&
@@ -254,7 +271,7 @@ export default function ConfirmBooking() {
                                 size="small"
                                 error={Boolean(
                                   errors.passengers &&
-                                    errors.passengers.length > index &&
+                                    errors.passengers[index] &&
                                     errors.passengers[index].firstName &&
                                     touched.passengers &&
                                     touched.passengers[index] &&
@@ -262,7 +279,7 @@ export default function ConfirmBooking() {
                                 )}
                                 helperText={
                                   errors.passengers &&
-                                  errors.passengers.length > index &&
+                                  errors.passengers[index] &&
                                   touched.passengers &&
                                   touched.passengers[index] &&
                                   touched.passengers[index].firstName &&
@@ -280,7 +297,7 @@ export default function ConfirmBooking() {
                                 size="small"
                                 error={Boolean(
                                   errors.passengers &&
-                                    errors.passengers.length > index &&
+                                    errors.passengers[index] &&
                                     errors.passengers[index].lastName &&
                                     touched.passengers &&
                                     touched.passengers[index] &&
@@ -288,7 +305,7 @@ export default function ConfirmBooking() {
                                 )}
                                 helperText={
                                   errors.passengers &&
-                                  errors.passengers.length > index &&
+                                  errors.passengers[index] &&
                                   touched.passengers &&
                                   touched.passengers[index] &&
                                   touched.passengers[index].lastName &&
@@ -305,90 +322,51 @@ export default function ConfirmBooking() {
                 <Card sx={{ my: 1 }}>
                   <CardHeader
                     subheader="Contact Information"
-                    sx={{ p: 1, background: 'wheat', color: '#000' }}
+                    subheaderTypographyProps={{ variant: 'body2', color: '#323232' }}
+                    sx={{ p: 1, background: '##00AB55b8', color: '#fff' }}
                   />
                   <CardContent>
-                    <FieldArray
-                      name="passengers"
-                      render={(arrayHelpers) =>
-                        values.passengers.map((passenger, index) => (
-                          <Grid
-                            container
-                            spacing={2}
-                            justifyContent="center"
-                            key={`passenger-contact-${index}`}
-                            sx={{ mt: 1 }}
-                          >
-                            <Grid xs={12} item lg={3} md={4}>
-                              <TextField
-                                fullWidth
-                                type="text"
-                                label="Mobile Number"
-                                {...getFieldProps(`passengers[${index}].mobile`)}
-                                size="small"
-                                error={Boolean(
-                                  errors.passengers &&
-                                    errors.passengers.length > index &&
-                                    errors.passengers[index].mobile &&
-                                    touched.passengers &&
-                                    touched.passengers[index] &&
-                                    touched.passengers[index].mobile
-                                )}
-                                helperText={
-                                  errors.passengers &&
-                                  errors.passengers.length > index &&
-                                  touched.passengers &&
-                                  touched.passengers[index] &&
-                                  touched.passengers[index].mobile &&
-                                  errors.passengers[index].mobile
-                                }
-                              />
-                            </Grid>
-                            <Grid xs={12} item lg={3} md={4}>
-                              <TextField
-                                fullWidth
-                                type="text"
-                                label="Email Address"
-                                {...getFieldProps(`passengers[${index}].email`)}
-                                size="small"
-                                error={Boolean(
-                                  errors.passengers &&
-                                    errors.passengers.length > index &&
-                                    errors.passengers[index].email &&
-                                    touched.passengers &&
-                                    touched.passengers[index] &&
-                                    touched.passengers[index].email
-                                )}
-                                helperText={
-                                  errors.passengers &&
-                                  errors.passengers.length > index &&
-                                  touched.passengers &&
-                                  touched.passengers[index] &&
-                                  touched.passengers[index].email &&
-                                  errors.passengers[index].email
-                                }
-                              />
-                            </Grid>
+                    <Grid container spacing={2} justifyContent="center">
+                      <Grid xs={12} item lg={3} md={4}>
+                        <TextField
+                          fullWidth
+                          type="text"
+                          label="Mobile Number"
+                          {...getFieldProps('mobile')}
+                          size="small"
+                          error={Boolean(touched.mobile && errors.mobile)}
+                          helperText={touched.mobile && errors.mobile}
+                        />
+                      </Grid>
+                      <Grid xs={12} item lg={3} md={4}>
+                        <TextField
+                          fullWidth
+                          type="text"
+                          label="Email Address"
+                          {...getFieldProps('email')}
+                          size="small"
+                          error={Boolean(touched.email && errors.email)}
+                          helperText={touched.email && errors.email}
+                        />
+                      </Grid>
 
-                            <Grid xs={12} item lg={3} md={4}>
-                              <TextField
-                                fullWidth
-                                type="text"
-                                label="Internal Note"
-                                {...getFieldProps(`passengers[${index}.note]`)}
-                                size="small"
-                              />
-                            </Grid>
-                          </Grid>
-                        ))
-                      }
-                    />
+                      <Grid xs={12} item lg={3} md={4}>
+                        <TextField
+                          fullWidth
+                          type="text"
+                          label="Internal Note"
+                          {...getFieldProps('note')}
+                          size="small"
+                        />
+                      </Grid>
+                    </Grid>
                   </CardContent>
                 </Card>
                 <Card sx={{ my: 1 }}>
                   <CardHeader
                     subheader="Fare Summary"
-                    sx={{ p: 1, background: 'wheat', color: '#000' }}
+                    subheaderTypographyProps={{ variant: 'body2', color: '#323232' }}
+                    sx={{ p: 1, background: '##00AB55b8', color: '#fff' }}
                   />
                   <CardContent sx={{ p: 0, py: 1 }}>
                     <Grid container sx={{ p: 1 }}>
@@ -396,8 +374,8 @@ export default function ConfirmBooking() {
                         Ticket Fee
                       </Grid>
                       <Divider orientation="vertical" flexItem />
-                      <Grid xs={6} item lg={1} md={4} sx={{ ml: 1 }}>
-                        ₹ {tickerFare}
+                      <Grid xs={5} item lg={1} md={3} sx={{ ml: 1 }}>
+                        ₹ {formatPrice(tickerFare)}
                       </Grid>
                     </Grid>
                     <Divider />
@@ -405,9 +383,18 @@ export default function ConfirmBooking() {
                       <Grid xs={6} item lg={10} md={8}>
                         Mark up
                       </Grid>
-                      <Divider orientation="vertical" flexItem />
-                      <Grid xs={6} item lg={1} md={4} sx={{ ml: 1 }}>
-                        ₹ {mockupPrice}
+                      <Grid xs={5} item lg={2} md={3} display="flex">
+                        <Divider orientation="vertical" flexItem />
+                        <Box sx={{ pl: 1 }}>
+                          <TextField
+                            fullWidth
+                            type="number"
+                            label="Markup Amount"
+                            placeholder="Enter Mark up Amount"
+                            size="small"
+                            {...getFieldProps('markup')}
+                          />
+                        </Box>
                       </Grid>
                     </Grid>
                     <Divider />
@@ -416,8 +403,8 @@ export default function ConfirmBooking() {
                         Total Amount Payable
                       </Grid>
                       <Divider orientation="vertical" flexItem />
-                      <Grid xs={6} item lg={1} md={4} sx={{ ml: 1 }}>
-                        ₹ {totalAmount}
+                      <Grid xs={5} item lg={1} md={3} sx={{ ml: 1 }}>
+                        ₹ {formatPrice(totalAmount)}
                       </Grid>
                     </Grid>
                   </CardContent>
@@ -438,20 +425,21 @@ export default function ConfirmBooking() {
                         <Checkbox
                           {...getFieldProps('agree')}
                           checked={values.agree}
-                          sx={{ py: 0 }}
+                          // sx={{ py: 0 }}
                         />
                       }
                       label="I agree to the Terms & Conditions"
                     />
-                    <Typography color="red" variant="caption" ml={4} mt={0}>
+                    <Typography color="red" variant="body2" ml={4} mt={-1}>
                       {touched.agree && errors.agree}
                     </Typography>
                   </Stack>
                   <LoadingButton
                     type="submit"
                     variant="contained"
-                    color="warning"
+                    color="primary"
                     loading={isSubmitting}
+                    sx={{ py: 2 }}
                   >
                     CONFIRM BOOKING
                   </LoadingButton>

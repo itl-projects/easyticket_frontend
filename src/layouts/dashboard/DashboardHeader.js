@@ -2,9 +2,10 @@ import { useState, useRef, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { Icon } from '@iconify/react';
 import homeFill from '@iconify/icons-eva/home-fill';
-import personFill from '@iconify/icons-eva/person-fill';
+// import personFill from '@iconify/icons-eva/person-fill';
 import settings2Fill from '@iconify/icons-eva/settings-2-fill';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import listFill from '@iconify-icons/tabler/list-check';
+import { Link as RouterLink, NavLink, useNavigate } from 'react-router-dom';
 // material
 import { styled, alpha } from '@material-ui/core/styles';
 import {
@@ -90,7 +91,7 @@ export default function DashboardHeader() {
           },
           {
             label: 'My Bookings',
-            icon: personFill,
+            icon: listFill,
             linkTo: '/dashboard/bookedtickets'
           }
         ];
@@ -155,10 +156,20 @@ export default function DashboardHeader() {
             // spacing={2}
             flexWrap="wrap"
           >
-            <Grid item xs={2} sx={{ pt: 0 }}>
-              <DrawerLogo />
+            <Grid
+              item
+              xs={4}
+              md={3}
+              lg={2}
+              sx={{ pt: 0, pl: 2 }}
+              display="flex"
+              justifyContent="flex-start"
+            >
+              <RouterLink to="/dashboard">
+                <DrawerLogo />
+              </RouterLink>
             </Grid>
-            <Grid item xs={10} lg={10} sx={{ pt: 0 }}>
+            <Grid item xs={8} md={9} lg={10} sx={{ pt: 0 }}>
               <Grid display="flex" justifyContent="flex-end" columnGap={2}>
                 <Button
                   ref={anchorRef}
@@ -179,8 +190,7 @@ export default function DashboardHeader() {
                     <MenuItem
                       key={option.label}
                       to={option.linkTo}
-                      component={RouterLink}
-                      onClick={2}
+                      component={NavLink}
                       sx={{ typography: 'body2', py: 1, px: 2.5 }}
                     >
                       <Box

@@ -44,15 +44,16 @@ export default function BookingsPage() {
                     fullWidth
                     type="text"
                     label="PNR"
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton edge="end">
-                            <Icon icon={pnrIcon} />
-                          </IconButton>
-                        </InputAdornment>
-                      )
-                    }}
+                    size="small"
+                    // InputProps={{
+                    //   endAdornment: (
+                    //     <InputAdornment position="end">
+                    //       <IconButton edge="end">
+                    //         <Icon icon={pnrIcon} />
+                    //       </IconButton>
+                    //     </InputAdornment>
+                    //   )
+                    // }}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
@@ -60,22 +61,23 @@ export default function BookingsPage() {
                     fullWidth
                     type="text"
                     label="Booking Ref"
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton edge="end">
-                            <Icon icon={bookingRefIcon} />
-                          </IconButton>
-                        </InputAdornment>
-                      )
-                    }}
+                    size="small"
+                    // InputProps={{
+                    //   endAdornment: (
+                    //     <InputAdornment position="end">
+                    //       <IconButton edge="end">
+                    //         <Icon icon={bookingRefIcon} />
+                    //       </IconButton>
+                    //     </InputAdornment>
+                    //   )
+                    // }}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DatePicker
                       label="Travel Date"
-                      renderInput={(params) => <TextField {...params} fullWidth />}
+                      renderInput={(params) => <TextField {...params} fullWidth size="small" />}
                     />
                   </LocalizationProvider>
                 </Grid>
@@ -83,7 +85,7 @@ export default function BookingsPage() {
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DatePicker
                       label="Start Date"
-                      renderInput={(params) => <TextField {...params} fullWidth />}
+                      renderInput={(params) => <TextField {...params} fullWidth size="small" />}
                     />
                   </LocalizationProvider>
                 </Grid>
@@ -91,7 +93,7 @@ export default function BookingsPage() {
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DatePicker
                       label="End Date"
-                      renderInput={(params) => <TextField {...params} fullWidth />}
+                      renderInput={(params) => <TextField {...params} fullWidth size="small" />}
                     />
                   </LocalizationProvider>
                 </Grid>
@@ -100,15 +102,16 @@ export default function BookingsPage() {
                     fullWidth
                     type="text"
                     label="Airline"
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton edge="end">
-                            <Icon icon={flightIcon} />
-                          </IconButton>
-                        </InputAdornment>
-                      )
-                    }}
+                    size="small"
+                    // InputProps={{
+                    //   endAdornment: (
+                    //     <InputAdornment position="end">
+                    //       <IconButton edge="end">
+                    //         <Icon icon={flightIcon} />
+                    //       </IconButton>
+                    //     </InputAdornment>
+                    //   )
+                    // }}
                   />
                 </Grid>
               </Grid>

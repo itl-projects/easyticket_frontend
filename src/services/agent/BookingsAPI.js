@@ -3,9 +3,9 @@ import axiosInstance from '../../config/axiosConfig';
 export default class FlightsAPI {
   PATH = 'bookings';
 
-  async getBookings(page, limit) {
+  async getBookings(data) {
     try {
-      const res = await axiosInstance.get(`${this.PATH}?page=${page}&limit=${limit}`);
+      const res = await axiosInstance.post(`${this.PATH}/getBookings`, data);
       return res;
     } catch (err) {
       return null;

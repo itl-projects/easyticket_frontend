@@ -4,7 +4,7 @@ export default function FlightListSpinner() {
   return (
     <>
       {[...Array(5)].map((_, i) => (
-        <Stack sx={{ mt: 2, px: 6 }} key={`flight-spinner-${i + 1}`}>
+        <Stack sx={{ mt: 2, px: 2 }} key={`flight-spinner-${i + 1}`}>
           <Card sx={{ px: 2 }}>
             <Grid container justifyContent="space-between" alignItems="center">
               <Grid>

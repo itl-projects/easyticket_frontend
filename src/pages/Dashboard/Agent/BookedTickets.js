@@ -21,7 +21,7 @@ import {
   ListItemText,
   TextField
 } from '@material-ui/core';
-import { format, formatISO } from 'date-fns';
+import { format } from 'date-fns';
 import { styled } from '@material-ui/core/styles';
 import { tableCellClasses } from '@material-ui/core/TableCell';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';

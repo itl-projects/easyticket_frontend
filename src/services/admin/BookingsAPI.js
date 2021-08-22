@@ -12,6 +12,15 @@ export default class BookingsAPI {
     }
   }
 
+  async listBookings(page, limit) {
+    try {
+      const res = await axiosInstance.get(`${this.PATH}/updated?page=${page}&limit=${limit}`);
+      return res;
+    } catch (err) {
+      return null;
+    }
+  }
+
   async addTicket(data) {
     try {
       const res = await axiosInstance.post(this.PATH, data);

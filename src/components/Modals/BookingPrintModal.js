@@ -24,19 +24,19 @@ Font.register({
   family: 'Roboto',
   fonts: [
     {
-      src: 'http://fonts.gstatic.com/s/roboto/v27/KFOkCnqEu92Fr1MmgWxPKTM1K9nz.ttf',
+      src: 'https://fonts.gstatic.com/s/roboto/v27/KFOkCnqEu92Fr1MmgWxPKTM1K9nz.ttf',
       fontWeight: 100
     },
     {
-      src: 'http://fonts.gstatic.com/s/roboto/v27/KFOlCnqEu92Fr1MmSU5vAx05IsDqlA.ttf',
+      src: 'https://fonts.gstatic.com/s/roboto/v27/KFOlCnqEu92Fr1MmSU5vAx05IsDqlA.ttf',
       fontWeight: 300
     },
     {
-      src: 'http://fonts.gstatic.com/s/roboto/v27/KFOlCnqEu92Fr1MmEU9vAx05IsDqlA.ttf',
+      src: 'https://fonts.gstatic.com/s/roboto/v27/KFOlCnqEu92Fr1MmEU9vAx05IsDqlA.ttf',
       fontWeight: 500
     },
     {
-      src: 'http://fonts.gstatic.com/s/roboto/v27/KFOmCnqEu92Fr1Me5WZLCzYlKw.ttf'
+      src: 'https://fonts.gstatic.com/s/roboto/v27/KFOmCnqEu92Fr1Me5WZLCzYlKw.ttf'
     }
   ]
 });

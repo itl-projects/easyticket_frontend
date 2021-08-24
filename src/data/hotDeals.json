@@ -1,0 +1,46 @@
+{
+  "IXB": [
+    { "source": "DEL", "destination": "IXB" },
+    { "source": "IXB", "destination": "DEL" },
+    { "source": "IXB", "destination": "CCU" },
+    { "source": "IXB", "destination": "MAA" },
+    { "source": "IXB", "destination": "HYD" },
+    { "source": "BLR", "destination": "IXB" },
+    { "source": "HYD", "destination": "IXB" },
+    { "source": "IXB", "destination": "BLR" },
+    { "source": "MAA", "destination": "IXB" },
+    { "source": "IXB", "destination": "BOM" }
+  ],
+  "CCU": [
+    { "source": "CCU", "destination": "BLR" },
+    { "source": "DEL", "destination": "CCU" },
+    { "source": "IXB", "destination": "CCU" },
+    { "source": "CCU", "destination": "MAA" },
+    { "source": "CCU", "destination": "BOM" },
+    { "source": "CCU", "destination": "DEL" },
+    { "source": "BLR", "destination": "CCU" },
+    { "source": "MAA", "destination": "CCU" },
+    { "source": "CCU", "destination": "IXZ" }
+  ],
+  "DEL": [
+    { "source": "DEL", "destination": "IXB" },
+    { "source": "DEL", "destination": "CCU" },
+    { "source": "GAU", "destination": "DEL" },
+    { "source": "DEL", "destination": "GAU" },
+    { "source": "IXB", "destination": "DEL" },
+    { "source": "CCU", "destination": "DEL" }
+  ],
+  "GAU": [
+    { "source": "GAU", "destination": "DEL" },
+    { "source": "DEL", "destination": "GAU" },
+    { "source": "GAU", "destination": "JAI" },
+    { "source": "GAU", "destination": "MAA" },
+    { "source": "BLR", "destination": "GAU" },
+    { "source": "MAA", "destination": "GAU" },
+    { "source": "GAU", "destination": "BLR" }
+  ],
+  "HYD": [],
+  "BLR": [],
+  "BOM": [],
+  "MAA": []
+}

@@ -1,7 +1,6 @@
 import { useState, useRef, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { Icon } from '@iconify/react';
-import homeFill from '@iconify/icons-eva/home-fill';
 // import personFill from '@iconify/icons-eva/person-fill';
 import settings2Fill from '@iconify/icons-eva/settings-2-fill';
 import listFill from '@iconify-icons/tabler/list-check';
@@ -72,11 +71,6 @@ export default function DashboardHeader() {
       case USER_ROLES.ADMIN:
         return [
           {
-            label: 'Home',
-            icon: homeFill,
-            linkTo: '/dashboard'
-          },
-          {
             label: 'Settings',
             icon: settings2Fill,
             linkTo: '/dashboard/settings'
@@ -84,11 +78,6 @@ export default function DashboardHeader() {
         ];
       case USER_ROLES.USER:
         return [
-          {
-            label: 'Home',
-            icon: homeFill,
-            linkTo: '/dashboard'
-          },
           {
             label: 'My Bookings',
             icon: listFill,
@@ -125,9 +114,7 @@ export default function DashboardHeader() {
             flexWrap="wrap"
           >
             <Grid item xs={8} lg={4} justifyContent="center" alignItems="center">
-              <Typography variant="body2">
-                +91-12344-666-777 &nbsp; | &nbsp; +91-00-00-00-00
-              </Typography>
+              <Typography variant="body2">&nbsp;</Typography>
             </Grid>
             <Grid xs={4} lg={8} item>
               <Grid display="flex" justifyContent="flex-end" columnGap={2}>

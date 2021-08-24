@@ -110,3 +110,8 @@ export const formatPrice = (price) => {
   if (otherNumbers !== '') lastThree = `,${lastThree}`;
   return otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ',') + lastThree;
 };
+
+export const getAirPortIDByCode = (code) =>
+  AIRPORTS.filter((el) => el.value === code).length > 0
+    ? `${AIRPORTS.filter((el) => el.value === code)[0].ID}`
+    : '';

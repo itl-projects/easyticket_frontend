@@ -23,6 +23,9 @@ const GlobalStyles = withStyles((theme) => ({
       width: '100%',
       height: '100%'
     },
+    '.MuiTabs-scrollButtons.Mui-disabled': {
+      opacity: 0.3
+    },
     input: {
       '&[type=number]': {
         MozAppearance: 'textfield',

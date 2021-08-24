@@ -17,7 +17,7 @@ import personDeleteFill from '@iconify/icons-eva/person-delete-fill';
 import personTag24Regular from '@iconify-icons/fluent/person-tag-24-regular';
 import Label from '../../Label';
 import { usersAPI } from '../../../services/admin';
-import { getUserRoleName } from '../../../utils/helperFunctions';
+import { formatPrice, getUserRoleName } from '../../../utils/helperFunctions';
 import { useAdminContext } from '../../../context/AdminContext';
 import { TableSkeleton } from '../../skeletons';
 
@@ -77,7 +77,7 @@ function EnhancedTableHead() {
     <TableHead>
       <TableRow>
         {headCells.map((headCell) => (
-          <TableCell key={headCell.id} align="center">
+          <TableCell key={headCell.id} align="left">
             {headCell.label}
           </TableCell>
         ))}
@@ -133,7 +133,7 @@ export default function EnhancedTable() {
                 if (row.profile === null) return null;
                 return (
                   <TableRow hover tabIndex={-1} key={row.id}>
-                    <TableCell id={labelId} scope="row">
+                    <TableCell id={labelId} scope="row" align="left">
                       {page * 10 + index + 1}
                     </TableCell>
                     <TableCell align="left">{row.profile.company || 'Not Available'}</TableCell>
@@ -146,7 +146,7 @@ export default function EnhancedTable() {
                         {sentenceCase(row.isActive ? 'Active' : 'In Active')}
                       </Label>
                     </TableCell>
-                    <TableCell align="center">₹ {row.commision}</TableCell>
+                    <TableCell align="left">₹ {formatPrice(row.commision)}</TableCell>
                     <TableCell align="center" padding="none">
                       <IconButton size="small">
                         <Icon icon={eyeFill} />

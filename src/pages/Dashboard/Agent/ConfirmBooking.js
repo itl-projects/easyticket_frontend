@@ -217,10 +217,9 @@ export default function ConfirmBooking() {
                   <CardHeader
                     subheader="Traveller Details - Kindly Fill Traveller Details as per ID"
                     subheaderTypographyProps={{ variant: 'body2', color: '#323232' }}
-                    sx={{ p: 1, background: '##00AB55b8', color: '#fff' }}
+                    sx={{ p: 1, background: '#00AB55b8', color: '#fff' }}
                   />
                   <CardContent>
-                    {JSON.stringify(values.passengers)}
                     <FieldArray
                       name="passengers"
                       render={(_) =>
@@ -323,7 +322,7 @@ export default function ConfirmBooking() {
                   <CardHeader
                     subheader="Contact Information"
                     subheaderTypographyProps={{ variant: 'body2', color: '#323232' }}
-                    sx={{ p: 1, background: '##00AB55b8', color: '#fff' }}
+                    sx={{ p: 1, background: '#00AB55b8', color: '#fff' }}
                   />
                   <CardContent>
                     <Grid container spacing={2} justifyContent="center">
@@ -366,7 +365,7 @@ export default function ConfirmBooking() {
                   <CardHeader
                     subheader="Fare Summary"
                     subheaderTypographyProps={{ variant: 'body2', color: '#323232' }}
-                    sx={{ p: 1, background: '##00AB55b8', color: '#fff' }}
+                    sx={{ p: 1, background: '#00AB55b8', color: '#fff' }}
                   />
                   <CardContent sx={{ p: 0, py: 1 }}>
                     <Grid container sx={{ p: 1 }}>

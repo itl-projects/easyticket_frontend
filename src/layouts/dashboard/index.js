@@ -9,6 +9,7 @@ import DashboardSidebar from './DashboardSidebar';
 import { useAuth } from '../../context/AuthContext';
 import AdminProvider from '../../context/AdminContext';
 import DrawerHeader from './DashboardHeader';
+import DashboardFooter from './DashboardFooter';
 
 // ----------------------------------------------------------------------
 
@@ -54,6 +55,7 @@ export default function DashboardLayout() {
             </MainStyle>
           </AdminProvider>
         </DashboardBody>
+        {auth.user.role === 2 && <DashboardFooter />}
       </Stack>
     );
   }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import {
   Card,
   Grid,
@@ -9,7 +9,8 @@ import {
   Tab,
   Tabs,
   Divider,
-  Typography
+  Typography,
+  Button
 } from '@material-ui/core';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -23,6 +24,8 @@ import frLocale from 'date-fns/locale/fr';
 import AirportAutocomplete from '../../../components/FormComponents/AirportAutocomplete';
 import { removeFlightData } from '../../../store/actions/bookingAction';
 import Page from '../../../components/Page';
+import { getAirPortIDByCode } from '../../../utils/helperFunctions';
+import HotDeals from '../../../data/hotDeals.json';
 
 export default function AgentDashboard() {
   const dispatch = useDispatch();
@@ -55,6 +58,8 @@ export default function AgentDashboard() {
 
   const [value, setValue] = useState(new Date());
   const [activeTab, setActiveTab] = useState(0);
+  const [hotDealSelected, setHotDealSelected] = useState(0);
+  // const [deals, setDeals] = useState(null);
 
   useEffect(() => {
     dispatch(removeFlightData());
@@ -62,6 +67,24 @@ export default function AgentDashboard() {
 
   const handleTabChange = (event, newTab) => {
     setActiveTab(newTab);
+  };
+
+  const handleHotDealChange = (e, v) => {
+    setHotDealSelected(v);
+  };
+
+  const deals = useMemo(() => HotDeals[Object.keys(HotDeals)[hotDealSelected]], [hotDealSelected]);
+
+  const searchHotDealTicketFlight = ({ source, destination }) => {
+    const data = {
+      departureDateTime: formatISO(
+        new Date(new Date(new Date().toDateString()).getTime() + 24 * 3600 * 1000)
+      ),
+      source: getAirPortIDByCode(source),
+      destination: getAirPortIDByCode(destination),
+      quantity: '1'
+    };
+    navigate('/dashboard/searchTicket', { replace: false, state: { ...data } });
   };
 
   return (
@@ -80,7 +103,6 @@ export default function AgentDashboard() {
                         style={{ color: 'white' }}
                       />
                     </Tabs>
-                    {/* </Grid> */}
                   </Grid>
                   <Divider sx={{ mb: 5 }} />
                   <Grid container spacing={2} justifyContent="center" sx={{ px: 1 }}>
@@ -129,9 +151,6 @@ export default function AgentDashboard() {
                         />
                       </LocalizationProvider>
                     </Grid>
-                    {/* <Grid xs={12} item lg={3} md={4}>
-                <TextField id="outlined-basic" label="Outlined" variant="outlined" fullWidth />
-              </Grid> */}
                     <Grid xs={12} item lg={3} md={4}>
                       <Typography sx={{ mb: 1, pl: 1 }}>Quantity</Typography>
                       <TextField
@@ -159,6 +178,51 @@ export default function AgentDashboard() {
                 </Card>
               </Form>
             </FormikProvider>
+          </Container>
+        </Box>
+        <Box>
+          <Container sx={{ py: 8 }}>
+            <Card sx={{ px: 0, pt: 0, pb: 2, background: '#ffffffb8' }}>
+              {/* <Grid container> */}
+              <Tabs
+                value={hotDealSelected}
+                onChange={handleHotDealChange}
+                variant="scrollable"
+                scrollButtons="auto"
+              >
+                {HotDeals &&
+                  Object.keys(HotDeals).map((key, i) => (
+                    <Tab
+                      label={key}
+                      sx={{ background: hotDealSelected === i ? '#31ca6e' : 'white', px: 8 }}
+                      style={{ color: hotDealSelected === i ? 'white' : 'grey' }}
+                      key={`tab-${i}-${key}`}
+                      value={i}
+                    />
+                  ))}
+              </Tabs>
+              {/* </Grid> */}
+              <Divider sx={{ mb: 5 }} />
+
+              <Box sx={{ px: 2, pb: 2 }}>
+                <Grid container spacing={2}>
+                  {deals &&
+                    deals.map((sd, index) => (
+                      <Grid key={`openedtab-${index}-${hotDealSelected}`} item xs={4} md={3} lg={2}>
+                        <Button
+                          variant="contained"
+                          color="inherit"
+                          sx={{ py: 2 }}
+                          fullWidth
+                          onClick={() => searchHotDealTicketFlight({ ...sd })}
+                        >
+                          {sd.source} - {sd.destination}
+                        </Button>
+                      </Grid>
+                    ))}
+                </Grid>
+              </Box>
+            </Card>
           </Container>
         </Box>
       </Stack>

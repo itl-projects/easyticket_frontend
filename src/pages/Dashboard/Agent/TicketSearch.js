@@ -52,7 +52,7 @@ export default function SearchTicket() {
       return {
         departureDateTime: navState.departureDateTime
           ? formatISO(new Date(navState.departureDateTime))
-          : formatISO(new Date()),
+          : formatISO(new Date(navState.departureDateTime)),
         source: Number.isNaN(navState.source) ? '' : Number(navState.source),
         destination: Number.isNaN(navState.destination) ? '' : Number(navState.destination),
         quantity: navState.quantity || '1'
@@ -99,6 +99,9 @@ export default function SearchTicket() {
   };
 
   const getFlights = async () => {
+    if (!values.source || !values.destination || !values.departureDateTime) {
+      return;
+    }
     setError(false);
     setSubmitting(true);
     setFlights([]);
@@ -139,6 +142,7 @@ export default function SearchTicket() {
       ...navState
     };
     if (q.source && q.destination && q.departureDateTime) {
+      if (navState.departureDateTime) setValue(new Date(navState.departureDateTime));
       getFlights();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

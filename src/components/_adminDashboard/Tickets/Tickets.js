@@ -9,6 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { ticketsAPI } from '../../../services/admin';
 import {
+  formatPrice,
   getAirlineNameById,
   getAirportNameById,
   getFormattedDate,
@@ -150,7 +151,7 @@ export default function EnhancedTable() {
                     <TableCell align="center">{getAirlineNameById(row.airline)}</TableCell>
                     <TableCell align="center">{row.flightNumber}</TableCell>
                     <TableCell align="center">{row.quantity}</TableCell>
-                    <TableCell align="center">₹ {row.price}</TableCell>
+                    <TableCell align="center">₹ {formatPrice(row.price)}</TableCell>
                     <TableCell align="center">
                       {row.user ? getUserRoleName(row.user.role) : 'Unknown'}
                     </TableCell>

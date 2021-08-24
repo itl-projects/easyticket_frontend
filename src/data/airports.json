@@ -1,794 +1,794 @@
 [
   {
     "ID": 1,
-    "label": "Singerbhil Airport",
-    "Location": "Agartala",
+    "airport": "Singerbhil Airport",
+    "label": "Agartala",
     "value": "IXA"
   },
   {
     "ID": 2,
-    "label": "Agatti Island Airport",
-    "Location": "Agatti Island",
+    "airport": "Agatti Island Airport",
+    "label": "Agatti Island",
     "value": "AGX"
   },
   {
     "ID": 3,
-    "label": "Kheria Airport",
-    "Location": "Agra",
+    "airport": "Kheria Airport",
+    "label": "Agra",
     "value": "AGR"
   },
   {
     "ID": 4,
-    "label": "Ahmedabad Airport",
-    "Location": "Ahmedabad",
+    "airport": "Ahmedabad Airport",
+    "label": "Ahmedabad",
     "value": "AMD"
   },
   {
     "ID": 5,
-    "label": "Aizawl Airport",
-    "Location": "Aizawl",
+    "airport": "Aizawl Airport",
+    "label": "Aizawl",
     "value": "AJL"
   },
   {
     "ID": 6,
-    "label": "Akola Airport",
-    "Location": "Akola",
+    "airport": "Akola Airport",
+    "label": "Akola",
     "value": "AKD"
   },
   {
     "ID": 7,
-    "label": "Bamrauli Airport",
-    "Location": "Allahabad",
+    "airport": "Bamrauli Airport",
+    "label": "Allahabad",
     "value": "IXD"
   },
   {
     "ID": 8,
-    "label": "Along Airport",
-    "Location": "Along",
+    "airport": "Along Airport",
+    "label": "Along",
     "value": "IXV"
   },
   {
     "ID": 9,
-    "label": "Raja Sansi Airport",
-    "Location": "Amritsar",
+    "airport": "Raja Sansi Airport",
+    "label": "Amritsar",
     "value": "ATQ"
   },
   {
     "ID": 10,
-    "label": "Chikkalthana Airport",
-    "Location": "Aurangabad",
+    "airport": "Chikkalthana Airport",
+    "label": "Aurangabad",
     "value": "IXU"
   },
   {
     "ID": 11,
-    "label": "Bagdogra Airport",
-    "Location": "Bagdogra",
+    "airport": "Bagdogra Airport",
+    "label": "Bagdogra",
     "value": "IXB"
   },
   {
     "ID": 12,
-    "label": "Balurghat Airport",
-    "Location": "Balurghat",
+    "airport": "Balurghat Airport",
+    "label": "Balurghat",
     "value": "RGH"
   },
   {
     "ID": 13,
-    "label": "Hindustan Airport",
-    "Location": "Bangalore",
+    "airport": "Hindustan Airport",
+    "label": "Bangalore",
     "value": "BLR"
   },
   {
     "ID": 14,
-    "label": "Bareli Airport",
-    "Location": "Bareli",
+    "airport": "Bareli Airport",
+    "label": "Bareli",
     "value": "BEK"
   },
   {
     "ID": 15,
-    "label": "Sambre Airport",
-    "Location": "Belgaum",
+    "airport": "Sambre Airport",
+    "label": "Belgaum",
     "value": "IXG"
   },
   {
     "ID": 16,
-    "label": "Bellary Airport",
-    "Location": "Bellary",
+    "airport": "Bellary Airport",
+    "label": "Bellary",
     "value": "BEP"
   },
   {
     "ID": 17,
-    "label": "Bhatinda Airport",
-    "Location": "Bhatinda",
+    "airport": "Bhatinda Airport",
+    "label": "Bhatinda",
     "value": "BUP"
   },
   {
     "ID": 18,
-    "label": "Bhavnagar Airport",
-    "Location": "Bhavnagar",
+    "airport": "Bhavnagar Airport",
+    "label": "Bhavnagar",
     "value": "BHU"
   },
   {
     "ID": 19,
-    "label": "Bhopal Airport",
-    "Location": "Bhopal",
+    "airport": "Bhopal Airport",
+    "label": "Bhopal",
     "value": "BHO"
   },
   {
     "ID": 20,
-    "label": "Bhubaneswar Airport",
-    "Location": "Bhubaneswar",
+    "airport": "Bhubaneswar Airport",
+    "label": "Bhubaneswar",
     "value": "BBI"
   },
   {
     "ID": 21,
-    "label": "Rudra Mata Airport",
-    "Location": "Bhuj",
+    "airport": "Rudra Mata Airport",
+    "label": "Bhuj",
     "value": "BHJ"
   },
   {
     "ID": 22,
-    "label": "Bikaner Airport",
-    "Location": "Bikaner",
+    "airport": "Bikaner Airport",
+    "label": "Bikaner",
     "value": "BKB"
   },
   {
     "ID": 23,
-    "label": "Bilaspur Airport",
-    "Location": "Bilaspur",
+    "airport": "Bilaspur Airport",
+    "label": "Bilaspur",
     "value": "PAB"
   },
   {
     "ID": 24,
-    "label": "Chhatrapati Shivaji Airport",
-    "Location": "Bombay (Mumbai)",
+    "airport": "Chhatrapati Shivaji Airport",
+    "label": "Bombay (Mumbai)",
     "value": "BOM"
   },
   {
     "ID": 25,
-    "label": "Netaji Subhas Chandra Airport",
-    "Location": "Calcutta (Kolkata)",
+    "airport": "Netaji Subhas Chandra Airport",
+    "label": "Calcutta (Kolkata)",
     "value": "CCU"
   },
   {
     "ID": 26,
-    "label": "Car Nicobar Airport",
-    "Location": "Car Nicobar",
+    "airport": "Car Nicobar Airport",
+    "label": "Car Nicobar",
     "value": "CBD"
   },
   {
     "ID": 27,
-    "label": "Chandigarh Airport",
-    "Location": "Chandigarh",
+    "airport": "Chandigarh Airport",
+    "label": "Chandigarh",
     "value": "IXC"
   },
   {
     "ID": 28,
-    "label": "Peelamedu Airport",
-    "Location": "Coimbatore",
+    "airport": "Peelamedu Airport",
+    "label": "Coimbatore",
     "value": "CJB"
   },
   {
     "ID": 29,
-    "label": "Cooch Behar Airport",
-    "Location": "Cooch Behar",
+    "airport": "Cooch Behar Airport",
+    "label": "Cooch Behar",
     "value": "COH"
   },
   {
     "ID": 30,
-    "label": "Cuddapah Airport",
-    "Location": "Cuddapah",
+    "airport": "Cuddapah Airport",
+    "label": "Cuddapah",
     "value": "CDP"
   },
   {
     "ID": 31,
-    "label": "Daman Airport",
-    "Location": "Daman",
+    "airport": "Daman Airport",
+    "label": "Daman",
     "value": "NMB"
   },
   {
     "ID": 32,
-    "label": "Daparizo Airport",
-    "Location": "Daparizo",
+    "airport": "Daparizo Airport",
+    "label": "Daparizo",
     "value": "DAE"
   },
   {
     "ID": 33,
-    "label": "Darjeeling Airport",
-    "Location": "Darjeeling",
+    "airport": "Darjeeling Airport",
+    "label": "Darjeeling",
     "value": "DAI"
   },
   {
     "ID": 34,
-    "label": "Dehra Dun Airport",
-    "Location": "Dehra Dun",
+    "airport": "Dehra Dun Airport",
+    "label": "Dehra Dun",
     "value": "DED"
   },
   {
     "ID": 35,
-    "label": "Indira Gandhi International Airport",
-    "Location": "Delhi",
+    "airport": "Indira Gandhi International Airport",
+    "label": "Delhi",
     "value": "DEL"
   },
   {
     "ID": 36,
-    "label": "Deparizo Airport",
-    "Location": "Deparizo",
+    "airport": "Deparizo Airport",
+    "label": "Deparizo",
     "value": "DEP"
   },
   {
     "ID": 37,
-    "label": "Dhanbad Airport",
-    "Location": "Dhanbad",
+    "airport": "Dhanbad Airport",
+    "label": "Dhanbad",
     "value": "DBD"
   },
   {
     "ID": 38,
-    "label": "Gaggal Airport",
-    "Location": "Dharamsala",
+    "airport": "Gaggal Airport",
+    "label": "Dharamsala",
     "value": "DHM"
   },
   {
     "ID": 39,
-    "label": "Chabua Airport",
-    "Location": "Dibrugarh",
+    "airport": "Chabua Airport",
+    "label": "Dibrugarh",
     "value": "DIB"
   },
   {
     "ID": 40,
-    "label": "Dimapur Airport",
-    "Location": "Dimapur",
+    "airport": "Dimapur Airport",
+    "label": "Dimapur",
     "value": "DMU"
   },
   {
     "ID": 41,
-    "label": "Diu Airport",
-    "Location": "Diu",
+    "airport": "Diu Airport",
+    "label": "Diu",
     "value": "DIU"
   },
   {
     "ID": 42,
-    "label": "Gaya Airport",
-    "Location": "Gaya",
+    "airport": "Gaya Airport",
+    "label": "Gaya",
     "value": "GAY"
   },
   {
     "ID": 43,
-    "label": "Dabolim Airport",
-    "Location": "Goa",
+    "airport": "Dabolim Airport",
+    "label": "Goa",
     "value": "GOI"
   },
   {
     "ID": 44,
-    "label": "Gorakhpur Airport",
-    "Location": "Gorakhpur",
+    "airport": "Gorakhpur Airport",
+    "label": "Gorakhpur",
     "value": "GOP"
   },
   {
     "ID": 45,
-    "label": "Guna Airport",
-    "Location": "Guna",
+    "airport": "Guna Airport",
+    "label": "Guna",
     "value": "GUX"
   },
   {
     "ID": 46,
-    "label": "Borjhar Airport",
-    "Location": "Guwahati",
+    "airport": "Borjhar Airport",
+    "label": "Guwahati",
     "value": "GAU"
   },
   {
     "ID": 47,
-    "label": "Gwalior Airport",
-    "Location": "Gwalior",
+    "airport": "Gwalior Airport",
+    "label": "Gwalior",
     "value": "GWL"
   },
   {
     "ID": 48,
-    "label": "Hissar Airport",
-    "Location": "Hissar",
+    "airport": "Hissar Airport",
+    "label": "Hissar",
     "value": "HSS"
   },
   {
     "ID": 49,
-    "label": "Hubli Airport",
-    "Location": "Hubli",
+    "airport": "Hubli Airport",
+    "label": "Hubli",
     "value": "HBX"
   },
   {
     "ID": 50,
-    "label": "Begumpet Airport",
-    "Location": "Hyderabad",
+    "airport": "Begumpet Airport",
+    "label": "Hyderabad",
     "value": "HYD"
   },
   {
     "ID": 51,
-    "label": "Municipal Airport",
-    "Location": "Imphal",
+    "airport": "Municipal Airport",
+    "label": "Imphal",
     "value": "IMF"
   },
   {
     "ID": 52,
-    "label": "Indore Airport",
-    "Location": "Indore",
+    "airport": "Indore Airport",
+    "label": "Indore",
     "value": "IDR"
   },
   {
     "ID": 53,
-    "label": "Jabalpur Airport",
-    "Location": "Jabalpur",
+    "airport": "Jabalpur Airport",
+    "label": "Jabalpur",
     "value": "JLR"
   },
   {
     "ID": 54,
-    "label": "Jagdalpur Airport",
-    "Location": "Jagdalpur",
+    "airport": "Jagdalpur Airport",
+    "label": "Jagdalpur",
     "value": "JGB"
   },
   {
     "ID": 55,
-    "label": "Sanganeer Airport",
-    "Location": "Jaipur",
+    "airport": "Sanganeer Airport",
+    "label": "Jaipur",
     "value": "JAI"
   },
   {
     "ID": 56,
-    "label": "Jaisalmer Airport",
-    "Location": "Jaisalmer",
+    "airport": "Jaisalmer Airport",
+    "label": "Jaisalmer",
     "value": "JSA"
   },
   {
     "ID": 57,
-    "label": "Satwari Airport",
-    "Location": "Jammu",
+    "airport": "Satwari Airport",
+    "label": "Jammu",
     "value": "IXJ"
   },
   {
     "ID": 58,
-    "label": "Govardhanpur Airport",
-    "Location": "Jamnagar",
+    "airport": "Govardhanpur Airport",
+    "label": "Jamnagar",
     "value": "JGA"
   },
   {
     "ID": 59,
-    "label": "Sonari Airport",
-    "Location": "Jamshedpur",
+    "airport": "Sonari Airport",
+    "label": "Jamshedpur",
     "value": "IXW"
   },
   {
     "ID": 60,
-    "label": "Jeypore Airport",
-    "Location": "Jeypore",
+    "airport": "Jeypore Airport",
+    "label": "Jeypore",
     "value": "PYB"
   },
   {
     "ID": 61,
-    "label": "Jodhpur Airport",
-    "Location": "Jodhpur",
+    "airport": "Jodhpur Airport",
+    "label": "Jodhpur",
     "value": "JDH"
   },
   {
     "ID": 62,
-    "label": "Rowriah Airport",
-    "Location": "Jorhat",
+    "airport": "Rowriah Airport",
+    "label": "Jorhat",
     "value": "JRH"
   },
   {
     "ID": 63,
-    "label": "Kailashahar Airport",
-    "Location": "Kailashahar",
+    "airport": "Kailashahar Airport",
+    "label": "Kailashahar",
     "value": "IXH"
   },
   {
     "ID": 64,
-    "label": "Kamalpur Airport",
-    "Location": "Kamalpur",
+    "airport": "Kamalpur Airport",
+    "label": "Kamalpur",
     "value": "IXQ"
   },
   {
     "ID": 65,
-    "label": "Kandla Airport",
-    "Location": "Kandla",
+    "airport": "Kandla Airport",
+    "label": "Kandla",
     "value": "IXY"
   },
   {
     "ID": 66,
-    "label": "Kanpur Airport",
-    "Location": "Kanpur",
+    "airport": "Kanpur Airport",
+    "label": "Kanpur",
     "value": "KNU"
   },
   {
     "ID": 67,
-    "label": "Keshod Airport",
-    "Location": "Keshod",
+    "airport": "Keshod Airport",
+    "label": "Keshod",
     "value": "IXK"
   },
   {
     "ID": 68,
-    "label": "Khajuraho Airport",
-    "Location": "Khajuraho",
+    "airport": "Khajuraho Airport",
+    "label": "Khajuraho",
     "value": "HJR"
   },
   {
     "ID": 69,
-    "label": "Khowai Airport",
-    "Location": "Khowai",
+    "airport": "Khowai Airport",
+    "label": "Khowai",
     "value": "IXN"
   },
   {
     "ID": 70,
-    "label": "Kochi Airport",
-    "Location": "Kochi",
+    "airport": "Kochi Airport",
+    "label": "Kochi",
     "value": "COK"
   },
   {
     "ID": 71,
-    "label": "Kolhapur Airport",
-    "Location": "Kolhapur",
+    "airport": "Kolhapur Airport",
+    "label": "Kolhapur",
     "value": "KLH"
   },
   {
     "ID": 72,
-    "label": "Kota Airport",
-    "Location": "Kota",
+    "airport": "Kota Airport",
+    "label": "Kota",
     "value": "KTU"
   },
   {
     "ID": 73,
-    "label": "Calicut International Airport",
-    "Location": "Kozhikode",
+    "airport": "Calicut International Airport",
+    "label": "Kozhikode",
     "value": "CCJ"
   },
   {
     "ID": 74,
-    "label": "Bhuntar Airport",
-    "Location": "Kulu",
+    "airport": "Bhuntar Airport",
+    "label": "Kulu",
     "value": "KUU"
   },
   {
     "ID": 75,
-    "label": "Leh Airport",
-    "Location": "Leh",
+    "airport": "Leh Airport",
+    "label": "Leh",
     "value": "IXL"
   },
   {
     "ID": 76,
-    "label": "Lilabari Airport",
-    "Location": "Lilabari",
+    "airport": "Lilabari Airport",
+    "label": "Lilabari",
     "value": "IXI"
   },
   {
     "ID": 77,
-    "label": "Amausi Airport",
-    "Location": "Lucknow",
+    "airport": "Amausi Airport",
+    "label": "Lucknow",
     "value": "LKO"
   },
   {
     "ID": 78,
-    "label": "Ludhiana Airport",
-    "Location": "Ludhiana",
+    "airport": "Ludhiana Airport",
+    "label": "Ludhiana",
     "value": "LUH"
   },
   {
     "ID": 79,
-    "label": "Chennai Airport",
-    "Location": "Madras (Chennai)",
+    "airport": "Chennai Airport",
+    "label": "Madras (Chennai)",
     "value": "MAA"
   },
   {
     "ID": 80,
-    "label": "Madurai Airport",
-    "Location": "Madurai",
+    "airport": "Madurai Airport",
+    "label": "Madurai",
     "value": "IXM"
   },
   {
     "ID": 81,
-    "label": "Malda Airport",
-    "Location": "Malda",
+    "airport": "Malda Airport",
+    "label": "Malda",
     "value": "LDA"
   },
   {
     "ID": 82,
-    "label": "Bajpe Airport",
-    "Location": "Mangalore",
+    "airport": "Bajpe Airport",
+    "label": "Mangalore",
     "value": "IXE"
   },
   {
     "ID": 83,
-    "label": "Mohanbari Airport",
-    "Location": "Mohanbari",
+    "airport": "Mohanbari Airport",
+    "label": "Mohanbari",
     "value": "MOH"
   },
   {
     "ID": 84,
-    "label": "Muzaffarnagar Airport",
-    "Location": "Muzaffarnagar",
+    "airport": "Muzaffarnagar Airport",
+    "label": "Muzaffarnagar",
     "value": "MZA"
   },
   {
     "ID": 85,
-    "label": "Muzaffarpur Airport",
-    "Location": "Muzaffarpur",
+    "airport": "Muzaffarpur Airport",
+    "label": "Muzaffarpur",
     "value": "MZU"
   },
   {
     "ID": 86,
-    "label": "Mysore Airport",
-    "Location": "Mysore",
+    "airport": "Mysore Airport",
+    "label": "Mysore",
     "value": "MYQ"
   },
   {
     "ID": 87,
-    "label": "Sonegaon Airport",
-    "Location": "Nagpur",
+    "airport": "Sonegaon Airport",
+    "label": "Nagpur",
     "value": "NAG"
   },
   {
     "ID": 88,
-    "label": "Nanded Airport",
-    "Location": "Nanded",
+    "airport": "Nanded Airport",
+    "label": "Nanded",
     "value": "NDC"
   },
   {
     "ID": 89,
-    "label": "Gandhinagar Airport",
-    "Location": "Nasik",
+    "airport": "Gandhinagar Airport",
+    "label": "Nasik",
     "value": "ISK"
   },
   {
     "ID": 90,
-    "label": "Neyveli Airport",
-    "Location": "Neyveli",
+    "airport": "Neyveli Airport",
+    "label": "Neyveli",
     "value": "NVY"
   },
   {
     "ID": 91,
-    "label": "Osmanabad Airport",
-    "Location": "Osmanabad",
+    "airport": "Osmanabad Airport",
+    "label": "Osmanabad",
     "value": "OMN"
   },
   {
     "ID": 92,
-    "label": "Pantnagar Airport",
-    "Location": "Pantnagar",
+    "airport": "Pantnagar Airport",
+    "label": "Pantnagar",
     "value": "PGH"
   },
   {
     "ID": 93,
-    "label": "Pasighat Airport",
-    "Location": "Pasighat",
+    "airport": "Pasighat Airport",
+    "label": "Pasighat",
     "value": "IXT"
   },
   {
     "ID": 94,
-    "label": "Pathankot Airport",
-    "Location": "Pathankot",
+    "airport": "Pathankot Airport",
+    "label": "Pathankot",
     "value": "IXP"
   },
   {
     "ID": 95,
-    "label": "Patna Airport",
-    "Location": "Patna",
+    "airport": "Patna Airport",
+    "label": "Patna",
     "value": "PAT"
   },
   {
     "ID": 96,
-    "label": "Pondicherry Airport",
-    "Location": "Pondicherry",
+    "airport": "Pondicherry Airport",
+    "label": "Pondicherry",
     "value": "PNY"
   },
   {
     "ID": 97,
-    "label": "Porbandar Airport",
-    "Location": "Porbandar",
+    "airport": "Porbandar Airport",
+    "label": "Porbandar",
     "value": "PBD"
   },
   {
     "ID": 98,
-    "label": "Port Blair Airport",
-    "Location": "Port Blair",
+    "airport": "Port Blair Airport",
+    "label": "Port Blair",
     "value": "IXZ"
   },
   {
     "ID": 99,
-    "label": "Lohegaon Airport",
-    "Location": "Pune",
+    "airport": "Lohegaon Airport",
+    "label": "Pune",
     "value": "PNQ"
   },
   {
     "ID": 100,
-    "label": "Puttaprathe Airport",
-    "Location": "Puttaparthi",
+    "airport": "Puttaprathe Airport",
+    "label": "Puttaparthi",
     "value": "PUT"
   },
   {
     "ID": 101,
-    "label": "Raipur Airport",
-    "Location": "Raipur",
+    "airport": "Raipur Airport",
+    "label": "Raipur",
     "value": "RPR"
   },
   {
     "ID": 102,
-    "label": "Rajahmundry Airport",
-    "Location": "Rajahmundry",
+    "airport": "Rajahmundry Airport",
+    "label": "Rajahmundry",
     "value": "RJA"
   },
   {
     "ID": 103,
-    "label": "Civil Airport",
-    "Location": "Rajkot",
+    "airport": "Civil Airport",
+    "label": "Rajkot",
     "value": "RAJ"
   },
   {
     "ID": 104,
-    "label": "Rajouri Airport",
-    "Location": "Rajouri",
+    "airport": "Rajouri Airport",
+    "label": "Rajouri",
     "value": "RJI"
   },
   {
     "ID": 105,
-    "label": "Ramagundam Airport",
-    "Location": "Ramagundam",
+    "airport": "Ramagundam Airport",
+    "label": "Ramagundam",
     "value": "RMD"
   },
   {
     "ID": 106,
-    "label": "Ranchi Airport",
-    "Location": "Ranchi",
+    "airport": "Ranchi Airport",
+    "label": "Ranchi",
     "value": "IXR"
   },
   {
     "ID": 107,
-    "label": "Ratnagiri Airport",
-    "Location": "Ratnagiri",
+    "airport": "Ratnagiri Airport",
+    "label": "Ratnagiri",
     "value": "RTC"
   },
   {
     "ID": 108,
-    "label": "Rewa Airport",
-    "Location": "Rewa",
+    "airport": "Rewa Airport",
+    "label": "Rewa",
     "value": "REW"
   },
   {
     "ID": 109,
-    "label": "Rourkela Airport",
-    "Location": "Rourkela",
+    "airport": "Rourkela Airport",
+    "label": "Rourkela",
     "value": "RRK"
   },
   {
     "ID": 110,
-    "label": "Rupsi Airport",
-    "Location": "Rupsi",
+    "airport": "Rupsi Airport",
+    "label": "Rupsi",
     "value": "RUP"
   },
   {
     "ID": 111,
-    "label": "Salem Airport",
-    "Location": "Salem",
+    "airport": "Salem Airport",
+    "label": "Salem",
     "value": "SXV"
   },
   {
     "ID": 112,
-    "label": "Satna Airport",
-    "Location": "Satna",
+    "airport": "Satna Airport",
+    "label": "Satna",
     "value": "TNI"
   },
   {
     "ID": 113,
-    "label": "Shillong Airport",
-    "Location": "Shillong",
+    "airport": "Shillong Airport",
+    "label": "Shillong",
     "value": "SHL"
   },
   {
     "ID": 114,
-    "label": "Sholapur Airport",
-    "Location": "Sholapur",
+    "airport": "Sholapur Airport",
+    "label": "Sholapur",
     "value": "SSE"
   },
   {
     "ID": 115,
-    "label": "Kumbhirgram Airport",
-    "Location": "Silchar",
+    "airport": "Kumbhirgram Airport",
+    "label": "Silchar",
     "value": "IXS"
   },
   {
     "ID": 116,
-    "label": "Simla Airport",
-    "Location": "Simla",
+    "airport": "Simla Airport",
+    "label": "Simla",
     "value": "SLV"
   },
   {
     "ID": 117,
-    "label": "Srinagar Airport",
-    "Location": "Srinagar",
+    "airport": "Srinagar Airport",
+    "label": "Srinagar",
     "value": "SXR"
   },
   {
     "ID": 118,
-    "label": "Surat Airport",
-    "Location": "Surat",
+    "airport": "Surat Airport",
+    "label": "Surat",
     "value": "STV"
   },
   {
     "ID": 119,
-    "label": "Salonibari Airport",
-    "Location": "Tezpur",
+    "airport": "Salonibari Airport",
+    "label": "Tezpur",
     "value": "TEZ"
   },
   {
     "ID": 120,
-    "label": "Tezu Airport",
-    "Location": "Tezu",
+    "airport": "Tezu Airport",
+    "label": "Tezu",
     "value": "TEI"
   },
   {
     "ID": 121,
-    "label": "Thanjavur Airport",
-    "Location": "Thanjavur",
+    "airport": "Thanjavur Airport",
+    "label": "Thanjavur",
     "value": "TJV"
   },
   {
     "ID": 122,
-    "label": "Thiruvananthapuram International Airport",
-    "Location": "Thiruvananthapuram",
+    "airport": "Thiruvananthapuram International Airport",
+    "label": "Thiruvananthapuram",
     "value": "TRV"
   },
   {
     "ID": 123,
-    "label": "Civil Airport",
-    "Location": "Tiruchirapally",
+    "airport": "Civil Airport",
+    "label": "Tiruchirapally",
     "value": "TRZ"
   },
   {
     "ID": 124,
-    "label": "Tirupati Airport",
-    "Location": "Tirupati",
+    "airport": "Tirupati Airport",
+    "label": "Tirupati",
     "value": "TIR"
   },
   {
     "ID": 125,
-    "label": "Tuticorin Airport",
-    "Location": "Tuticorin",
+    "airport": "Tuticorin Airport",
+    "label": "Tuticorin",
     "value": "TCR"
   },
   {
     "ID": 126,
-    "label": "Dabok Airport",
-    "Location": "Udaipur",
+    "airport": "Dabok Airport",
+    "label": "Udaipur",
     "value": "UDR"
   },
   {
     "ID": 127,
-    "label": "Vadodara Airport",
-    "Location": "Vadodara",
+    "airport": "Vadodara Airport",
+    "label": "Vadodara",
     "value": "BDQ"
   },
   {
     "ID": 128,
-    "label": "Varanasi Airport",
-    "Location": "Varanasi",
+    "airport": "Varanasi Airport",
+    "label": "Varanasi",
     "value": "VNS"
   },
   {
     "ID": 129,
-    "label": "Vijayawada Airport",
-    "Location": "Vijayawada",
+    "airport": "Vijayawada Airport",
+    "label": "Vijayawada",
     "value": "VGA"
   },
   {
     "ID": 130,
-    "label": "Visakhapatnam Airport",
-    "Location": "Visakhapatnam",
+    "airport": "Visakhapatnam Airport",
+    "label": "Visakhapatnam",
     "value": "VTZ"
   },
   {
     "ID": 131,
-    "label": "Warangal Airport",
-    "Location": "Warangal",
+    "airport": "Warangal Airport",
+    "label": "Warangal",
     "value": "WGC"
   },
   {
     "ID": 132,
-    "label": "Zero Airport",
-    "Location": "Zero",
+    "airport": "Zero Airport",
+    "label": "Zero",
     "value": "ZER"
   }
 ]

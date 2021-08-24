@@ -91,7 +91,7 @@ export default function AgentDashboard() {
     <Page title="Dashboard | Agent" sx={{ mt: -2 }}>
       <Stack>
         <Box sx={{ background: 'url(/static/images/search_banner.png)', backgroundSize: 'cover' }}>
-          <Container sx={{ py: 8 }}>
+          <Container sx={{ py: 6 }}>
             <FormikProvider value={formik}>
               <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
                 <Card sx={{ px: 1, pt: 1, pb: 2, background: '#ffffffb8' }}>
@@ -181,7 +181,7 @@ export default function AgentDashboard() {
           </Container>
         </Box>
         <Box>
-          <Container sx={{ py: 8 }}>
+          <Container sx={{ pt: 2 }}>
             <Card sx={{ px: 0, pt: 0, pb: 2, background: '#ffffffb8' }}>
               {/* <Grid container> */}
               <Tabs

@@ -38,15 +38,15 @@ const MainStyle = styled('div')(({ theme }) => ({
 
 export default function DashboardLayout() {
   const [open, setOpen] = useState(false);
-  const auth = useAuth();
+  const { user } = useAuth();
 
-  if (auth.user) {
+  if (user) {
     return (
-      <Stack>
+      <Stack justifyContent="space-between">
         <DashboardBody>
           <DrawerHeader />
           {/* <DashboardNavbar onOpenSidebar={() => setOpen(true)} /> */}
-          {auth.user.role === 2 && (
+          {user.role === 2 && (
             <DashboardSidebar isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
           )}
           <AdminProvider>
@@ -55,10 +55,9 @@ export default function DashboardLayout() {
             </MainStyle>
           </AdminProvider>
         </DashboardBody>
-        {auth.user.role !== 2 && <DashboardFooter />}
+        {user.role !== 2 && <DashboardFooter />}
       </Stack>
     );
   }
-
-  return <Navigate to={{ pathname: '/login' }} />;
+  return <Navigate to="/login" replace />;
 }

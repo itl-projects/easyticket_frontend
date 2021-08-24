@@ -31,10 +31,10 @@ import { USER_ROLES } from './utils/constants';
 // ----------------------------------------------------------------------
 
 export default function Router() {
-  const auth = useAuth();
+  const { user } = useAuth();
 
   const getDashboard = () => {
-    switch (auth.user.role) {
+    switch (user && user.role) {
       case USER_ROLES.ADMIN:
         return <AdminDashboard />;
       case USER_ROLES.USER:
@@ -46,17 +46,17 @@ export default function Router() {
 
   return useRoutes([
     {
-      path: '/',
+      path: '',
       element: <LogoOnlyLayout />,
       children: [
         { path: '/', element: <Navigate to="/login" /> },
         { path: 'login', element: <Login /> },
         { path: '404', element: <NotFound /> },
-        { path: '*', element: <Navigate to="/404" /> }
+        { path: '*', element: <Navigate to="/login" /> }
       ]
     },
     { path: '*', element: <Navigate to="/404" replace /> },
-    auth.user
+    user
       ? {
           path: '/dashboard',
           element: <DashboardLayout />,
@@ -64,38 +64,38 @@ export default function Router() {
             { path: '', element: getDashboard() },
             // user.role === USER_ROLES.SUPPLIER && { path: '', element: <AdminDashboard /> },
             // Admin Routes
-            auth.user.role === USER_ROLES.ADMIN && { path: 'agents', element: <UsersListPage /> },
-            auth.user.role === USER_ROLES.ADMIN && { path: 'bookings', element: <BookingsPage /> },
-            auth.user.role === USER_ROLES.ADMIN && { path: 'credits', element: <Credits /> },
-            auth.user.role === USER_ROLES.ADMIN && { path: 'settings', element: <AdminSetting /> },
-            auth.user.role === USER_ROLES.ADMIN && { path: 'tickets', element: <TicketList /> },
-            auth.user.role === USER_ROLES.USER && {
+            user.role === USER_ROLES.ADMIN && { path: 'agents', element: <UsersListPage /> },
+            user.role === USER_ROLES.ADMIN && { path: 'bookings', element: <BookingsPage /> },
+            user.role === USER_ROLES.ADMIN && { path: 'credits', element: <Credits /> },
+            user.role === USER_ROLES.ADMIN && { path: 'settings', element: <AdminSetting /> },
+            user.role === USER_ROLES.ADMIN && { path: 'tickets', element: <TicketList /> },
+            user.role === USER_ROLES.USER && {
               path: '/confirmBooking',
               element: <ConfirmBooking />
             },
-            auth.user.role === USER_ROLES.USER && {
+            user.role === USER_ROLES.USER && {
               path: '/bookingdetail',
               element: <BookingDetail />
             },
-            auth.user.role === USER_ROLES.USER && {
+            user.role === USER_ROLES.USER && {
               path: '/bookedtickets',
               element: <BookedTickets />
             },
-            auth.user.role === USER_ROLES.USER && {
+            user.role === USER_ROLES.USER && {
               path: '/bookingsuccess',
               element: <BookingSuccess />
             },
-            auth.user.role === USER_ROLES.USER && {
+            user.role === USER_ROLES.USER && {
               path: '/bookingfailed',
               element: <BookingFailed />
             },
-            auth.user.role === USER_ROLES.USER && {
+            user.role === USER_ROLES.USER && {
               path: '/searchTicket',
               element: <TicketSearch />
             },
-            auth.user.role === USER_ROLES.USER && { path: '/profile', element: <AgentProfile /> }
+            user.role === USER_ROLES.USER && { path: '/profile', element: <AgentProfile /> }
           ]
         }
-      : {}
+      : { path: '*', element: <Navigate to="/login" replace /> }
   ]);
 }

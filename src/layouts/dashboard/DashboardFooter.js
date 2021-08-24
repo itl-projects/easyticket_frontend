@@ -10,9 +10,6 @@ export default function DashboardFooter() {
   return (
     <Grid
       sx={{
-        position: 'fixed',
-        bottom: 0,
-        zIndex: 9999,
         width: '100%',
         backgroundColor: '#daf1fe',
         height: 32,

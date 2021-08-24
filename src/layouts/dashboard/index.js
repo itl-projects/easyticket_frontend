@@ -55,7 +55,7 @@ export default function DashboardLayout() {
             </MainStyle>
           </AdminProvider>
         </DashboardBody>
-        {auth.user.role === 2 && <DashboardFooter />}
+        {auth.user.role !== 2 && <DashboardFooter />}
       </Stack>
     );
   }

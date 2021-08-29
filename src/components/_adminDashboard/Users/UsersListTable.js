@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
 import Stack from '@material-ui/core/Stack';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -181,12 +182,14 @@ export default function EnhancedTable() {
                       <IconButton size="small">
                         <Icon icon={eyeFill} />
                       </IconButton>
-                      <IconButton color={!row.isActive ? 'error' : 'success'} size="small">
-                        <Icon
-                          icon={!row.isActive ? personDeleteFill : personAddFill}
-                          onClick={() => setActivateDeactivateStatus(row)}
-                        />
-                      </IconButton>
+                      <Tooltip title={row.isActive ? 'Deactivate' : 'Activate'}>
+                        <IconButton color={!row.isActive ? 'error' : 'success'} size="small">
+                          <Icon
+                            icon={!row.isActive ? personDeleteFill : personAddFill}
+                            onClick={() => setActivateDeactivateStatus(row)}
+                          />
+                        </IconButton>
+                      </Tooltip>
                       <IconButton color="secondary" size="small">
                         <Icon icon={creditCardFill} />
                       </IconButton>

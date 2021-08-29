@@ -65,6 +65,12 @@ const headCells = [
     id: 'amount',
     numeric: true,
     disablePadding: false,
+    label: 'Base Amount'
+  },
+  {
+    id: 'amount',
+    numeric: true,
+    disablePadding: false,
     label: 'Booking Amount'
   },
   {
@@ -158,6 +164,7 @@ export default function EnhancedTable() {
                       {format(new Date(row.ticket.departureDateTime), 'dd-MM-yyyy HH:mm')}
                     </TableCell>
                     <TableCell align="center">{row.passengers.length}</TableCell>
+                    <TableCell align="center">₹ {formatPrice(row.ticket.price)}</TableCell>
                     <TableCell align="center">₹ {formatPrice(row.amount)}</TableCell>
                     <TableCell align="center">
                       <Label

@@ -20,4 +20,13 @@ export default class FlightsAPI {
       return err;
     }
   }
+
+  async getHotDeals(airportId) {
+    try {
+      const res = await axiosInstance.get(`${this.PATH}/hotdeals/${airportId}`);
+      return res;
+    } catch (err) {
+      return err;
+    }
+  }
 }

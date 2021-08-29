@@ -41,6 +41,12 @@ const headCells = [
     label: 'PAX'
   },
   {
+    id: 'price',
+    numeric: true,
+    disablePadding: false,
+    label: 'Base Amount'
+  },
+  {
     id: 'amount',
     numeric: true,
     disablePadding: false,
@@ -127,6 +133,7 @@ export default function PendingRequests() {
                     )}
                   </TableCell>
                   <TableCell align="center">{row.passengerCount}</TableCell>
+                  <TableCell align="center">₹ {formatPrice(row.ticket.price)}</TableCell>
                   <TableCell align="center">₹ {formatPrice(row.amount)}</TableCell>
                   <TableCell align="center">{row.user.username}</TableCell>
                   <TableCell align="center">

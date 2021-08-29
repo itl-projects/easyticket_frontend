@@ -70,7 +70,7 @@ export default function TicketForm({ submitRef, closeModal }) {
       price: '',
       quantity: '1',
       isRefundable: false,
-      isHotDeal: false
+      isHotDeal: true
     },
     validationSchema: ticketAddSchema,
     onSubmit: async () => {
@@ -263,14 +263,14 @@ export default function TicketForm({ submitRef, closeModal }) {
           </Grid>
           <Grid item xs={6}>
             <FormControlLabel
-              control={<Switch />}
+              control={<Switch checked={values.isRefundable} />}
               label="Is Refundable?"
               {...getFieldProps('isRefundable')}
             />
           </Grid>
           <Grid item xs={6}>
             <FormControlLabel
-              control={<Switch />}
+              control={<Switch checked={values.isHotDeal} />}
               label="Is Hot Deal?"
               {...getFieldProps('isHotDeal')}
             />

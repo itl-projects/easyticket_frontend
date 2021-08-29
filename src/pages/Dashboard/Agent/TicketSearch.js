@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, useCallback } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import {
   Card,
   Grid,
@@ -8,7 +8,9 @@ import {
   Typography,
   Alert,
   AlertTitle,
-  Container
+  Container,
+  Tabs,
+  Tab
 } from '@material-ui/core';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -17,8 +19,9 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
 import { DesktopDatePicker, LoadingButton } from '@material-ui/lab';
-import { formatISO, format } from 'date-fns';
+import { formatISO, format, addDays, subDays, differenceInDays } from 'date-fns';
 import frLocale from 'date-fns/locale/fr';
+import { pillTabsStylesHook } from '@mui-treasury/styles/tabs';
 import AirportAutocomplete from '../../../components/FormComponents/AirportAutocomplete';
 import {
   errorMessage,
@@ -37,6 +40,14 @@ export default function SearchTicket() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { state: navState } = useLocation();
+
+  const [tabIndex, setTabIndex] = React.useState(
+    navState.departureDateTime
+      ? new Date(navState.departureDateTime).toLocaleDateString()
+      : new Date().toLocaleDateString()
+  );
+  const tabsStyles = pillTabsStylesHook.useTabs();
+  const tabItemStyles = pillTabsStylesHook.useTabItem();
 
   const filterSchema = Yup.object().shape({
     departureDateTime: Yup.date().required('Departure datetime is required'),
@@ -148,6 +159,31 @@ export default function SearchTicket() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navState]);
 
+  const ticketDates = useMemo(() => {
+    if (!navState.departureDateTime) return null;
+    setTabIndex(new Date(navState.departureDateTime).toLocaleDateString());
+    const dates = [];
+    // eslint-disable-next-line for-direction
+    for (let i = 4; i >= 1; i -= 1) {
+      const d = subDays(new Date(navState.departureDateTime), i);
+      const diff = differenceInDays(d, Date.now());
+      if (diff >= 0) dates.push(d);
+    }
+    dates.push(new Date(navState.departureDateTime));
+    for (let i = 1; i <= 7; i += 1) {
+      dates.push(addDays(new Date(navState.departureDateTime), i));
+    }
+    return dates;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navState]);
+
+  const handleDateTabChange = (_, v) => {
+    const today = new Date().toLocaleDateString();
+    if (v === today) setFieldValue('departureDateTime', formatISO(new Date()));
+    else setFieldValue('departureDateTime', formatISO(new Date(v)));
+    handleSubmit();
+  };
+
   return (
     <Page title="Dashboard | Agent">
       <Container>
@@ -201,9 +237,6 @@ export default function SearchTicket() {
                       />
                     </LocalizationProvider>
                   </Grid>
-                  {/* <Grid xs={12} item lg={3} md={4}>
-                <TextField id="outlined-basic" label="Outlined" variant="outlined" fullWidth />
-              </Grid> */}
                   <Grid xs={12} item lg={3} md={4}>
                     <Typography sx={{ mb: 1, pl: 1 }}>Quantity</Typography>
                     <TextField
@@ -234,6 +267,28 @@ export default function SearchTicket() {
           </FormikProvider>
           {/* Flights Listings */}
           <Grid container justifyContent="center">
+            {ticketDates && (
+              <Grid item xs={12} sx={{ p: 2, backgroundColor: '#f6f4f4' }}>
+                <Tabs
+                  classes={tabsStyles}
+                  variant="scrollable"
+                  scrollButtons="auto"
+                  value={tabIndex}
+                  onChange={handleDateTabChange}
+                >
+                  {ticketDates.map((d, i) => (
+                    <Tab
+                      key={`dates-${i}`}
+                      classes={tabItemStyles}
+                      value={d.toLocaleDateString()}
+                      label={format(d, 'd MMM yyyy')}
+                      sx={{ minHeight: 20, mx: 3, px: 4 }}
+                      centerRipple
+                    />
+                  ))}
+                </Tabs>
+              </Grid>
+            )}
             <Grid item lg={12} xs={12} md={12}>
               <Stack sx={{ mt: 2, px: 2 }}>
                 {flights.map((item) => (

@@ -76,7 +76,7 @@ export default function ConfirmBooking() {
     return {
       passengers: p,
       agree: false,
-      markup: 0,
+      markup: '',
       mobile: '',
       email: '',
       note: ''
@@ -101,7 +101,6 @@ export default function ConfirmBooking() {
         passengers,
         markup: values.markup || 0
       };
-      console.log(data);
       const res = await bookingsAPI.bookFlight(data);
       setSubmitting(false);
       if (res && res.status === 201) {
@@ -388,8 +387,8 @@ export default function ConfirmBooking() {
                           <TextField
                             fullWidth
                             type="number"
-                            label="Markup Amount"
-                            placeholder="Enter Mark up Amount"
+                            // label="Markup Amount"
+                            placeholder="Markup Amount"
                             size="small"
                             {...getFieldProps('markup')}
                           />

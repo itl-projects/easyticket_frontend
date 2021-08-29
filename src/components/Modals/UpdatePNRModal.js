@@ -14,30 +14,29 @@ export default function UpdatePNRModal() {
   const { showUpdatePNRModal, toggleShowUpdatePNRModal } = adminContext;
 
   return (
-    <div>
-      <Dialog
-        onClose={() => toggleShowUpdatePNRModal(null)}
-        open={showUpdatePNRModal !== null}
-        maxWidth="lg"
-        fullWidth
-      >
-        <MuiDialogTitle onClose={() => toggleShowUpdatePNRModal(null)}>UPDATE PNR</MuiDialogTitle>
-        <MuiDialogContent dividers>
-          <UpdatePNRForm
-            bookingId={showUpdatePNRModal?.id}
-            ticketId={showUpdatePNRModal?.ticket.id}
-            closeModal={() => toggleShowUpdatePNRModal(null)}
-          />
-          <Grid item sx={{ mt: 2 }}>
-            <SingleBookingDetailTable passengers={showUpdatePNRModal?.passengers} />
-          </Grid>
-        </MuiDialogContent>
-        <MuiDialogActions>
-          <Button color="error" variant="outlined" onClick={() => toggleShowUpdatePNRModal(null)}>
-            Close
-          </Button>
-        </MuiDialogActions>
-      </Dialog>
-    </div>
+    <Dialog
+      onClose={() => toggleShowUpdatePNRModal(null)}
+      open={showUpdatePNRModal !== null}
+      maxWidth="lg"
+      fullWidth
+    >
+      <MuiDialogTitle onClose={() => toggleShowUpdatePNRModal(null)}>UPDATE PNR</MuiDialogTitle>
+      <MuiDialogContent dividers>
+        <UpdatePNRForm
+          bookingId={showUpdatePNRModal?.id}
+          ticketId={showUpdatePNRModal?.ticket.id}
+          closeModal={() => toggleShowUpdatePNRModal(null)}
+        />
+        <Grid item sx={{ mt: 2 }}>
+          {JSON.stringify(showUpdatePNRModal)}
+          <SingleBookingDetailTable passengers={showUpdatePNRModal?.passengers} />
+        </Grid>
+      </MuiDialogContent>
+      <MuiDialogActions>
+        <Button color="error" variant="outlined" onClick={() => toggleShowUpdatePNRModal(null)}>
+          Close
+        </Button>
+      </MuiDialogActions>
+    </Dialog>
   );
 }

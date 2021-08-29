@@ -217,7 +217,7 @@ export default function ConfirmBooking() {
                     loading={isSubmitting}
                     fullWidth
                   >
-                    Search Flight
+                    Filter Bookings
                   </LoadingButton>
                 </Grid>
               </Grid>

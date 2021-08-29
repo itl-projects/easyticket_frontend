@@ -6,6 +6,8 @@ import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 
 // common
 import Login from './pages/Login';
+import Register from './pages/Register';
+import RegistrationSuccess from './pages/RegistrationSuccess';
 import NotFound from './pages/Page404';
 
 // Admin dashboard pages
@@ -51,6 +53,8 @@ export default function Router() {
       children: [
         { path: '/', element: <Navigate to="/login" /> },
         { path: 'login', element: <Login /> },
+        { path: 'register', element: <Register /> },
+        { path: 'registration-success', element: <RegistrationSuccess /> },
         { path: '404', element: <NotFound /> },
         { path: '*', element: <Navigate to="/login" /> }
       ]

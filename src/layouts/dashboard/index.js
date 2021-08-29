@@ -24,7 +24,7 @@ const DashboardBody = styled('div')({
 const MainStyle = styled('div')(({ theme }) => ({
   flexGrow: 1,
   overflow: 'auto',
-  minHeight: '100%',
+  minHeight: '95.5vh',
   paddingTop: APP_BAR_MOBILE + 12,
   paddingBottom: theme.spacing(10),
   [theme.breakpoints.up('lg')]: {

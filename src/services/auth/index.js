@@ -10,3 +10,12 @@ export async function loginUser(data) {
     return null;
   }
 }
+
+export async function registerUser(data) {
+  try {
+    const res = await axiosInstance.post(`${PATH}/register`, data);
+    return res;
+  } catch (err) {
+    return null;
+  }
+}

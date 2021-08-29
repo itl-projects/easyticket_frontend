@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // material
 import { styled } from '@material-ui/core/styles';
 import { Card, Box, Container, Typography, Stack } from '@material-ui/core';
@@ -8,7 +8,7 @@ import { Card, Box, Container, Typography, Stack } from '@material-ui/core';
 // components
 import Page from '../components/Page';
 // import { MHidden } from '../components/@material-extend';
-import { LoginForm } from '../components/authentication/login';
+import RegisterForm from '../components/Forms/RegisterForm';
 import { useAuth } from '../context/AuthContext';
 // ----------------------------------------------------------------------
 
@@ -21,13 +21,13 @@ const RootStyle = styled(Page)(() => ({
 }));
 
 const FormStyle = styled(Card)(({ theme }) => ({
-  padding: theme.spacing(8, 8),
+  padding: theme.spacing(4, 8),
   background: '#fffffff0'
   // borderRadius: '8px'
 }));
 
 const ContentStyle = styled('div')(({ theme }) => ({
-  maxWidth: 480,
+  // maxWidth: theme.breakpoints.values.md ? '80vw' : '80vw',
   margin: 'auto',
   display: 'flex',
   minHeight: '100vh',
@@ -38,7 +38,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function Login() {
+export default function Register() {
   const navigate = useNavigate();
   const { user } = useAuth();
 
@@ -49,19 +49,8 @@ export default function Login() {
   }, [user, navigate]);
 
   return (
-    <RootStyle title="Login | Easy Ticket">
-      {/* <AuthLayout /> */}
-
-      {/* <MHidden width="mdDown">
-        <SectionStyle>
-          <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-            Hi, Welcome Back
-          </Typography>
-          <img src="/static/illustrations/illustration_login.png" alt="login" />
-        </SectionStyle>
-      </MHidden> */}
-
-      <Container maxWidth="sm">
+    <RootStyle title="Register | Easy Ticket">
+      <Container maxWidth="md">
         <ContentStyle>
           <Card
             elvation={0}
@@ -79,23 +68,25 @@ export default function Login() {
               sx={{ width: 284, height: 72 }}
             />
           </Card>
+          <Stack sx={{ backgroundColor: '#fffffff0', pb: 2, pt: 1 }}>
+            <Typography variant="h4" gutterBottom textAlign="center" mb={0}>
+              Registration Form
+            </Typography>
+            <Typography sx={{ color: 'text.secondary' }} textAlign="center">
+              Enter your details below.
+            </Typography>
+          </Stack>
           <FormStyle>
-            {/* <Stack sx={{ mb: 5 }}>
-              <Typography variant="h4" gutterBottom>
-                Sign in
-              </Typography>
-              <Typography sx={{ color: 'text.secondary' }}>Enter your details below.</Typography>
-            </Stack> */}
-            <LoginForm />
-            <Stack sx={{ mt: 3 }}>
-              <Typography sx={{ color: 'text.secondary' }} textAlign="center">
-                Don't have account?&nbsp;{' '}
-                <Link to="/register" style={{ textDecoration: 'none' }}>
-                  Register here
-                </Link>
-              </Typography>
-            </Stack>
+            <RegisterForm />
           </FormStyle>
+          <Stack sx={{ backgroundColor: '#fffffff0', pb: 2, pt: 1 }}>
+            <Typography sx={{ color: 'text.secondary' }} textAlign="center">
+              Already have account?&nbsp;{' '}
+              <Link to="/login" style={{ textDecoration: 'none' }}>
+                Login here
+              </Link>
+            </Typography>
+          </Stack>
         </ContentStyle>
       </Container>
     </RootStyle>

@@ -24,8 +24,10 @@ import frLocale from 'date-fns/locale/fr';
 import AirportAutocomplete from '../../../components/FormComponents/AirportAutocomplete';
 import { removeFlightData } from '../../../store/actions/bookingAction';
 import Page from '../../../components/Page';
-import { getAirPortIDByCode } from '../../../utils/helperFunctions';
+import { getAirportNameById } from '../../../utils/helperFunctions';
 import HotDeals from '../../../data/hotDeals.json';
+import { flightsAPI } from '../../../services/agent';
+import { HotDealLoadingSkeleton } from '../../../components/skeletons';
 
 export default function AgentDashboard() {
   const dispatch = useDispatch();
@@ -59,7 +61,8 @@ export default function AgentDashboard() {
   const [value, setValue] = useState(new Date());
   const [activeTab, setActiveTab] = useState(0);
   const [hotDealSelected, setHotDealSelected] = useState(0);
-  // const [deals, setDeals] = useState(null);
+  const [deals, setDeals] = useState(null);
+  const [loadingHotDeals, setHotDealLoading] = useState(false);
 
   useEffect(() => {
     dispatch(removeFlightData());
@@ -73,15 +76,25 @@ export default function AgentDashboard() {
     setHotDealSelected(v);
   };
 
-  const deals = useMemo(() => HotDeals[Object.keys(HotDeals)[hotDealSelected]], [hotDealSelected]);
+  const getHostDeals = async () => {
+    setHotDealLoading(true);
+    const res = await flightsAPI.getHotDeals(Object.values(HotDeals)[hotDealSelected]);
+    setHotDealLoading(false);
+    if (res && res.status === 200) {
+      setDeals(res.data.data);
+    }
+  };
 
-  const searchHotDealTicketFlight = ({ source, destination }) => {
+  useMemo(() => {
+    getHostDeals();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hotDealSelected]);
+
+  const searchHotDealTicketFlight = ({ source, destination, departureDateTime }) => {
     const data = {
-      departureDateTime: formatISO(
-        new Date(new Date(new Date().toDateString()).getTime() + 24 * 3600 * 1000)
-      ),
-      source: getAirPortIDByCode(source),
-      destination: getAirPortIDByCode(destination),
+      departureDateTime,
+      source,
+      destination,
       quantity: '1'
     };
     navigate('/dashboard/searchTicket', { replace: false, state: { ...data } });
@@ -207,6 +220,7 @@ export default function AgentDashboard() {
               <Box sx={{ px: 2, pb: 2 }}>
                 <Grid container spacing={2}>
                   {deals &&
+                    !loadingHotDeals &&
                     deals.map((sd, index) => (
                       <Grid key={`openedtab-${index}-${hotDealSelected}`} item xs={4} md={3} lg={2}>
                         <Button
@@ -216,10 +230,16 @@ export default function AgentDashboard() {
                           fullWidth
                           onClick={() => searchHotDealTicketFlight({ ...sd })}
                         >
-                          {sd.source} - {sd.destination}
+                          {getAirportNameById(sd.source)} - {getAirportNameById(sd.destination)}
                         </Button>
                       </Grid>
                     ))}
+                  {loadingHotDeals && <HotDealLoadingSkeleton />}
+                  {deals && deals.length <= 0 && !loadingHotDeals && (
+                    <Grid item xs={12}>
+                      <Typography textAlign="center">Not Found !</Typography>
+                    </Grid>
+                  )}
                 </Grid>
               </Box>
             </Card>

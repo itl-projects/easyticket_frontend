@@ -27,6 +27,7 @@ export default function LoginForm() {
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('Invalid Login credentials !');
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
@@ -44,10 +45,16 @@ export default function LoginForm() {
       const res = await loginUser({ email: values.email, password: values.password });
       setSubmitting(false);
       if (res && res.status === 201) {
-        dispatch(setUserData(res.data));
-        successMessage('Logged in Successfully ');
+        if (res.data && res.data.success) {
+          dispatch(setUserData(res.data));
+          successMessage('Logged in Successfully ');
+          return;
+        }
+        setErrorMessage(res.data.message);
+        setLoginError(true);
         return;
       }
+      setErrorMessage('Invalid Login credentials !');
       setLoginError(true);
     }
   });
@@ -63,7 +70,7 @@ export default function LoginForm() {
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
-          {loginError && <Alert severity="error">Invalid Login credentials !</Alert>}
+          {loginError && <Alert severity="error">{errorMessage}</Alert>}
           <TextField
             fullWidth
             autoComplete="username"

@@ -156,7 +156,7 @@ export default function EnhancedTable() {
                       )}
                     </TableCell>
                     <TableCell align="center">{getAirlineNameById(row.ticket.airline)}</TableCell>
-                    <TableCell align="center">
+                    <TableCell align="center" width={100}>
                       {getAirportNameById(row.ticket.source)} -
                       {getAirportNameById(row.ticket.destination)}
                     </TableCell>

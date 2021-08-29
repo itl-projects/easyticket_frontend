@@ -8,18 +8,28 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import IconButton from '@material-ui/core/IconButton';
+import Stack from '@material-ui/core/Stack';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import { Icon } from '@iconify/react';
 import creditCardFill from '@iconify/icons-eva/credit-card-fill';
 import eyeFill from '@iconify/icons-eva/eye-outline';
 import personDeleteFill from '@iconify/icons-eva/person-delete-fill';
+import personAddFill from '@iconify/icons-eva/person-add-fill';
 import personTag24Regular from '@iconify-icons/fluent/person-tag-24-regular';
 import Label from '../../Label';
 import { usersAPI } from '../../../services/admin';
-import { formatPrice, getUserRoleName } from '../../../utils/helperFunctions';
+import {
+  formatPrice,
+  getUserRoleName,
+  successMessage,
+  errorMessage
+} from '../../../utils/helperFunctions';
 import { useAdminContext } from '../../../context/AdminContext';
 import { TableSkeleton } from '../../skeletons';
+import ActivateDeactivateAccountDialog from './ActivateDeactivateAccountDialog';
 
 const headCells = [
   {
@@ -97,6 +107,8 @@ export default function EnhancedTable() {
   const [total, setTotalItems] = React.useState(0);
   const [data, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
+  const [activateDeactivateStatus, setActivateDeactivateStatus] = React.useState(null);
+  const [updating, setUpdating] = React.useState(false);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -120,6 +132,24 @@ export default function EnhancedTable() {
   React.useEffect(() => {
     if (!showAgentModal) getUsers();
   }, [getUsers, showAgentModal]);
+
+  const onActivateDeactivateResponse = async (res) => {
+    setActivateDeactivateStatus(null);
+    if (res) {
+      setUpdating(true);
+      const res = await usersAPI.changeUserActiveStatus(
+        activateDeactivateStatus.id,
+        !activateDeactivateStatus.isActive
+      );
+      setUpdating(false);
+      if (res && res.status === 200) {
+        if (res.data.success) {
+          getUsers();
+          successMessage(res.data.message);
+        } else errorMessage(res.data.message);
+      }
+    }
+  };
 
   return (
     <Paper sx={{ width: '100%' }}>
@@ -151,8 +181,11 @@ export default function EnhancedTable() {
                       <IconButton size="small">
                         <Icon icon={eyeFill} />
                       </IconButton>
-                      <IconButton color="error" size="small">
-                        <Icon icon={personDeleteFill} />
+                      <IconButton color={!row.isActive ? 'error' : 'success'} size="small">
+                        <Icon
+                          icon={!row.isActive ? personDeleteFill : personAddFill}
+                          onClick={() => setActivateDeactivateStatus(row)}
+                        />
                       </IconButton>
                       <IconButton color="secondary" size="small">
                         <Icon icon={creditCardFill} />
@@ -167,7 +200,11 @@ export default function EnhancedTable() {
           </TableBody>
         </Table>
       </TableContainer>
-      {loading && <TableSkeleton />}
+      {loading && (
+        <Stack px={2}>
+          <TableSkeleton />
+        </Stack>
+      )}
       {!loading && data.length <= 0 && (
         <Typography sx={{ my: 3 }} textAlign="center" variant="h5">
           No Record found !
@@ -182,6 +219,21 @@ export default function EnhancedTable() {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
+      <ActivateDeactivateAccountDialog
+        open={activateDeactivateStatus !== null}
+        onResponse={onActivateDeactivateResponse}
+        status={activateDeactivateStatus?.isActive}
+      />
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={updating}
+        onClick={() => setUpdating(false)}
+      >
+        <Stack alignItems="center">
+          <Typography mb={2}>Please Wait...</Typography>
+          <CircularProgress color="inherit" />
+        </Stack>
+      </Backdrop>
     </Paper>
   );
 }

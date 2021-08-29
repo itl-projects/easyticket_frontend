@@ -20,4 +20,15 @@ export default class UserAPI {
       return err;
     }
   }
+
+  async changeUserActiveStatus(userId, status) {
+    try {
+      const res = await axiosInstance.patch(`${this.PATH}/changeAccountStatus/${userId}`, {
+        status
+      });
+      return res;
+    } catch (err) {
+      return err;
+    }
+  }
 }

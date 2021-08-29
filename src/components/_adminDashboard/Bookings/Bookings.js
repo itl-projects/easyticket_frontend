@@ -12,7 +12,11 @@ import { format } from 'date-fns';
 import Label from '../../Label';
 import { bookingsAPI } from '../../../services/admin';
 import { TableSkeleton } from '../../skeletons';
-import { formatPrice, getAirlineNameById } from '../../../utils/helperFunctions';
+import {
+  formatPrice,
+  getAirlineNameById,
+  getAirportNameById
+} from '../../../utils/helperFunctions';
 
 const headCells = [
   {
@@ -147,8 +151,8 @@ export default function EnhancedTable() {
                     </TableCell>
                     <TableCell align="center">{getAirlineNameById(row.ticket.airline)}</TableCell>
                     <TableCell align="center">
-                      {format(new Date(row.ticket.departureDateTime), 'dd/MM/yyyy')} -
-                      {format(new Date(row.ticket.arrivalDateTime), 'dd/MM/yyyy')}
+                      {getAirportNameById(row.ticket.source)} -
+                      {getAirportNameById(row.ticket.destination)}
                     </TableCell>
                     <TableCell align="center">
                       {format(new Date(row.ticket.departureDateTime), 'dd-MM-yyyy HH:mm')}

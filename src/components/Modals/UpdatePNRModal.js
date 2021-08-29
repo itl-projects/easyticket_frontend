@@ -28,7 +28,6 @@ export default function UpdatePNRModal() {
           closeModal={() => toggleShowUpdatePNRModal(null)}
         />
         <Grid item sx={{ mt: 2 }}>
-          {JSON.stringify(showUpdatePNRModal)}
           <SingleBookingDetailTable passengers={showUpdatePNRModal?.passengers} />
         </Grid>
       </MuiDialogContent>

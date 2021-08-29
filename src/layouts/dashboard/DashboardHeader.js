@@ -157,7 +157,10 @@ export default function DashboardHeader() {
               </RouterLink>
             </Grid>
             <Grid item xs={8} md={9} lg={10} sx={{ pt: 0 }}>
-              <Grid display="flex" justifyContent="flex-end" columnGap={2}>
+              <Grid display="flex" justifyContent="flex-end" columnGap={2} alignItems="center">
+                <Typography color="black">
+                  Welcome {auth?.user.profile?.company} :: {auth?.user.username}
+                </Typography>
                 <Button
                   ref={anchorRef}
                   onClick={handleOpen}

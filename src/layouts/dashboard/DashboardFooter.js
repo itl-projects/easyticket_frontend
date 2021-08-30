@@ -24,7 +24,7 @@ export default function DashboardFooter() {
     >
       <Grid item xs={12} lg={12} justifyContent="center" alignItems="center">
         <Typography variant="body2" textAlign="center">
-          +91-12344-666-777 &nbsp; | &nbsp; +91-00-00-00-00
+          +91-9475909521
         </Typography>
       </Grid>
     </Grid>

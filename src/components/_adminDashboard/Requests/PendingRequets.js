@@ -8,6 +8,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+import Stack from '@material-ui/core/Stack';
 import Button from '@material-ui/core/Button';
 import { format } from 'date-fns';
 import { useAdminContext } from '../../../context/AdminContext';
@@ -149,8 +150,12 @@ export default function PendingRequests() {
               ))}
           </TableBody>
         </Table>
+        {loading && (
+          <Stack px={2}>
+            <TableSkeleton />
+          </Stack>
+        )}
       </TableContainer>
-      {loading && <TableSkeleton />}
       {!loading && pendingRequests.length <= 0 && (
         <Typography sx={{ my: 3 }} textAlign="center" variant="h5">
           No Pending Bookings found !

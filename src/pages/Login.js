@@ -69,7 +69,7 @@ export default function Login() {
             sx={{
               display: 'flex',
               justifyContent: 'center',
-              backgroundColor: '#000000',
+              backgroundColor: '#fffffff0',
               py: 2
             }}
           >

@@ -7,6 +7,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import Typography from '@material-ui/core/Typography';
 import TableRow from '@material-ui/core/TableRow';
+import Stack from '@material-ui/core/Stack';
 import Paper from '@material-ui/core/Paper';
 import { format } from 'date-fns';
 import Label from '../../Label';
@@ -181,8 +182,13 @@ export default function EnhancedTable() {
               })}
           </TableBody>
         </Table>
+        {/* {loading && ( */}
+        <Stack px={2}>
+          <TableSkeleton />
+        </Stack>
+        {/* )} */}
       </TableContainer>
-      {loading && <TableSkeleton />}
+
       {!loading && rows.length <= 0 && (
         <Typography sx={{ my: 3 }} textAlign="center" variant="h5">
           No Pending Bookings found !

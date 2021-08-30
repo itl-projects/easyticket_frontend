@@ -6,6 +6,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import Stack from '@material-ui/core/Stack';
 import Paper from '@material-ui/core/Paper';
 import { ticketsAPI } from '../../../services/admin';
 import {
@@ -16,6 +17,7 @@ import {
   getUserRoleName
 } from '../../../utils/helperFunctions';
 import { useAdminContext } from '../../../context/AdminContext';
+import { TableSkeleton } from '../../skeletons';
 
 const headCells = [
   {
@@ -98,6 +100,7 @@ export default function EnhancedTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [tickets, setTickets] = React.useState([]);
   const [totalTickets, setTotalTickets] = React.useState(0);
+  const [loading, setLoading] = React.useState(false);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -114,15 +117,22 @@ export default function EnhancedTable() {
     setPage(0);
   };
 
-  const getTickets = React.useCallback(async () => {
+  const getTickets = async () => {
+    setLoading(true);
     const res = await ticketsAPI.listTickets(page + 1, rowsPerPage);
+    setLoading(false);
     if (res && res.status === 200) {
       if (res.status) {
         setTickets(res.data.data);
         setTotalTickets(res.data.meta.totalItems);
       }
     }
-  }, [page, rowsPerPage]);
+  };
+
+  React.useEffect(() => {
+    getTickets();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
 
   React.useEffect(() => {
     if (!showTicketModal) getTickets();
@@ -135,7 +145,8 @@ export default function EnhancedTable() {
         <Table size="small">
           <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
           <TableBody>
-            {tickets &&
+            {!loading &&
+              tickets &&
               tickets.map((row, index) => {
                 const labelId = `enhanced-table-checkbox-${index}`;
                 return (
@@ -160,7 +171,13 @@ export default function EnhancedTable() {
               })}
           </TableBody>
         </Table>
+        {loading && (
+          <Stack px={2}>
+            <TableSkeleton />
+          </Stack>
+        )}
       </TableContainer>
+
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"

@@ -20,7 +20,7 @@ import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
 import { DesktopDatePicker, LoadingButton } from '@material-ui/lab';
 import { formatISO } from 'date-fns';
-import frLocale from 'date-fns/locale/fr';
+import enLocale from 'date-fns/locale/en-IN';
 import AirportAutocomplete from '../../../components/FormComponents/AirportAutocomplete';
 import { removeFlightData } from '../../../store/actions/bookingAction';
 import Page from '../../../components/Page';
@@ -143,7 +143,7 @@ export default function AgentDashboard() {
                     </Grid>
                     <Grid xs={12} item lg={3} md={4}>
                       <Typography sx={{ mb: 1, pl: 1 }}>Departure Datetime</Typography>
-                      <LocalizationProvider dateAdapter={AdapterDateFns} locale={frLocale}>
+                      <LocalizationProvider dateAdapter={AdapterDateFns} locale={enLocale}>
                         <DesktopDatePicker
                           placeholder="Departure DateTime"
                           minDate={new Date()}

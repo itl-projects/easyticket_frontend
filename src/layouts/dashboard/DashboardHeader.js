@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Icon } from '@iconify/react';
 // import personFill from '@iconify/icons-eva/person-fill';
 import settings2Fill from '@iconify/icons-eva/settings-2-fill';
+import logoutIcon from '@iconify/icons-eva/power-fill';
 import listFill from '@iconify-icons/tabler/list-check';
 import { Link as RouterLink, NavLink, useNavigate } from 'react-router-dom';
 // material
@@ -95,113 +96,99 @@ export default function DashboardHeader() {
   const handleClose = () => {
     setOpen(false);
   };
+
   return (
     <RootStyle>
       <ToolbarStyle>
-        <Stack dir="column" display="flex" width="100%">
+        <Grid
+          sx={{
+            width: '100%',
+            marginTop: 0,
+            boxShadow: '0px 3px 2px 0px #0000001a',
+            marginLeft: 0,
+            py: 1,
+            paddingRight: 2
+          }}
+          container
+          alignItems="center"
+          // spacing={2}
+          flexWrap="wrap"
+        >
           <Grid
-            sx={{
-              width: '100%',
-              backgroundColor: '#daf1fe',
-              height: 32,
-              px: 2,
-              color: '#000',
-              marginLeft: 0,
-              paddingTop: 0
-            }}
+            item
+            xs={4}
+            md={3}
+            lg={2}
+            sx={{ pt: 0, pl: 2 }}
             display="flex"
-            alignItems="center"
-            flexWrap="wrap"
+            justifyContent="flex-start"
           >
-            <Grid item xs={8} lg={4} justifyContent="center" alignItems="center">
-              <Typography variant="body2">&nbsp;</Typography>
-            </Grid>
-            <Grid xs={4} lg={8} item>
-              <Grid display="flex" justifyContent="flex-end" columnGap={2}>
-                <Typography variant="body2">Contact</Typography>
-                <Button
+            <RouterLink to="/dashboard">
+              <DrawerLogo />
+            </RouterLink>
+          </Grid>
+          <Grid item xs={8} md={9} lg={10} sx={{ pt: 0 }}>
+            <Grid display="flex" justifyContent="flex-end" columnGap={2} alignItems="center">
+              {auth && auth.user.role !== 2 && (
+                <Typography color="black">
+                  Welcome {auth?.user.profile?.company} :: {auth?.user.username}
+                </Typography>
+              )}
+              <Button
+                ref={anchorRef}
+                onClick={handleOpen}
+                variant="contained"
+                color="inherit"
+                disableElevation
+              >
+                My Account
+              </Button>
+              <MenuPopover
+                open={open}
+                onClose={handleClose}
+                anchorEl={anchorRef.current}
+                sx={{ width: 220 }}
+              >
+                {MENU_OPTIONS.map((option) => (
+                  <MenuItem
+                    key={option.label}
+                    to={option.linkTo}
+                    component={NavLink}
+                    sx={{ typography: 'body2', py: 1, px: 2.5 }}
+                  >
+                    <Box
+                      component={Icon}
+                      icon={option.icon}
+                      sx={{
+                        mr: 2,
+                        width: 24,
+                        height: 24
+                      }}
+                    />
+                    {option.label}
+                  </MenuItem>
+                ))}
+                <MenuItem
+                  component={Button}
+                  sx={{ typography: 'body2', py: 1, px: 2.5 }}
                   onClick={() => setLogoutDialog(true)}
-                  variant="text"
-                  sx={{ p: 0, color: '#000' }}
+                  fullWidth
                 >
-                  <Typography variant="body2">logout</Typography>
-                </Button>
-              </Grid>
+                  <Box
+                    component={Icon}
+                    icon={logoutIcon}
+                    sx={{
+                      mr: 2,
+                      width: 24,
+                      height: 24
+                    }}
+                  />
+                  Logout
+                </MenuItem>
+              </MenuPopover>
             </Grid>
           </Grid>
-          <Grid
-            sx={{
-              width: '100%',
-              marginTop: 0,
-              boxShadow: '0px 3px 2px 0px #0000001a',
-              marginLeft: 0,
-              py: 1,
-              paddingRight: 2
-            }}
-            container
-            alignItems="center"
-            // spacing={2}
-            flexWrap="wrap"
-          >
-            <Grid
-              item
-              xs={4}
-              md={3}
-              lg={2}
-              sx={{ pt: 0, pl: 2 }}
-              display="flex"
-              justifyContent="flex-start"
-            >
-              <RouterLink to="/dashboard">
-                <DrawerLogo />
-              </RouterLink>
-            </Grid>
-            <Grid item xs={8} md={9} lg={10} sx={{ pt: 0 }}>
-              <Grid display="flex" justifyContent="flex-end" columnGap={2} alignItems="center">
-                {auth && auth.user.role !== 2 && (
-                  <Typography color="black">
-                    Welcome {auth?.user.profile?.company} :: {auth?.user.username}
-                  </Typography>
-                )}
-                <Button
-                  ref={anchorRef}
-                  onClick={handleOpen}
-                  variant="contained"
-                  color="inherit"
-                  disableElevation
-                >
-                  My Account
-                </Button>
-                <MenuPopover
-                  open={open}
-                  onClose={handleClose}
-                  anchorEl={anchorRef.current}
-                  sx={{ width: 220 }}
-                >
-                  {MENU_OPTIONS.map((option) => (
-                    <MenuItem
-                      key={option.label}
-                      to={option.linkTo}
-                      component={NavLink}
-                      sx={{ typography: 'body2', py: 1, px: 2.5 }}
-                    >
-                      <Box
-                        component={Icon}
-                        icon={option.icon}
-                        sx={{
-                          mr: 2,
-                          width: 24,
-                          height: 24
-                        }}
-                      />
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </MenuPopover>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Stack>
+        </Grid>
       </ToolbarStyle>
       <Dialog
         open={logoutDialog}

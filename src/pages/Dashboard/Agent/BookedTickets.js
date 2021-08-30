@@ -27,7 +27,7 @@ import { tableCellClasses } from '@material-ui/core/TableCell';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
 import { DesktopDatePicker, LoadingButton } from '@material-ui/lab';
-import frLocale from 'date-fns/locale/fr';
+import enLocale from 'date-fns/locale/en-IN';
 import Label from '../../../components/Label';
 import Page from '../../../components/Page';
 import { bookingsAPI } from '../../../services/agent';
@@ -168,7 +168,7 @@ export default function ConfirmBooking() {
                 </Grid>
                 <Grid xs={12} item lg={2} md={2}>
                   <Typography sx={{ mb: 1, pl: 1 }}>From Date</Typography>
-                  <LocalizationProvider dateAdapter={AdapterDateFns} locale={frLocale}>
+                  <LocalizationProvider dateAdapter={AdapterDateFns} locale={enLocale}>
                     <DesktopDatePicker
                       placeholder="From Date"
                       value={fromDate}
@@ -182,7 +182,7 @@ export default function ConfirmBooking() {
                 </Grid>
                 <Grid xs={12} item lg={2} md={2}>
                   <Typography sx={{ mb: 1, pl: 1 }}>To Date</Typography>
-                  <LocalizationProvider dateAdapter={AdapterDateFns} locale={frLocale}>
+                  <LocalizationProvider dateAdapter={AdapterDateFns} locale={enLocale}>
                     <DesktopDatePicker
                       placeholder="To Date"
                       value={toDate}
@@ -196,7 +196,7 @@ export default function ConfirmBooking() {
                 </Grid>
                 <Grid xs={12} item lg={2} md={2}>
                   <Typography sx={{ mb: 1, pl: 1 }}>Travel Date</Typography>
-                  <LocalizationProvider dateAdapter={AdapterDateFns} locale={frLocale}>
+                  <LocalizationProvider dateAdapter={AdapterDateFns} locale={enLocale}>
                     <DesktopDatePicker
                       placeholder="Travel Date"
                       minDate={new Date()}

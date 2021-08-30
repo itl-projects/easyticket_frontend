@@ -21,7 +21,7 @@ import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
 import { DesktopDateTimePicker } from '@material-ui/lab';
 import { formatISO } from 'date-fns';
-import frLocale from 'date-fns/locale/fr';
+import enLocale from 'date-fns/locale/en-IN';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import AirportAutocomplete from '../FormComponents/AirportAutocomplete';
@@ -130,7 +130,7 @@ export default function TicketForm({ submitRef, closeModal }) {
           px={12}
         >
           <Grid item xs={6}>
-            <LocalizationProvider dateAdapter={AdapterDateFns} locale={frLocale}>
+            <LocalizationProvider dateAdapter={AdapterDateFns} locale={enLocale}>
               <DesktopDateTimePicker
                 label="Departure DateTime"
                 ampm={false}
@@ -154,7 +154,7 @@ export default function TicketForm({ submitRef, closeModal }) {
             </LocalizationProvider>
           </Grid>
           <Grid item xs={6}>
-            <LocalizationProvider dateAdapter={AdapterDateFns} locale={frLocale}>
+            <LocalizationProvider dateAdapter={AdapterDateFns} locale={enLocale}>
               <DesktopDateTimePicker
                 label="Arrival DateTime"
                 value={value2}

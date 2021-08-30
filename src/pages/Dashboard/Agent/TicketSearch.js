@@ -20,7 +20,7 @@ import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
 import { DesktopDatePicker, LoadingButton } from '@material-ui/lab';
 import { formatISO, format, addDays, subDays, differenceInDays } from 'date-fns';
-import frLocale from 'date-fns/locale/fr';
+import enLocale from 'date-fns/locale/en-IN';
 import { pillTabsStylesHook } from '@mui-treasury/styles/tabs';
 import AirportAutocomplete from '../../../components/FormComponents/AirportAutocomplete';
 import {
@@ -216,7 +216,7 @@ export default function SearchTicket() {
                   </Grid>
                   <Grid xs={12} item lg={3} md={4}>
                     <Typography sx={{ mb: 1, pl: 1 }}>Departure DateTime</Typography>
-                    <LocalizationProvider dateAdapter={AdapterDateFns} locale={frLocale}>
+                    <LocalizationProvider dateAdapter={AdapterDateFns} locale={enLocale}>
                       <DesktopDatePicker
                         placeholder="Departure DateTime"
                         minDate={new Date()}

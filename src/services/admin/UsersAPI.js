@@ -31,4 +31,13 @@ export default class UserAPI {
       return err;
     }
   }
+
+  async getUsersCounts() {
+    try {
+      const res = await axiosInstance.get(`${this.PATH}/get-active-users`);
+      return res;
+    } catch (err) {
+      return null;
+    }
+  }
 }

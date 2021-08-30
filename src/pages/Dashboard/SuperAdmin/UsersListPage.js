@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 // material
@@ -18,12 +19,33 @@ import { useAdminContext } from '../../../context/AdminContext';
 import AddAgentModal from '../../../components/Modals/AddAgentModal';
 import AppActiveUsers from '../../../components/_dashboard/app/AppActiveUsers';
 import { UsersListTable } from '../../../components/_adminDashboard/Users';
+import { usersAPI } from '../../../services/admin';
 
 // ----------------------------------------------------------------------
 
 export default function UserListPage() {
   const adminContext = useAdminContext();
-  const { toggleShowAgentModal } = adminContext;
+  const { toggleShowAgentModal, showAgentModal } = adminContext;
+  const [totalAgents, setTotalAgents] = useState(0);
+  const [totalActiveAgents, setTotalActiveAgents] = useState(0);
+  const [totalSuppliers, setTotalSuppliers] = useState(0);
+  const [totalActiveSuppliers, setTotalActiveSuppliers] = useState(0);
+
+  const getUsersCounts = async () => {
+    const res = await usersAPI.getUsersCounts();
+    if (res && res.status === 200) {
+      if (res.data.success) {
+        setTotalAgents(res.data.data.agents.total);
+        setTotalActiveAgents(res.data.data.agents.active);
+        setTotalSuppliers(res.data.data.suppliers.total);
+        setTotalActiveSuppliers(res.data.data.suppliers.active);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (!showAgentModal) getUsersCounts();
+  }, [showAgentModal]);
 
   return (
     <Page title="Dashboard | Users">
@@ -117,10 +139,18 @@ export default function UserListPage() {
                 rowGap={1}
               >
                 <Grid>
-                  <AppActiveUsers title="Active Agents" accualCount={24} totalCount={67} />
+                  <AppActiveUsers
+                    title="Active Agents"
+                    accualCount={totalActiveAgents}
+                    totalCount={totalAgents}
+                  />
                 </Grid>
                 <Grid>
-                  <AppActiveUsers title="Active Suppliers" accualCount={24} totalCount={67} />
+                  <AppActiveUsers
+                    title="Active Suppliers"
+                    accualCount={totalActiveSuppliers}
+                    totalCount={totalSuppliers}
+                  />
                 </Grid>
               </Grid>
             </Card>

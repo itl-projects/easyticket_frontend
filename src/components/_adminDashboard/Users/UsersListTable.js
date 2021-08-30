@@ -104,7 +104,7 @@ export default function EnhancedTable() {
   const adminContext = useAdminContext();
   const { showAgentModal } = adminContext;
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [total, setTotalItems] = React.useState(0);
   const [data, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(false);

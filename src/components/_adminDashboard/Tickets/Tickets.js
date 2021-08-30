@@ -114,7 +114,6 @@ export default function EnhancedTable() {
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
   };
 
   const getTickets = async () => {
@@ -132,7 +131,7 @@ export default function EnhancedTable() {
   React.useEffect(() => {
     getTickets();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  }, [page, rowsPerPage]);
 
   React.useEffect(() => {
     if (!showTicketModal) getTickets();

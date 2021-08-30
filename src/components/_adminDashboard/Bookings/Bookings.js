@@ -115,7 +115,6 @@ export default function EnhancedTable() {
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
   };
 
   const getBookings = async () => {
@@ -133,7 +132,7 @@ export default function EnhancedTable() {
   React.useEffect(() => {
     getBookings();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  }, [page, rowsPerPage]);
 
   return (
     <Paper sx={{ width: '100%' }}>
@@ -182,11 +181,11 @@ export default function EnhancedTable() {
               })}
           </TableBody>
         </Table>
-        {/* {loading && ( */}
-        <Stack px={2}>
-          <TableSkeleton />
-        </Stack>
-        {/* )} */}
+        {loading && (
+          <Stack px={2}>
+            <TableSkeleton />
+          </Stack>
+        )}
       </TableContainer>
 
       {!loading && rows.length <= 0 && (

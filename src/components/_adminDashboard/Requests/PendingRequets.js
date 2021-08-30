@@ -82,7 +82,7 @@ export default function PendingRequests() {
   const adminContext = useAdminContext();
   const { showUpdatePNRModal, toggleShowUpdatePNRModal } = adminContext;
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [pendingRequests, setPendingRequests] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [total, setTotalItems] = React.useState(0);
@@ -93,7 +93,6 @@ export default function PendingRequests() {
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
   };
 
   const getPendingBookingRequests = async () => {
@@ -112,7 +111,7 @@ export default function PendingRequests() {
   React.useEffect(() => {
     if (!showUpdatePNRModal) getPendingBookingRequests();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, showUpdatePNRModal]);
+  }, [page, showUpdatePNRModal, rowsPerPage]);
 
   return (
     <Paper sx={{ width: '100%' }}>

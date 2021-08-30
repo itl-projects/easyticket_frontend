@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 // material
 import { styled } from '@material-ui/core/styles';
-import { Card, Box, Container, Typography, Stack } from '@material-ui/core';
+import { Card, Box, Container, Typography, Stack, Divider } from '@material-ui/core';
 // layouts
 // import AuthLayout from '../layouts/AuthLayout';
 // components
@@ -21,7 +21,7 @@ const RootStyle = styled(Page)(() => ({
 }));
 
 const FormStyle = styled(Card)(({ theme }) => ({
-  padding: theme.spacing(4, 8),
+  padding: theme.spacing(2, 8, 4, 8),
   background: '#fffffff0'
   // borderRadius: '8px'
 }));
@@ -33,7 +33,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
   minHeight: '100vh',
   flexDirection: 'column',
   justifyContent: 'center',
-  padding: theme.spacing(12, 0)
+  padding: theme.spacing(5, 5)
 }));
 
 // ----------------------------------------------------------------------
@@ -68,25 +68,24 @@ export default function Register() {
               sx={{ width: 284, height: 72 }}
             />
           </Card>
-          <Stack sx={{ backgroundColor: '#fffffff0', pb: 2, pt: 1 }}>
+          {/* <Stack sx={{ backgroundColor: '#fffffff0', pb: 2, pt: 1 }}></Stack> */}
+          <FormStyle>
             <Typography variant="h4" gutterBottom textAlign="center" mb={0}>
               Registration Form
             </Typography>
-            <Typography sx={{ color: 'text.secondary' }} textAlign="center">
+            <Typography sx={{ color: 'text.secondary' }} textAlign="center" mb={1}>
               Enter your details below.
             </Typography>
-          </Stack>
-          <FormStyle>
+            <Divider sx={{ mb: 4 }} />
             <RegisterForm />
-          </FormStyle>
-          <Stack sx={{ backgroundColor: '#fffffff0', pb: 2, pt: 1 }}>
-            <Typography sx={{ color: 'text.secondary' }} textAlign="center">
+            <Typography sx={{ color: 'text.secondary' }} textAlign="center" mt={3}>
               Already have account?&nbsp;{' '}
               <Link to="/login" style={{ textDecoration: 'none' }}>
                 Login here
               </Link>
             </Typography>
-          </Stack>
+          </FormStyle>
+          {/* <Stack sx={{ backgroundColor: '#fffffff0', pb: 2, pt: 1 }}></Stack> */}
         </ContentStyle>
       </Container>
     </RootStyle>

@@ -139,7 +139,7 @@ export default function ConfirmBooking() {
                 container
                 spacing={2}
                 justifyContent="center"
-                sx={{ mb: 5 }}
+                sx={{ mb: 6, mt: 2 }}
                 alignItems="flex-end"
               >
                 <Grid xs={12} item lg={2} md={2}>
@@ -213,7 +213,8 @@ export default function ConfirmBooking() {
                   <LoadingButton
                     type="submit"
                     variant="contained"
-                    color="primary"
+                    color="warning"
+                    sx={{ background: '#f4621f', color: '#fff' }}
                     loading={isSubmitting}
                     fullWidth
                   >
@@ -255,14 +256,19 @@ export default function ConfirmBooking() {
                         <StyledTableCell align="center" width="185">
                           {format(
                             new Date(new Date(item.creationDate.replace(/(....Z)/, ''))),
-                            'dd-MM-yyyy HH:mm:ss'
+                            'dd-MM-yyyy HH:mm:ss',
+                            {
+                              locale: enLocale
+                            }
                           )}
                         </StyledTableCell>
                         <StyledTableCell align="center" width="120">
                           {getAirlineNameById(item.ticket.airline)}
                         </StyledTableCell>
                         <StyledTableCell align="left" width="150">
-                          {format(new Date(item.ticket.departureDateTime), 'dd-MM-yyyy HH:mm')}
+                          {format(new Date(item.ticket.departureDateTime), 'dd-MM-yyyy HH:mm', {
+                            locale: enLocale
+                          })}
                         </StyledTableCell>
                         <StyledTableCell align="left" width="180">
                           {/* <ul> */}

@@ -8,16 +8,26 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Stack from '@material-ui/core/Stack';
 import Paper from '@material-ui/core/Paper';
+import Tooltip from '@material-ui/core/Tooltip';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import { Icon } from '@iconify/react';
+import deleteIcon from '@iconify/icons-eva/trash-2-fill';
 import { ticketsAPI } from '../../../services/admin';
 import {
   formatPrice,
   getAirlineNameById,
   getAirportNameById,
   getFormattedDate,
-  getUserRoleName
+  getUserRoleName,
+  successMessage,
+  errorMessage
 } from '../../../utils/helperFunctions';
 import { useAdminContext } from '../../../context/AdminContext';
 import { TableSkeleton } from '../../skeletons';
+import DeleteAlertDialog from './DeleteAlertDialog';
 
 const headCells = [
   {
@@ -73,6 +83,12 @@ const headCells = [
     numeric: true,
     disablePadding: false,
     label: 'Uploaded By'
+  },
+  {
+    id: 'actions',
+    numeric: true,
+    disablePadding: false,
+    label: 'Action'
   }
 ];
 
@@ -101,6 +117,8 @@ export default function EnhancedTable() {
   const [tickets, setTickets] = React.useState([]);
   const [totalTickets, setTotalTickets] = React.useState(0);
   const [loading, setLoading] = React.useState(false);
+  const [deleting, setDeleting] = React.useState(false);
+  const [currentTicket, setCurrentTicket] = React.useState(null);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -138,6 +156,24 @@ export default function EnhancedTable() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showTicketModal]);
 
+  const onDeleteConfirm = async () => {
+    if (currentTicket) {
+      const id = currentTicket?.id;
+      setCurrentTicket(null);
+      setDeleting(true);
+      const res = await ticketsAPI.removeTicket(id);
+      setDeleting(false);
+      if (res && res.data) {
+        if (res.data.success) {
+          getTickets();
+          successMessage(res.data.message);
+          return;
+        }
+        errorMessage('Sorry! Failed to delete ticket');
+      }
+    }
+  };
+
   return (
     <Paper>
       <TableContainer component={Paper}>
@@ -165,6 +201,13 @@ export default function EnhancedTable() {
                     <TableCell align="center">
                       {row.user ? getUserRoleName(row.user.role) : 'Unknown'}
                     </TableCell>
+                    <TableCell align="center" padding="none">
+                      <Tooltip title="Delete">
+                        <IconButton color="error" size="small">
+                          <Icon icon={deleteIcon} onClick={() => setCurrentTicket(row)} />
+                        </IconButton>
+                      </Tooltip>
+                    </TableCell>
                   </TableRow>
                 );
               })}
@@ -186,6 +229,21 @@ export default function EnhancedTable() {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
+      <DeleteAlertDialog
+        open={currentTicket !== null}
+        onResponse={onDeleteConfirm}
+        status={currentTicket?.isActive}
+      />
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={deleting}
+        onClick={() => setDeleting(false)}
+      >
+        <Stack alignItems="center">
+          <Typography mb={2}>Please Wait...</Typography>
+          <CircularProgress color="inherit" />
+        </Stack>
+      </Backdrop>
     </Paper>
   );
 }

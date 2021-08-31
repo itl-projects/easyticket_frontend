@@ -256,6 +256,7 @@ export default function SearchTicket() {
                       type="submit"
                       variant="contained"
                       color="warning"
+                      sx={{ background: '#f4621f', color: 'white' }}
                       loading={isSubmitting}
                     >
                       Search Flight
@@ -316,7 +317,9 @@ export default function SearchTicket() {
                             {getAirportNameById(item.source)}
                           </Typography>
                           <Typography>
-                            {format(new Date(item.departureDateTime), 'HH:mm')}
+                            {format(new Date(item.departureDateTime), 'HH:mm', {
+                              locale: enLocale
+                            })}
                           </Typography>
                         </Stack>
                       </Grid>
@@ -351,7 +354,8 @@ export default function SearchTicket() {
                           </Card>
                           <Button
                             variant="contained"
-                            color="primary"
+                            color="warning"
+                            sx={{ background: '#f4621f', color: 'white' }}
                             onClick={() => goToConfirmBooking(item)}
                           >
                             BOOK

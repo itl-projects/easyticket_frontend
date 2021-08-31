@@ -20,6 +20,7 @@ import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider, FieldArray } from 'formik';
 import { LoadingButton } from '@material-ui/lab';
 import { format } from 'date-fns';
+import enLocale from 'date-fns/locale/en-IN';
 import {
   getAirlineNameById,
   getAirportNameById,
@@ -162,7 +163,9 @@ export default function ConfirmBooking() {
           <Card sx={{ p: 0 }}>
             <Typography textAlign="center" sx={{ m: 0, py: 1 }}>
               {getAirportNameById(flight.source)}-{getAirportNameById(flight.destination)}&nbsp;
-              {format(new Date(flight.departureDateTime), 'dd-MMM-yyyy HH:mm')}
+              {format(new Date(flight.departureDateTime), 'dd-MMM-yyyy HH:mm', {
+                locale: enLocale
+              })}
             </Typography>
           </Card>
           <Card sx={{ p: 1, mb: 2, mt: 1, px: 2 }}>
@@ -184,7 +187,11 @@ export default function ConfirmBooking() {
               <Grid>
                 <Stack dir="column" alignItems="center">
                   <Typography variant="subtitle2">{getAirportNameById(flight.source)}</Typography>
-                  <Typography>{format(new Date(flight.departureDateTime), 'HH:mm')}</Typography>
+                  <Typography>
+                    {format(new Date(flight.departureDateTime), 'HH:mm', {
+                      locale: enLocale
+                    })}
+                  </Typography>
                 </Stack>
               </Grid>
               <Grid>
@@ -200,7 +207,11 @@ export default function ConfirmBooking() {
                   <Typography variant="subtitle2">
                     {getAirportNameById(flight.destination)}
                   </Typography>
-                  <Typography>{format(new Date(flight.arrivalDateTime), 'HH:mm')}</Typography>
+                  <Typography>
+                    {format(new Date(flight.arrivalDateTime), 'HH:mm', {
+                      locale: enLocale
+                    })}
+                  </Typography>
                 </Stack>
               </Grid>
               <Grid>
@@ -215,8 +226,8 @@ export default function ConfirmBooking() {
                 <Card sx={{ my: 1 }}>
                   <CardHeader
                     subheader="Traveller Details - Kindly Fill Traveller Details as per ID"
-                    subheaderTypographyProps={{ variant: 'body2', color: '#323232' }}
-                    sx={{ p: 1, background: '#00AB55b8', color: '#fff' }}
+                    subheaderTypographyProps={{ variant: 'body2', color: 'white' }}
+                    sx={{ p: 1, background: '#f4621f', color: '#fff' }}
                   />
                   <CardContent>
                     <FieldArray
@@ -320,8 +331,8 @@ export default function ConfirmBooking() {
                 <Card sx={{ my: 1 }}>
                   <CardHeader
                     subheader="Contact Information"
-                    subheaderTypographyProps={{ variant: 'body2', color: '#323232' }}
-                    sx={{ p: 1, background: '#00AB55b8', color: '#fff' }}
+                    subheaderTypographyProps={{ variant: 'body2', color: 'white' }}
+                    sx={{ p: 1, background: '#f4621f', color: '#fff' }}
                   />
                   <CardContent>
                     <Grid container spacing={2} justifyContent="center">
@@ -363,8 +374,8 @@ export default function ConfirmBooking() {
                 <Card sx={{ my: 1 }}>
                   <CardHeader
                     subheader="Fare Summary"
-                    subheaderTypographyProps={{ variant: 'body2', color: '#323232' }}
-                    sx={{ p: 1, background: '#00AB55b8', color: '#fff' }}
+                    subheaderTypographyProps={{ variant: 'body2', color: 'white' }}
+                    sx={{ p: 1, background: '#f4621f', color: '#fff' }}
                   />
                   <CardContent sx={{ p: 0, py: 1 }}>
                     <Grid container sx={{ p: 1 }}>
@@ -435,9 +446,9 @@ export default function ConfirmBooking() {
                   <LoadingButton
                     type="submit"
                     variant="contained"
-                    color="primary"
+                    color="warning"
+                    sx={{ background: '#f4621f', color: 'white', py: 2 }}
                     loading={isSubmitting}
-                    sx={{ py: 2 }}
                   >
                     CONFIRM BOOKING
                   </LoadingButton>

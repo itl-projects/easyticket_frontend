@@ -18,6 +18,7 @@ import {
   TableBody
 } from '@material-ui/core';
 import { format } from 'date-fns';
+import enLocale from 'date-fns/locale/en-IN';
 import { styled } from '@material-ui/core/styles';
 import { tableCellClasses } from '@material-ui/core/TableCell';
 import { getAirlineNameById, getAirportNameById } from '../../../utils/helperFunctions';
@@ -57,7 +58,7 @@ export default function ConfirmBooking() {
           <Grid display="flex" justifyContent="flex-end" container sx={{ my: 1, py: 1 }}>
             <Button
               variant="contained"
-              sx={{ mr: 2 }}
+              sx={{ mr: 2, px: 4 }}
               onClick={() => navigate('/dashboard/bookedtickets', { replace: true })}
               color="warning"
               disableElevation
@@ -70,6 +71,7 @@ export default function ConfirmBooking() {
               disableElevation
               onClick={() => toggleShowBookingPrintModal(true)}
               disabled={!booking.pnr}
+              sx={{ px: 4 }}
             >
               Print
             </Button>
@@ -83,7 +85,10 @@ export default function ConfirmBooking() {
               />
               <Typography variant="body2">Booking Id:&nbsp;{booking.bookingRef}</Typography>
               <Typography variant="body2">
-                Booked On: {format(new Date(booking.creationDate), 'dd-MMM-yyyy HH:mm:ss')}
+                Booked On:{' '}
+                {format(new Date(booking.creationDate), 'dd-MMM-yyyy HH:mm:ss', {
+                  locale: enLocale
+                })}
               </Typography>
             </Grid>
           </Card>
@@ -109,11 +114,11 @@ export default function ConfirmBooking() {
                 <Stack
                   dir="column"
                   alignItems="center"
-                  sx={{ border: 2, borderColor: '#31ca6e', px: 3, py: 1 }}
+                  sx={{ border: 2, borderColor: '#f4621f', px: 3, py: 1 }}
                 >
                   <Typography variant="caption">AIRLINE PNR</Typography>
                   <Typography
-                    color={booking.pnr ? 'primary' : 'red'}
+                    color={booking.pnr ? '#f4621f' : 'red'}
                     variant="subtitle1"
                     sx={{ textTransform: 'uppercase' }}
                   >
@@ -136,7 +141,7 @@ export default function ConfirmBooking() {
                   </Typography>
                 </Grid>
               }
-              sx={{ p: 1, background: '#31ca6e', color: '#fff' }}
+              sx={{ p: 1, background: '#f4621f', color: '#fff' }}
             />
             <TableContainer>
               <Table sx={{ minWidth: 650 }}>
@@ -163,7 +168,9 @@ export default function ConfirmBooking() {
                         {getAirportNameById(booking.ticket.source)}
                       </Typography>
                       <Typography variant="body2">
-                        {format(new Date(booking.ticket.departureDateTime), 'dd-MM-yyyy HH:mm')}
+                        {format(new Date(booking.ticket.departureDateTime), 'dd-MM-yyyy HH:mm', {
+                          locale: enLocale
+                        })}
                       </Typography>
                     </StyledTableCell>
                     <StyledTableCell align="left">
@@ -171,7 +178,9 @@ export default function ConfirmBooking() {
                         {getAirportNameById(booking.ticket.destination)}
                       </Typography>
                       <Typography variant="body2">
-                        {format(new Date(booking.ticket.arrivalDateTime), 'dd-MM-yyyy HH:mm')}
+                        {format(new Date(booking.ticket.arrivalDateTime), 'dd-MM-yyyy HH:mm', {
+                          locale: enLocale
+                        })}
                       </Typography>
                     </StyledTableCell>
                     <StyledTableCell align="left">

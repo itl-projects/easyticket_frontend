@@ -20,4 +20,13 @@ export default class TicketAPI {
       return err;
     }
   }
+
+  async removeTicket(id) {
+    try {
+      const res = await axiosInstance.delete(`${this.PATH}/${id}`);
+      return res;
+    } catch (err) {
+      return err;
+    }
+  }
 }

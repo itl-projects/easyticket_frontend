@@ -1,7 +1,3 @@
-import { useState, useRef, useMemo } from 'react';
-import { useDispatch } from 'react-redux';
-import { Icon } from '@iconify/react';
-import homeFill from '@iconify/icons-eva/home-fill';
 // material
 import { Grid, Typography } from '@material-ui/core';
 // components
@@ -24,7 +20,7 @@ export default function DashboardFooter() {
     >
       <Grid item xs={12} lg={12} justifyContent="center" alignItems="center">
         <Typography variant="body2" textAlign="center">
-          +91-9475909521
+          Support&nbsp;:&nbsp; +91-9475909521
         </Typography>
       </Grid>
     </Grid>

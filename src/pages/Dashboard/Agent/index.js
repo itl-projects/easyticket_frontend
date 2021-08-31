@@ -29,6 +29,18 @@ import HotDeals from '../../../data/hotDeals.json';
 import { flightsAPI } from '../../../services/agent';
 import { HotDealLoadingSkeleton } from '../../../components/skeletons';
 
+const hotDealsTabBgs = [
+  'rgba(4, 34, 82, 0.9)',
+  'rgba(2, 53, 42, 0.9)',
+  'rgba(28, 77, 80, 0.9)',
+  'rgba(90, 79, 57, 0.9)',
+  'rgba(66, 19, 97, 0.9)',
+  'rgba(58, 13, 19, 0.9)',
+  'rgba(6, 95, 75, 0.9)',
+  'rgba(98, 13, 37, 0.9)',
+  'rgba(98, 13, 37, 0.9)	rgba(62, 30, 85, 0.9)'
+];
+
 export default function AgentDashboard() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -112,7 +124,7 @@ export default function AgentDashboard() {
                     <Tabs value={activeTab} onChange={handleTabChange}>
                       <Tab
                         label="ONE WAY"
-                        sx={{ background: '#31ca6e', px: 8 }}
+                        sx={{ background: '#f4621f', px: 8 }}
                         style={{ color: 'white' }}
                       />
                     </Tabs>
@@ -181,7 +193,8 @@ export default function AgentDashboard() {
                       <LoadingButton
                         type="submit"
                         variant="contained"
-                        color="primary"
+                        color="warning"
+                        sx={{ background: '#f4621f', color: 'white' }}
                         loading={isSubmitting}
                       >
                         Search Flight
@@ -202,13 +215,17 @@ export default function AgentDashboard() {
                 onChange={handleHotDealChange}
                 variant="scrollable"
                 scrollButtons="auto"
+                indicatorColor="#00000000"
               >
                 {HotDeals &&
                   Object.keys(HotDeals).map((key, i) => (
                     <Tab
                       label={key}
-                      sx={{ background: hotDealSelected === i ? '#31ca6e' : 'white', px: 8 }}
-                      style={{ color: hotDealSelected === i ? 'white' : 'grey' }}
+                      sx={{
+                        background: hotDealsTabBgs[i],
+                        px: 8
+                      }}
+                      style={{ color: 'white' }}
                       key={`tab-${i}-${key}`}
                       value={i}
                     />
@@ -225,8 +242,8 @@ export default function AgentDashboard() {
                       <Grid key={`openedtab-${index}-${hotDealSelected}`} item xs={4} md={3} lg={2}>
                         <Button
                           variant="contained"
-                          color="inherit"
-                          sx={{ py: 2 }}
+                          color="secondary"
+                          sx={{ py: 2, background: hotDealsTabBgs[index % 10], color: 'white' }}
                           fullWidth
                           onClick={() => searchHotDealTicketFlight({ ...sd })}
                         >

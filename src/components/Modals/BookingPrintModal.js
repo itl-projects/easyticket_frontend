@@ -4,7 +4,7 @@ import { sentenceCase } from 'change-case';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogActions from '@material-ui/core/DialogActions';
-import { format } from 'date-fns';
+import { format, formatISO } from 'date-fns';
 import { Typography } from '@material-ui/core';
 import {
   Page,
@@ -73,7 +73,10 @@ export default function BookingPrintModal() {
               <Image style={styles.image} src={logo} />
               <Text style={styles.labelText}>Booking ID: &nbsp;{booking?.bookingRef}</Text>
               <Text style={styles.labelText}>
-                Booked On: {format(new Date(booking?.creationDate), 'dd-MMM-yyyy HH:mm:ss')}
+                Booked On:{' '}
+                {format(new Date(booking?.creationDate), 'dd-MMM-yyyy HH:mm:ss', {
+                  timeZone: 'Asia/Kolkata'
+                })}
               </Text>
             </View>
             {/* section 2 */}
@@ -127,7 +130,9 @@ export default function BookingPrintModal() {
                       {getAirportNameById(booking.ticket.source)}
                     </Text>
                     <Text style={[styles.labelText, { marginTop: 4 }]}>
-                      {format(new Date(booking.ticket.departureDateTime), 'dd-MM-yyyy HH:mm')}
+                      {format(new Date(booking.ticket.departureDateTime), 'dd-MM-yyyy HH:mm', {
+                        timeZone: 'Asia/Kolkata'
+                      })}
                     </Text>
                   </View>
                   <View style={[styles.column, { width: '30%' }]}>
@@ -135,7 +140,9 @@ export default function BookingPrintModal() {
                       {getAirportNameById(booking.ticket.destination)}
                     </Text>
                     <Text style={[styles.labelText, { marginTop: 4 }]}>
-                      {format(new Date(booking.ticket.arrivalDateTime), 'dd-MM-yyyy HH:mm')}
+                      {format(new Date(booking.ticket.arrivalDateTime), 'dd-MM-yyyy HH:mm', {
+                        timeZone: 'Asia/Kolkata'
+                      })}
                     </Text>
                   </View>
                   <View style={[styles.column, { width: '20%' }]}>

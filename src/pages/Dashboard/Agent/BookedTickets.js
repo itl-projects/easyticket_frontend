@@ -258,7 +258,7 @@ export default function ConfirmBooking() {
                             new Date(new Date(item.creationDate.replace(/(....Z)/, ''))),
                             'dd-MM-yyyy HH:mm:ss',
                             {
-                              timezone: 'Asia/Kolkata'
+                              timeZone: 'Asia/Kolkata'
                             }
                           )}
                         </StyledTableCell>
@@ -267,7 +267,7 @@ export default function ConfirmBooking() {
                         </StyledTableCell>
                         <StyledTableCell align="left" width="150">
                           {format(new Date(item.ticket.departureDateTime), 'dd-MM-yyyy HH:mm', {
-                            timezone: 'Asia/Kolkata'
+                            timeZone: 'Asia/Kolkata'
                           })}
                         </StyledTableCell>
                         <StyledTableCell align="left" width="180">

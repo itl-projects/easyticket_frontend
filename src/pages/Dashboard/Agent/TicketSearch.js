@@ -318,7 +318,7 @@ export default function SearchTicket() {
                           </Typography>
                           <Typography>
                             {format(new Date(item.departureDateTime), 'HH:mm', {
-                              timezone: 'Asia/Kolkata'
+                              timeZone: 'Asia/Kolkata'
                             })}
                           </Typography>
                         </Stack>

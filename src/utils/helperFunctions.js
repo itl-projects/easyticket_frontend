@@ -1,6 +1,5 @@
 import { store as notifincationStore } from 'react-notifications-component';
 import { format, intervalToDuration } from 'date-fns';
-import enLocale from 'date-fns/locale/en-IN';
 import { AIRLINES, USER_ROLES } from './constants';
 import AIRPORTS from '../data/airports.json';
 
@@ -70,7 +69,7 @@ export const warningMessage = (message) => {
 
 export const getFormattedDate = (_date) =>
   format(new Date(_date), 'dd/MM/yyyy HH:mm', {
-    timezone: 'Asia/Kolkata'
+    timeZone: 'Asia/Kolkata'
   });
 export const getAirlineNameById = (id) =>
   AIRLINES.filter((el) => el.id === id).length > 0

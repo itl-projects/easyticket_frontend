@@ -164,7 +164,7 @@ export default function ConfirmBooking() {
             <Typography textAlign="center" sx={{ m: 0, py: 1 }}>
               {getAirportNameById(flight.source)}-{getAirportNameById(flight.destination)}&nbsp;
               {format(new Date(flight.departureDateTime), 'dd-MMM-yyyy HH:mm', {
-                locale: enLocale
+                timezone: 'Asia/Kolkata'
               })}
             </Typography>
           </Card>
@@ -189,7 +189,7 @@ export default function ConfirmBooking() {
                   <Typography variant="subtitle2">{getAirportNameById(flight.source)}</Typography>
                   <Typography>
                     {format(new Date(flight.departureDateTime), 'HH:mm', {
-                      locale: enLocale
+                      timezone: 'Asia/Kolkata'
                     })}
                   </Typography>
                 </Stack>
@@ -209,7 +209,7 @@ export default function ConfirmBooking() {
                   </Typography>
                   <Typography>
                     {format(new Date(flight.arrivalDateTime), 'HH:mm', {
-                      locale: enLocale
+                      timezone: 'Asia/Kolkata'
                     })}
                   </Typography>
                 </Stack>

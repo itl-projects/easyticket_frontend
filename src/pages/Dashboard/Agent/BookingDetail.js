@@ -87,7 +87,7 @@ export default function ConfirmBooking() {
               <Typography variant="body2">
                 Booked On:{' '}
                 {format(new Date(booking.creationDate), 'dd-MMM-yyyy HH:mm:ss', {
-                  locale: enLocale
+                  timezone: 'Asia/Kolkata'
                 })}
               </Typography>
             </Grid>
@@ -169,7 +169,7 @@ export default function ConfirmBooking() {
                       </Typography>
                       <Typography variant="body2">
                         {format(new Date(booking.ticket.departureDateTime), 'dd-MM-yyyy HH:mm', {
-                          locale: enLocale
+                          timezone: 'Asia/Kolkata'
                         })}
                       </Typography>
                     </StyledTableCell>
@@ -179,7 +179,7 @@ export default function ConfirmBooking() {
                       </Typography>
                       <Typography variant="body2">
                         {format(new Date(booking.ticket.arrivalDateTime), 'dd-MM-yyyy HH:mm', {
-                          locale: enLocale
+                          timezone: 'Asia/Kolkata'
                         })}
                       </Typography>
                     </StyledTableCell>

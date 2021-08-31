@@ -70,7 +70,7 @@ export const warningMessage = (message) => {
 
 export const getFormattedDate = (_date) =>
   format(new Date(_date), 'dd/MM/yyyy HH:mm', {
-    locale: enLocale
+    timezone: 'Asia/Kolkata'
   });
 export const getAirlineNameById = (id) =>
   AIRLINES.filter((el) => el.id === id).length > 0

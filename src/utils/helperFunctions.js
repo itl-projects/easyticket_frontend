@@ -1,5 +1,6 @@
 import { store as notifincationStore } from 'react-notifications-component';
-import { format, intervalToDuration } from 'date-fns';
+import { intervalToDuration } from 'date-fns';
+import { format, zonedTimeToUtc } from 'date-fns-tz';
 import { AIRLINES, USER_ROLES } from './constants';
 import AIRPORTS from '../data/airports.json';
 
@@ -66,6 +67,10 @@ export const warningMessage = (message) => {
     }
   });
 };
+
+export function getTimeZoneDate(date) {
+  return zonedTimeToUtc(date, 'Asia/Kolkata');
+}
 
 export const getFormattedDate = (_date) =>
   format(new Date(_date), 'dd/MM/yyyy HH:mm', {

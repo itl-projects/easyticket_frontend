@@ -1,6 +1,6 @@
 import { store as notifincationStore } from 'react-notifications-component';
 import { intervalToDuration } from 'date-fns';
-import { format, zonedTimeToUtc, utcToZonedTime } from 'date-fns-tz';
+import { format, zonedTimeToUtc } from 'date-fns-tz';
 import { AIRLINES, USER_ROLES } from './constants';
 import AIRPORTS from '../data/airports.json';
 

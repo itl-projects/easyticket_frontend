@@ -72,10 +72,8 @@ export function getTimeZoneDate(date) {
   return zonedTimeToUtc(date, 'Asia/Kolkata');
 }
 
-export const getFormattedDate = (_date) =>
-  format(utcToZonedTime(new Date(_date), 'Asia/Kolkata'), 'dd/MM/yyyy HH:mm', {
-    timeZone: 'Asia/Kolkata'
-  });
+export const getFormattedDate = (_date) => format(getTimeZoneDate(_date), 'dd/MM/yyyy HH:mm');
+
 export const getAirlineNameById = (id) =>
   AIRLINES.filter((el) => el.id === id).length > 0
     ? AIRLINES.filter((el) => el.id === id)[0].label

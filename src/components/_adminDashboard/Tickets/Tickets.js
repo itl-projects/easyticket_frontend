@@ -156,8 +156,8 @@ export default function EnhancedTable() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showTicketModal]);
 
-  const onDeleteConfirm = async () => {
-    if (currentTicket) {
+  const onDeleteConfirm = async (status) => {
+    if (currentTicket && status) {
       const id = currentTicket?.id;
       setCurrentTicket(null);
       setDeleting(true);
@@ -171,6 +171,8 @@ export default function EnhancedTable() {
         }
         errorMessage('Sorry! Failed to delete ticket');
       }
+    } else {
+      setCurrentTicket(null);
     }
   };
 

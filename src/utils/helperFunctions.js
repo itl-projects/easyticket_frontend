@@ -1,6 +1,6 @@
 import { store as notifincationStore } from 'react-notifications-component';
 import { intervalToDuration } from 'date-fns';
-import { format, zonedTimeToUtc } from 'date-fns-tz';
+import { format, zonedTimeToUtc, utcToZonedTime } from 'date-fns-tz';
 import { AIRLINES, USER_ROLES } from './constants';
 import AIRPORTS from '../data/airports.json';
 
@@ -73,7 +73,7 @@ export function getTimeZoneDate(date) {
 }
 
 export const getFormattedDate = (_date) =>
-  format(new Date(_date), 'dd/MM/yyyy HH:mm', {
+  format(utcToZonedTime(new Date(_date), 'Asia/Kolkata'), 'dd/MM/yyyy HH:mm', {
     timeZone: 'Asia/Kolkata'
   });
 export const getAirlineNameById = (id) =>

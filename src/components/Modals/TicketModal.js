@@ -23,12 +23,12 @@ export default function TicketModalModal() {
       <Dialog
         onClose={toggleShowTicketModal}
         aria-labelledby="customized-dialog-title"
-        open={showTicketModal}
+        open={showTicketModal !== null}
         maxWidth="md"
         fullWidth
       >
         <MuiDialogTitle id="customized-dialog-title" onClose={toggleShowTicketModal}>
-          Create Ticket
+          {showTicketModal !== null ? 'Edit Ticket' : 'Create Ticket'}
         </MuiDialogTitle>
         <MuiDialogContent dividers>
           <TicketForm submitRef={submitRef} closeModal={toggleShowTicketModal} />

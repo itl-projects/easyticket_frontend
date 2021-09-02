@@ -5,7 +5,7 @@ const adminContext = createContext();
 // eslint-disable-next-line
 export default function AdminProvider({ children }) {
   const [showAgentModal, setShowAgentModal] = useState(false);
-  const [showTicketModal, setShowTicketModal] = useState(false);
+  const [showTicketModal, setShowTicketModal] = useState(null);
   const [showFundTransferModal, setShowFundTransferModal] = useState(false);
   const [showUpdatePNRModal, setShowUpdatePNRModal] = useState(null);
   const [bookingPrint, setBookingPrint] = useState(false);
@@ -14,8 +14,8 @@ export default function AdminProvider({ children }) {
     setShowAgentModal(!showAgentModal);
   };
 
-  const toggleShowTicketModal = () => {
-    setShowTicketModal(!showTicketModal);
+  const toggleShowTicketModal = (_, editItem = null) => {
+    setShowTicketModal(editItem);
   };
 
   const toggleShowFundTransferModal = () => {
@@ -26,7 +26,7 @@ export default function AdminProvider({ children }) {
     setShowUpdatePNRModal(data);
   };
 
-  const toggleShowBookingPrintModal = (data = false) => {
+  const toggleShowBookingPrintModal = (data = null) => {
     setBookingPrint(data);
   };
 

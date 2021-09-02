@@ -15,6 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import { Icon } from '@iconify/react';
 import deleteIcon from '@iconify/icons-eva/trash-2-fill';
+import editIcon from '@iconify/icons-eva/edit-2-fill';
 import { ticketsAPI } from '../../../services/admin';
 import {
   formatPrice,
@@ -108,7 +109,7 @@ function EnhancedTableHead() {
 
 export default function EnhancedTable() {
   const adminContext = useAdminContext();
-  const { showTicketModal } = adminContext;
+  const { showTicketModal, toggleShowTicketModal } = adminContext;
 
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
@@ -147,14 +148,9 @@ export default function EnhancedTable() {
   };
 
   React.useEffect(() => {
-    getTickets();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, rowsPerPage]);
-
-  React.useEffect(() => {
     if (!showTicketModal) getTickets();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showTicketModal]);
+  }, [page, rowsPerPage, showTicketModal]);
 
   const onDeleteConfirm = async (status) => {
     if (currentTicket && status) {
@@ -204,9 +200,23 @@ export default function EnhancedTable() {
                       {row.user ? getUserRoleName(row.user.role) : 'Unknown'}
                     </TableCell>
                     <TableCell align="center" padding="none">
+                      <Tooltip title="Edit">
+                        <IconButton
+                          color="info"
+                          size="small"
+                          onClick={(e) => toggleShowTicketModal(e, row)}
+                        >
+                          <Icon icon={editIcon} />
+                        </IconButton>
+                      </Tooltip>
+
                       <Tooltip title="Delete">
-                        <IconButton color="error" size="small">
-                          <Icon icon={deleteIcon} onClick={() => setCurrentTicket(row)} />
+                        <IconButton
+                          color="error"
+                          size="small"
+                          onClick={() => setCurrentTicket(row)}
+                        >
+                          <Icon icon={deleteIcon} />
                         </IconButton>
                       </Tooltip>
                     </TableCell>

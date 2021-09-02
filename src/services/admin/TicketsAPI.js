@@ -21,6 +21,15 @@ export default class TicketAPI {
     }
   }
 
+  async updateTicket(id, data) {
+    try {
+      const res = await axiosInstance.patch(`${this.PATH}/${id}`, data);
+      return res;
+    } catch (err) {
+      return err;
+    }
+  }
+
   async removeTicket(id) {
     try {
       const res = await axiosInstance.delete(`${this.PATH}/${id}`);

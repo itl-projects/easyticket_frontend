@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useFormik, Form, FormikProvider } from 'formik';
 // material
 import {
@@ -27,6 +27,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import AirportAutocomplete from '../FormComponents/AirportAutocomplete';
 import AirlineAutocomplete from '../FormComponents/AirlineAutocomplete';
 import { ticketsAPI } from '../../services/admin';
+import { useAdminContext } from '../../context/AdminContext';
 import { successMessage, errorMessage, warningMessage } from '../../utils/helperFunctions';
 // ----------------------------------------------------------------------
 
@@ -36,6 +37,12 @@ TicketForm.propTypes = {
 };
 
 export default function TicketForm({ submitRef, closeModal }) {
+  const adminContext = useAdminContext();
+  const { showTicketModal } = adminContext;
+
+  const [value, setValue] = useState(new Date());
+  const [value2, setValue2] = useState(new Date());
+
   const ticketAddSchema = Yup.object().shape({
     departureDateTime: Yup.date().required('Departure datetime is required'),
     arrivalDateTime: Yup.date().required('Arrival datetime is required'),
@@ -56,11 +63,29 @@ export default function TicketForm({ submitRef, closeModal }) {
       .min(1)
       .required('Ticket quantity is required'),
     isRefundable: Yup.boolean(),
-    isHotDeal: Yup.boolean()
+    isHotDeal: Yup.boolean(),
+    note: Yup.string()
   });
 
-  const formik = useFormik({
-    initialValues: {
+  const _initialValues = useMemo(() => {
+    if (showTicketModal !== null) {
+      setValue(new Date(showTicketModal.departureDateTime));
+      setValue2(new Date(showTicketModal.arrivalDateTime));
+      return {
+        departureDateTime: showTicketModal.departureDateTime,
+        arrivalDateTime: showTicketModal.arrivalDateTime,
+        source: showTicketModal.source,
+        destination: showTicketModal.destination,
+        airline: showTicketModal.airline,
+        flightNumber: showTicketModal.flightNumber,
+        price: showTicketModal.price,
+        quantity: showTicketModal.quantity,
+        isRefundable: showTicketModal.isRefundable,
+        isHotDeal: showTicketModal.isHotDeal,
+        note: showTicketModal.note
+      };
+    }
+    return {
       departureDateTime: formatISO(new Date()),
       arrivalDateTime: formatISO(new Date()),
       source: '',
@@ -68,16 +93,23 @@ export default function TicketForm({ submitRef, closeModal }) {
       airline: '',
       flightNumber: '',
       price: '',
-      quantity: '1',
+      quantity: 1,
       isRefundable: false,
-      isHotDeal: true
-    },
+      isHotDeal: true,
+      note: ''
+    };
+  }, [showTicketModal]);
+
+  const formik = useFormik({
+    initialValues: _initialValues,
     validationSchema: ticketAddSchema,
     onSubmit: async () => {
       setSubmitting(true);
-      const res = await ticketsAPI.addTicket(values);
+      let res = null;
+      if (showTicketModal !== null) res = await ticketsAPI.updateTicket(showTicketModal.id, values);
+      else res = await ticketsAPI.addTicket(values);
       setSubmitting(false);
-      if (res && res.status === 201) {
+      if ((res && res.status === 201) || res.status === 200) {
         successMessage(res.data.message);
         closeModal(true);
         return;
@@ -93,6 +125,8 @@ export default function TicketForm({ submitRef, closeModal }) {
           warningMessage(res.data.message);
           return;
         }
+        errorMessage(res.data.message);
+        return;
       }
       errorMessage('Something went wrong. Try later.');
     }
@@ -108,8 +142,6 @@ export default function TicketForm({ submitRef, closeModal }) {
     setFieldValue,
     setSubmitting
   } = formik;
-  const [value, setValue] = useState(new Date());
-  const [value2, setValue2] = useState(new Date());
 
   return (
     <FormikProvider value={formik}>
@@ -230,7 +262,7 @@ export default function TicketForm({ submitRef, closeModal }) {
           <Grid item xs={6}>
             <TextField
               fullWidth
-              type="text"
+              type="number"
               label="Price"
               {...getFieldProps('price')}
               error={Boolean(touched.price && errors.price)}
@@ -244,7 +276,7 @@ export default function TicketForm({ submitRef, closeModal }) {
           <Grid item xs={6}>
             <TextField
               fullWidth
-              type="text"
+              type="number"
               label="Quantity"
               {...getFieldProps('quantity')}
               error={Boolean(touched.quantity && errors.quantity)}
@@ -260,6 +292,9 @@ export default function TicketForm({ submitRef, closeModal }) {
               }}
               size="small"
             />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField fullWidth type="text" label="Note" {...getFieldProps('note')} size="small" />
           </Grid>
           <Grid item xs={6}>
             <FormControlLabel

@@ -9,11 +9,11 @@ import Autocomplete from '@material-ui/core/Autocomplete';
 import { AIRLINES } from '../../utils/constants';
 
 export default function AirlineAutocomplete({ label, value, onChange, error, helperText }) {
-  const getValue = React.useEffect(
-    () =>
-      AIRLINES.filter((el) => el.id === value) ? AIRLINES.filter((el) => el.id === value)[0] : null,
-    [value]
-  );
+  const getValue = React.useMemo(() => {
+    const d = AIRLINES.filter((el) => el.id === value);
+    if (d.length > 0) return d[0];
+    return null;
+  }, [value]);
 
   return (
     <Autocomplete

@@ -59,8 +59,6 @@ export default function TicketForm({ submitRef, closeModal }) {
       .required('Ticket price is required'),
     quantity: Yup.number()
       .typeError('Please enter only numbers')
-      .positive()
-      .min(1)
       .required('Ticket quantity is required'),
     isRefundable: Yup.boolean(),
     isHotDeal: Yup.boolean(),

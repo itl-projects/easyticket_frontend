@@ -38,7 +38,7 @@ export default function TicketModalModal() {
             cancel
           </Button>
           <Button onClick={submitForm} color="primary" variant="outlined">
-            create ticket
+            {showTicketModal !== null ? 'Update Ticket' : 'Create Ticket'}
           </Button>
         </MuiDialogActions>
       </Dialog>

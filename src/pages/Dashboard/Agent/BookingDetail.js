@@ -18,7 +18,6 @@ import {
   TableBody
 } from '@material-ui/core';
 import { format } from 'date-fns';
-import enLocale from 'date-fns/locale/en-IN';
 import { styled } from '@material-ui/core/styles';
 import { tableCellClasses } from '@material-ui/core/TableCell';
 import { getAirlineNameById, getAirportNameById } from '../../../utils/helperFunctions';

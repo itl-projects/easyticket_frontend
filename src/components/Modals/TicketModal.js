@@ -28,7 +28,9 @@ export default function TicketModalModal() {
         fullWidth
       >
         <MuiDialogTitle id="customized-dialog-title" onClose={toggleShowTicketModal}>
-          {showTicketModal !== null ? 'Edit Ticket' : 'Create Ticket'}
+          {showTicketModal !== null && Object.keys(showTicketModal).length
+            ? 'Edit Ticket'
+            : 'Create Ticket'}
         </MuiDialogTitle>
         <MuiDialogContent dividers>
           <TicketForm submitRef={submitRef} closeModal={toggleShowTicketModal} />
@@ -38,7 +40,9 @@ export default function TicketModalModal() {
             cancel
           </Button>
           <Button onClick={submitForm} color="primary" variant="outlined">
-            {showTicketModal !== null ? 'Update Ticket' : 'Create Ticket'}
+            {showTicketModal !== null && Object.keys(showTicketModal).length
+              ? 'Update Ticket'
+              : 'Create Ticket'}
           </Button>
         </MuiDialogActions>
       </Dialog>

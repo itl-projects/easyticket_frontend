@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 // material
 import { styled } from '@material-ui/core/styles';
-import { Card, Box, Container, Typography, Stack, Divider } from '@material-ui/core';
+import { Card, Box, Container, Typography, Divider } from '@material-ui/core';
 // layouts
 // import AuthLayout from '../layouts/AuthLayout';
 // components

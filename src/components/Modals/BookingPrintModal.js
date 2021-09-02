@@ -4,7 +4,7 @@ import { sentenceCase } from 'change-case';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogActions from '@material-ui/core/DialogActions';
-import { format, formatISO } from 'date-fns';
+import { format } from 'date-fns';
 import { Typography } from '@material-ui/core';
 import {
   Page,

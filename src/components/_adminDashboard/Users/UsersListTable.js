@@ -183,11 +183,12 @@ export default function EnhancedTable() {
                         <Icon icon={eyeFill} />
                       </IconButton>
                       <Tooltip title={row.isActive ? 'Deactivate' : 'Activate'}>
-                        <IconButton color={!row.isActive ? 'error' : 'success'} size="small">
-                          <Icon
-                            icon={!row.isActive ? personDeleteFill : personAddFill}
-                            onClick={() => setActivateDeactivateStatus(row)}
-                          />
+                        <IconButton
+                          color={!row.isActive ? 'error' : 'success'}
+                          size="small"
+                          onClick={() => setActivateDeactivateStatus(row)}
+                        >
+                          <Icon icon={!row.isActive ? personDeleteFill : personAddFill} />
                         </IconButton>
                       </Tooltip>
                       <IconButton color="secondary" size="small">

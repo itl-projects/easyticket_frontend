@@ -232,8 +232,8 @@ export default function ConfirmBooking() {
                   <CardContent>
                     <FieldArray
                       name="passengers"
-                      render={(_) =>
-                        values.passengers.map((passenger, index) => (
+                      render={() =>
+                        values.passengers.map((_, index) => (
                           <Grid
                             container
                             spacing={2}

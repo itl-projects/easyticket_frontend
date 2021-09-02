@@ -66,7 +66,7 @@ export default function TicketForm({ submitRef, closeModal }) {
   });
 
   const _initialValues = useMemo(() => {
-    if (showTicketModal !== null) {
+    if (showTicketModal !== null && Object.keys(showTicketModal).length) {
       setValue(new Date(showTicketModal.departureDateTime));
       setValue2(new Date(showTicketModal.arrivalDateTime));
       return {
@@ -104,7 +104,8 @@ export default function TicketForm({ submitRef, closeModal }) {
     onSubmit: async () => {
       setSubmitting(true);
       let res = null;
-      if (showTicketModal !== null) res = await ticketsAPI.updateTicket(showTicketModal.id, values);
+      if (showTicketModal !== null && Object.keys(showTicketModal).length)
+        res = await ticketsAPI.updateTicket(showTicketModal.id, values);
       else res = await ticketsAPI.addTicket(values);
       setSubmitting(false);
       if ((res && res.status === 201) || res.status === 200) {
@@ -151,15 +152,8 @@ export default function TicketForm({ submitRef, closeModal }) {
         <CircularProgress color="inherit" />
       </Backdrop>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-        <Grid
-          container
-          rowSpacing={3}
-          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-          mb={3}
-          mt={0}
-          px={12}
-        >
-          <Grid item xs={6}>
+        <Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }} mt={0} px={4}>
+          <Grid item xs={12} lg={6}>
             <LocalizationProvider dateAdapter={AdapterDateFns} locale={enLocale}>
               <DesktopDateTimePicker
                 label="Departure DateTime"
@@ -183,7 +177,7 @@ export default function TicketForm({ submitRef, closeModal }) {
               />
             </LocalizationProvider>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} lg={6}>
             <LocalizationProvider dateAdapter={AdapterDateFns} locale={enLocale}>
               <DesktopDateTimePicker
                 label="Arrival DateTime"
@@ -207,7 +201,7 @@ export default function TicketForm({ submitRef, closeModal }) {
               />
             </LocalizationProvider>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} lg={6}>
             <AirportAutocomplete
               label="Source"
               value={values.source}
@@ -217,7 +211,7 @@ export default function TicketForm({ submitRef, closeModal }) {
               size="small"
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} lg={6}>
             <AirportAutocomplete
               label="Destination"
               value={values.destination}
@@ -228,7 +222,7 @@ export default function TicketForm({ submitRef, closeModal }) {
             />
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item xs={12} lg={6}>
             <AirlineAutocomplete
               label="Airline"
               value={values.airline}
@@ -237,7 +231,7 @@ export default function TicketForm({ submitRef, closeModal }) {
               helperText={touched.airline && errors.airline}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} lg={6}>
             <TextField
               fullWidth
               type="text"
@@ -257,7 +251,7 @@ export default function TicketForm({ submitRef, closeModal }) {
               size="small"
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} lg={6}>
             <TextField
               fullWidth
               type="number"
@@ -271,7 +265,7 @@ export default function TicketForm({ submitRef, closeModal }) {
               size="small"
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} lg={6}>
             <TextField
               fullWidth
               type="number"
@@ -291,17 +285,17 @@ export default function TicketForm({ submitRef, closeModal }) {
               size="small"
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} lg={6}>
             <TextField fullWidth type="text" label="Note" {...getFieldProps('note')} size="small" />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} lg={6}>
             <FormControlLabel
               control={<Switch checked={values.isRefundable} />}
               label="Is Refundable?"
               {...getFieldProps('isRefundable')}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} lg={6}>
             <FormControlLabel
               control={<Switch checked={values.isHotDeal} />}
               label="Is Hot Deal?"

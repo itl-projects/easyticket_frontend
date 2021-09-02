@@ -42,7 +42,7 @@ export default function TicketListPage() {
           </Typography>
           <Button
             variant="contained"
-            onClick={toggleShowTicketModal}
+            onClick={() => toggleShowTicketModal(null, {})}
             startIcon={<Icon icon={plusFill} />}
           >
             Add Ticket

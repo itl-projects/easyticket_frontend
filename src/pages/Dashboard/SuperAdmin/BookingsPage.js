@@ -1,18 +1,5 @@
-import { Icon } from '@iconify/react';
-import flightIcon from '@iconify/icons-ic/baseline-flight';
-import pnrIcon from '@iconify/icons-ic/baseline-airplane-ticket';
-import bookingRefIcon from '@iconify/icons-ic/baseline-approval';
 // material
-import {
-  Card,
-  Container,
-  Typography,
-  Grid,
-  TextField,
-  IconButton,
-  Stack,
-  InputAdornment
-} from '@material-ui/core';
+import { Card, Container, Typography, Grid, TextField, Stack } from '@material-ui/core';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
 import DatePicker from '@material-ui/lab/DatePicker';

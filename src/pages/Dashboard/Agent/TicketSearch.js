@@ -345,22 +345,38 @@ export default function SearchTicket() {
                         </Typography>
                       </Grid>
                       <Grid xs={2} item>
-                        <Stack dir="column" spacing={1}>
-                          <Card
-                            sx={{ p: 1, textAlign: 'center', backgroundColor: '#f4f4f4f0' }}
-                            elevation={0}
-                          >
-                            ₹ {formatPrice(item.price)}
-                          </Card>
-                          <Button
-                            variant="contained"
-                            color="warning"
-                            sx={{ background: '#f4621f', color: 'white' }}
-                            onClick={() => goToConfirmBooking(item)}
-                          >
-                            BOOK
-                          </Button>
-                        </Stack>
+                        {item.price ? (
+                          <Stack dir="column" spacing={1}>
+                            <Card
+                              sx={{ p: 1, textAlign: 'center', backgroundColor: '#f4f4f4f0' }}
+                              elevation={0}
+                            >
+                              ₹ {formatPrice(item.price)}
+                            </Card>
+                            <Button
+                              variant="contained"
+                              color="warning"
+                              sx={{ background: '#f4621f', color: 'white' }}
+                              onClick={() => goToConfirmBooking(item)}
+                            >
+                              BOOK
+                            </Button>
+                          </Stack>
+                        ) : (
+                          <Stack dir="column" spacing={1}>
+                            <Card
+                              sx={{
+                                p: 1,
+                                textAlign: 'center',
+                                backgroundColor: 'orange',
+                                maxWidth: 240
+                              }}
+                              elevation={0}
+                            >
+                              <Typography color="white">{item.note}</Typography>
+                            </Card>
+                          </Stack>
+                        )}
                       </Grid>
                     </Grid>
                   </Card>

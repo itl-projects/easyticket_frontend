@@ -215,12 +215,12 @@ export default function AgentDashboard() {
                 onChange={handleHotDealChange}
                 variant="scrollable"
                 scrollButtons="auto"
-                indicatorColor="#00000000"
+                indicatorColor="secondary"
               >
                 {HotDeals &&
                   Object.keys(HotDeals).map((key, i) => (
                     <Tab
-                      label={key}
+                      label={`Ex ${key}`}
                       sx={{
                         background: hotDealsTabBgs[i],
                         px: 8

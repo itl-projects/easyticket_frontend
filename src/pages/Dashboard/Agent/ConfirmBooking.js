@@ -20,7 +20,6 @@ import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider, FieldArray } from 'formik';
 import { LoadingButton } from '@material-ui/lab';
 import { format } from 'date-fns';
-import enLocale from 'date-fns/locale/en-IN';
 import {
   getAirlineNameById,
   getAirportNameById,

@@ -248,10 +248,17 @@ export default function EnhancedTable() {
       />
       <Backdrop
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={deleting}
+        open={!deleting}
         onClick={() => setDeleting(false)}
       >
-        <Stack alignItems="center">
+        <Stack
+          alignItems="center"
+          sx={{
+            position: 'absolute',
+            right: '40%',
+            top: '60%'
+          }}
+        >
           <Typography mb={2}>Please Wait...</Typography>
           <CircularProgress color="inherit" />
         </Stack>

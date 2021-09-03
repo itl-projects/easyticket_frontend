@@ -233,7 +233,14 @@ export default function EnhancedTable() {
         open={updating}
         onClick={() => setUpdating(false)}
       >
-        <Stack alignItems="center">
+        <Stack
+          alignItems="center"
+          sx={{
+            position: 'absolute',
+            right: '40%',
+            top: '60%'
+          }}
+        >
           <Typography mb={2}>Please Wait...</Typography>
           <CircularProgress color="inherit" />
         </Stack>

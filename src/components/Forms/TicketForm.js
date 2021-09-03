@@ -29,6 +29,7 @@ import AirlineAutocomplete from '../FormComponents/AirlineAutocomplete';
 import { ticketsAPI } from '../../services/admin';
 import { useAdminContext } from '../../context/AdminContext';
 import { successMessage, errorMessage, warningMessage } from '../../utils/helperFunctions';
+import { DateTimeChooser } from '../core';
 // ----------------------------------------------------------------------
 
 TicketForm.propTypes = {
@@ -52,11 +53,7 @@ export default function TicketForm({ submitRef, closeModal }) {
       .required('Destination is required'),
     airline: Yup.string().required('Airline is required'),
     flightNumber: Yup.string().required('Flight number is required'),
-    price: Yup.number()
-      .typeError('Please enter only numbers')
-      .positive()
-      .min(1)
-      .required('Ticket price is required'),
+    price: Yup.number().typeError('Please enter only numbers'),
     quantity: Yup.number()
       .typeError('Please enter only numbers')
       .required('Ticket quantity is required'),
@@ -90,7 +87,7 @@ export default function TicketForm({ submitRef, closeModal }) {
       destination: '',
       airline: '',
       flightNumber: '',
-      price: '',
+      price: 0,
       quantity: 1,
       isRefundable: false,
       isHotDeal: true,
@@ -103,10 +100,14 @@ export default function TicketForm({ submitRef, closeModal }) {
     validationSchema: ticketAddSchema,
     onSubmit: async () => {
       setSubmitting(true);
+      const data = {
+        ...values,
+        price: values.price || 0
+      };
       let res = null;
       if (showTicketModal !== null && Object.keys(showTicketModal).length)
-        res = await ticketsAPI.updateTicket(showTicketModal.id, values);
-      else res = await ticketsAPI.addTicket(values);
+        res = await ticketsAPI.updateTicket(showTicketModal.id, data);
+      else res = await ticketsAPI.addTicket(data);
       setSubmitting(false);
       if ((res && res.status === 201) || res.status === 200) {
         successMessage(res.data.message);
@@ -154,31 +155,29 @@ export default function TicketForm({ submitRef, closeModal }) {
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }} mt={0} px={4}>
           <Grid item xs={12} lg={6}>
-            <LocalizationProvider dateAdapter={AdapterDateFns} locale={enLocale}>
-              <DesktopDateTimePicker
-                label="Departure DateTime"
-                ampm={false}
-                minDate={new Date()}
-                ampmInClock={false}
-                value={value}
-                onChange={(newValue) => {
-                  setFieldValue('departureDateTime', formatISO(newValue));
-                  setValue(newValue);
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    fullWidth
-                    error={Boolean(touched.departureDateTime && errors.departureDateTime)}
-                    helperText={touched.departureDateTime && errors.departureDateTime}
-                    size="small"
-                  />
-                )}
-              />
-            </LocalizationProvider>
+            <DateTimeChooser
+              label="Departure Date Time"
+              value={value}
+              onChange={(newValue) => {
+                setFieldValue('departureDateTime', formatISO(newValue));
+                setValue(newValue);
+              }}
+              error={Boolean(touched.departureDateTime && errors.departureDateTime)}
+              helperText={touched.departureDateTime && errors.departureDateTime}
+            />
           </Grid>
           <Grid item xs={12} lg={6}>
-            <LocalizationProvider dateAdapter={AdapterDateFns} locale={enLocale}>
+            <DateTimeChooser
+              label="Departure Date Time"
+              value={value2}
+              onChange={(newValue) => {
+                setFieldValue('arrivalDateTime', formatISO(newValue));
+                setValue2(newValue);
+              }}
+              error={Boolean(touched.arrivalDateTime && errors.arrivalDateTime)}
+              helperText={touched.arrivalDateTime && errors.arrivalDateTime}
+            />
+            {/* <LocalizationProvider dateAdapter={AdapterDateFns} locale={enLocale}>
               <DesktopDateTimePicker
                 label="Arrival DateTime"
                 value={value2}
@@ -200,6 +199,7 @@ export default function TicketForm({ submitRef, closeModal }) {
                 )}
               />
             </LocalizationProvider>
+           */}
           </Grid>
           <Grid item xs={12} lg={6}>
             <AirportAutocomplete

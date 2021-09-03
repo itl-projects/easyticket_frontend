@@ -248,7 +248,7 @@ export default function EnhancedTable() {
       />
       <Backdrop
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={!deleting}
+        open={deleting}
         onClick={() => setDeleting(false)}
       >
         <Stack

@@ -190,7 +190,7 @@ export default function EnhancedTable() {
 
       {!loading && rows.length <= 0 && (
         <Typography sx={{ my: 3 }} textAlign="center" variant="h5">
-          No Pending Bookings found !
+          No Bookings found !
         </Typography>
       )}
       <TablePagination

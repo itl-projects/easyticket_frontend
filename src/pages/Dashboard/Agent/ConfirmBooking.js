@@ -144,16 +144,16 @@ export default function ConfirmBooking() {
 
   const totalAmount = useMemo(() => {
     try {
-      return flight.price * parseInt(flight.passengers, 10) + values.markup;
+      return flight.price + values.markup;
     } catch (err) {
-      return flight.price * parseInt(flight.passengers, 10);
+      return flight.price;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.markup]);
 
   if (!flight) window.history.back();
 
-  const tickerFare = flight.price * parseInt(flight.passengers, 10);
+  const tickerFare = flight.price;
 
   return (
     <Page title="Dashboard | Confirm Booking">
@@ -377,7 +377,7 @@ export default function ConfirmBooking() {
                     sx={{ p: 1, background: '#f4621f', color: '#fff' }}
                   />
                   <CardContent sx={{ p: 0, py: 1 }}>
-                    <Grid container sx={{ p: 1 }}>
+                    <Grid container sx={{ p: 1 }} alignItems="center">
                       <Grid xs={6} item lg={10} md={8}>
                         Ticket Fee
                       </Grid>
@@ -387,7 +387,7 @@ export default function ConfirmBooking() {
                       </Grid>
                     </Grid>
                     <Divider />
-                    <Grid container sx={{ p: 1 }}>
+                    <Grid container sx={{ p: 1 }} alignItems="center">
                       <Grid xs={6} item lg={10} md={8}>
                         Mark up
                       </Grid>
@@ -397,7 +397,6 @@ export default function ConfirmBooking() {
                           <TextField
                             fullWidth
                             type="number"
-                            // label="Markup Amount"
                             placeholder="Markup Amount"
                             size="small"
                             {...getFieldProps('markup')}
@@ -406,7 +405,7 @@ export default function ConfirmBooking() {
                       </Grid>
                     </Grid>
                     <Divider />
-                    <Grid container sx={{ p: 1, pb: 0 }}>
+                    <Grid container sx={{ p: 1, pb: 0 }} alignItems="center">
                       <Grid xs={6} item lg={10} md={8}>
                         Total Amount Payable
                       </Grid>

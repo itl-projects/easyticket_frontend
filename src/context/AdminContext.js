@@ -9,6 +9,7 @@ export default function AdminProvider({ children }) {
   const [showFundTransferModal, setShowFundTransferModal] = useState(false);
   const [showUpdatePNRModal, setShowUpdatePNRModal] = useState(null);
   const [bookingPrint, setBookingPrint] = useState(false);
+  const [showUserMarkupModal, setShowUserMarkupModal] = useState(null);
 
   const toggleShowAgentModal = () => {
     setShowAgentModal(!showAgentModal);
@@ -30,17 +31,23 @@ export default function AdminProvider({ children }) {
     setBookingPrint(data);
   };
 
+  const toggleShowUserMarkupModal = (editItem = null) => {
+    setShowUserMarkupModal(editItem);
+  };
+
   const values = {
     showAgentModal,
     showTicketModal,
     showFundTransferModal,
     showUpdatePNRModal,
     bookingPrint,
+    showUserMarkupModal,
     toggleShowAgentModal,
     toggleShowTicketModal,
     toggleShowFundTransferModal,
     toggleShowUpdatePNRModal,
-    toggleShowBookingPrintModal
+    toggleShowBookingPrintModal,
+    toggleShowUserMarkupModal
   };
   return <adminContext.Provider value={values}>{children}</adminContext.Provider>;
 }

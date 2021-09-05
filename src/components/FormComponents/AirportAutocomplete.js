@@ -39,21 +39,10 @@ export default function AirportAutocomplete({ label, value, onChange, error, hel
       renderInput={(params) => (
         <TextField
           {...params}
-          // label={label}
           error={error}
           helperText={helperText}
           size="small"
           placeholder={label}
-          // InputProps={{
-          //   ...params.inputProps,
-          //   endAdornment: (
-          //     <InputAdornment position="end">
-          //       <IconButton edge="end">
-          //         <Icon icon={flightTackoffIcon} />
-          //       </IconButton>
-          //     </InputAdornment>
-          //   )
-          // }}
         />
       )}
     />

@@ -40,4 +40,22 @@ export default class UserAPI {
       return null;
     }
   }
+
+  async addMarkupToUser(data) {
+    try {
+      const res = await axiosInstance.post(`${this.PATH}/markup`, data);
+      return res;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  async removeUserMarkup(id) {
+    try {
+      const res = await axiosInstance.delete(`${this.PATH}/markup/${id}`);
+      return res;
+    } catch (err) {
+      return null;
+    }
+  }
 }

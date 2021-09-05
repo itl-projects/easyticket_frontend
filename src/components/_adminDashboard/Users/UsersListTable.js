@@ -31,6 +31,9 @@ import {
 import { useAdminContext } from '../../../context/AdminContext';
 import { TableSkeleton } from '../../skeletons';
 import ActivateDeactivateAccountDialog from './ActivateDeactivateAccountDialog';
+import MarkupRemoveDialog from './MarkupRemoveDialog';
+import { DropdownActionButton } from '../../core';
+import UserMarkupModal from '../../Modals/UserMarkupModal';
 
 const headCells = [
   {
@@ -102,13 +105,14 @@ function EnhancedTableHead() {
 
 export default function EnhancedTable() {
   const adminContext = useAdminContext();
-  const { showAgentModal } = adminContext;
+  const { showAgentModal, showUserMarkupModal, toggleShowUserMarkupModal } = adminContext;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [total, setTotalItems] = React.useState(0);
   const [data, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [activateDeactivateStatus, setActivateDeactivateStatus] = React.useState(null);
+  const [userMarkup, setUserMarkup] = React.useState(null);
   const [updating, setUpdating] = React.useState(false);
 
   const handleChangePage = (event, newPage) => {
@@ -121,6 +125,7 @@ export default function EnhancedTable() {
   };
 
   const getUsers = React.useCallback(async () => {
+    setData([]);
     setLoading(true);
     const res = await usersAPI.listUsers(page + 1, rowsPerPage);
     setLoading(false);
@@ -131,17 +136,35 @@ export default function EnhancedTable() {
   }, [page, rowsPerPage]);
 
   React.useEffect(() => {
-    if (!showAgentModal) getUsers();
-  }, [getUsers, showAgentModal]);
+    if (!showAgentModal && !showUserMarkupModal) getUsers();
+  }, [getUsers, showAgentModal, showUserMarkupModal]);
 
   const onActivateDeactivateResponse = async (res) => {
+    const { id, isActive } = activateDeactivateStatus;
     setActivateDeactivateStatus(null);
     if (res) {
       setUpdating(true);
-      const res = await usersAPI.changeUserActiveStatus(
-        activateDeactivateStatus.id,
-        !activateDeactivateStatus.isActive
-      );
+      const res = await usersAPI.changeUserActiveStatus(id, !isActive);
+      setUpdating(false);
+      if (res && res.status === 200) {
+        if (res.data.success) {
+          getUsers();
+          successMessage(res.data.message);
+        } else errorMessage(res.data.message);
+      }
+    }
+  };
+
+  const removeUserMarkup = async (item) => {
+    setUserMarkup(item.id);
+  };
+
+  const removeMarkupFromUser = async (res) => {
+    const agentId = userMarkup;
+    setUserMarkup(null);
+    if (res) {
+      setUpdating(true);
+      const res = await usersAPI.removeUserMarkup(agentId);
       setUpdating(false);
       if (res && res.status === 200) {
         if (res.data.success) {
@@ -194,9 +217,22 @@ export default function EnhancedTable() {
                       <IconButton color="secondary" size="small">
                         <Icon icon={creditCardFill} />
                       </IconButton>
-                      <IconButton color="warning" size="small">
-                        <Icon icon={personTag24Regular} />
-                      </IconButton>
+                      <DropdownActionButton
+                        icon={personTag24Regular}
+                        title="User Markup"
+                        options={[
+                          {
+                            title: row.markup === null ? 'Add Markup' : 'Update Markup',
+                            onClick: toggleShowUserMarkupModal
+                          },
+                          row.markup !== null && {
+                            title: 'Remove Markup',
+                            onClick: removeUserMarkup
+                          }
+                        ]}
+                        color={row.markup === null ? 'warning' : 'primary'}
+                        item={row}
+                      />
                     </TableCell>
                   </TableRow>
                 );
@@ -228,6 +264,8 @@ export default function EnhancedTable() {
         onResponse={onActivateDeactivateResponse}
         status={activateDeactivateStatus?.isActive}
       />
+      <MarkupRemoveDialog open={userMarkup !== null} onResponse={removeMarkupFromUser} />
+      <UserMarkupModal />
       <Backdrop
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={updating}

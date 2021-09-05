@@ -1,3 +1,4 @@
 import DateTimeChooser from './DateTimeChooser';
+import DropdownActionButton from './DropdownActionButton';
 
-export { DateTimeChooser };
+export { DateTimeChooser, DropdownActionButton };

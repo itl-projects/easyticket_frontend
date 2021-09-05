@@ -14,14 +14,8 @@ import {
 } from '@material-ui/core';
 import { Icon } from '@iconify/react';
 import flightIcon from '@iconify/icons-ic/baseline-flight';
-// import flightTackoffIcon from '@iconify/icons-ic/baseline-flight-takeoff';
-// import flightLandIcon from '@iconify/icons-ic/baseline-flight-land';
 import ticketIcon from '@iconify/icons-ic/baseline-airplane-ticket';
-import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
-import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
-import { DesktopDateTimePicker } from '@material-ui/lab';
 import { formatISO } from 'date-fns';
-import enLocale from 'date-fns/locale/en-IN';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import AirportAutocomplete from '../FormComponents/AirportAutocomplete';
@@ -288,14 +282,14 @@ export default function TicketForm({ submitRef, closeModal }) {
           <Grid item xs={12} lg={6}>
             <TextField fullWidth type="text" label="Note" {...getFieldProps('note')} size="small" />
           </Grid>
-          <Grid item xs={12} lg={6}>
+          <Grid item xs={6} lg={3}>
             <FormControlLabel
               control={<Switch checked={values.isRefundable} />}
               label="Is Refundable?"
               {...getFieldProps('isRefundable')}
             />
           </Grid>
-          <Grid item xs={12} lg={6}>
+          <Grid item xs={6} lg={3}>
             <FormControlLabel
               control={<Switch checked={values.isHotDeal} />}
               label="Is Hot Deal?"

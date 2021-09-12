@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 // material
 import { styled } from '@material-ui/core/styles';
-import { Card, Box, Container, Typography, Stack } from '@material-ui/core';
+import { Box, Container, Typography, Stack, Paper } from '@material-ui/core';
 // layouts
 // import AuthLayout from '../layouts/AuthLayout';
 // components
@@ -20,7 +20,7 @@ const RootStyle = styled(Page)(() => ({
   // }
 }));
 
-const FormStyle = styled(Card)(({ theme }) => ({
+const FormStyle = styled(Box)(({ theme }) => ({
   padding: theme.spacing(8, 8),
   background: '#fffffff0'
   // borderRadius: '8px'
@@ -63,22 +63,21 @@ export default function Login() {
 
       <Container maxWidth="sm">
         <ContentStyle>
-          <Card
-            elvation={0}
-            raised={false}
+          <Paper
             sx={{
               display: 'flex',
               justifyContent: 'center',
               backgroundColor: '#fffffff0',
               py: 2
             }}
+            square
           >
             <Box
               component="img"
               src="/static/images/easyticketlogo.png"
               sx={{ width: 284, height: 72 }}
             />
-          </Card>
+          </Paper>
           <FormStyle>
             {/* <Stack sx={{ mb: 5 }}>
               <Typography variant="h4" gutterBottom>

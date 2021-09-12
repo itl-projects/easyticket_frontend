@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 // material
 import { styled } from '@material-ui/core/styles';
-import { Card, Box, Container, Typography, Divider } from '@material-ui/core';
+import { Paper, Box, Container, Typography, Divider } from '@material-ui/core';
 // layouts
 // import AuthLayout from '../layouts/AuthLayout';
 // components
@@ -20,10 +20,10 @@ const RootStyle = styled(Page)(() => ({
   // }
 }));
 
-const FormStyle = styled(Card)(({ theme }) => ({
+const FormStyle = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2, 8, 4, 8),
-  background: '#fffffff0'
-  // borderRadius: '8px'
+  background: '#fffffff0',
+  borderRadius: 0
 }));
 
 const ContentStyle = styled('div')(({ theme }) => ({
@@ -52,9 +52,8 @@ export default function Register() {
     <RootStyle title="Register | Easy Ticket">
       <Container maxWidth="md">
         <ContentStyle>
-          <Card
-            elvation={0}
-            raised={false}
+          <Paper
+            square
             sx={{
               display: 'flex',
               justifyContent: 'center',
@@ -67,7 +66,7 @@ export default function Register() {
               src="/static/images/easyticketlogo.png"
               sx={{ width: 284, height: 72 }}
             />
-          </Card>
+          </Paper>
           {/* <Stack sx={{ backgroundColor: '#fffffff0', pb: 2, pt: 1 }}></Stack> */}
           <FormStyle>
             <Typography variant="h4" gutterBottom textAlign="center" mb={0}>

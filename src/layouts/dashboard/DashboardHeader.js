@@ -106,7 +106,8 @@ export default function DashboardHeader() {
             boxShadow: '0px 3px 2px 0px #0000001a',
             marginLeft: 0,
             py: 1,
-            paddingRight: 2
+            paddingRight: 2,
+            paddingBottom: 1.5
           }}
           container
           alignItems="center"

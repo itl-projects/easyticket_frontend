@@ -113,156 +113,199 @@ export default function AgentDashboard() {
   };
 
   return (
-    <Page title="Dashboard | Agent" sx={{ mt: -2 }}>
-      <Stack>
-        <Box sx={{ background: 'url(/static/images/search_banner.png)', backgroundSize: 'cover' }}>
-          <Container sx={{ py: 6 }}>
-            <FormikProvider value={formik}>
-              <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-                <Card sx={{ px: 1, pt: 1, pb: 2, background: '#ffffffb8' }}>
-                  <Grid container>
-                    <Tabs value={activeTab} onChange={handleTabChange}>
-                      <Tab
-                        label="ONE WAY"
-                        sx={{ background: '#f4621f', px: 8 }}
-                        style={{ color: 'white' }}
-                      />
-                    </Tabs>
-                  </Grid>
-                  <Divider sx={{ mb: 5 }} />
-                  <Grid container spacing={2} justifyContent="center" sx={{ px: 1 }}>
-                    <Grid xs={12} item lg={3} md={4}>
-                      <Typography sx={{ mb: 1, pl: 1 }}>From</Typography>
-                      <AirportAutocomplete
-                        label="Source"
-                        value={values.source}
-                        onChange={(v) => setFieldValue('source', v)}
-                        error={Boolean(touched.source && errors.source)}
-                        helperText={touched.source && errors.source}
-                        size="small"
-                      />
+    <Page
+      title="Dashboard | Agent"
+      sx={{
+        mt: -2,
+        background: 'url(/static/images/search_banner.png)',
+        backgroundSize: 'cover',
+        height: '100%'
+      }}
+    >
+      <Container maxWidth="lg">
+        <Grid container>
+          {/* <Box sx={{ background: 'url(/static/images/search_banner.png)', backgroundSize: 'cover' }}> */}
+          <Grid item xs={12} md={6}>
+            <Container sx={{ py: 6 }}>
+              <FormikProvider value={formik}>
+                <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+                  <Grid container alignItems="center">
+                    <Grid item xs={6} md={10}>
+                      <Typography fontSize={24} color="white">
+                        Book Your Flights
+                      </Typography>
                     </Grid>
-                    <Grid xs={12} item lg={3} md={4}>
-                      <Typography sx={{ mb: 1, pl: 1 }}>To</Typography>
-                      <AirportAutocomplete
-                        label="Destination"
-                        value={values.destination}
-                        onChange={(v) => setFieldValue('destination', v)}
-                        error={Boolean(touched.destination && errors.destination)}
-                        helperText={touched.destination && errors.destination}
-                        size="small"
-                      />
-                    </Grid>
-                    <Grid xs={12} item lg={3} md={4}>
-                      <Typography sx={{ mb: 1, pl: 1 }}>Departure Datetime</Typography>
-                      <LocalizationProvider dateAdapter={AdapterDateFns} locale={enLocale}>
-                        <DesktopDatePicker
-                          placeholder="Departure DateTime"
-                          minDate={new Date()}
-                          value={value}
-                          onChange={(newValue) => {
-                            setFieldValue('departureDateTime', formatISO(newValue));
-                            setValue(newValue);
-                          }}
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              fullWidth
-                              error={Boolean(touched.departureDateTime && errors.departureDateTime)}
-                              helperText={touched.departureDateTime && errors.departureDateTime}
-                              size="small"
-                            />
-                          )}
-                        />
-                      </LocalizationProvider>
-                    </Grid>
-                    <Grid xs={12} item lg={3} md={4}>
-                      <Typography sx={{ mb: 1, pl: 1 }}>Quantity</Typography>
-                      <TextField
-                        fullWidth
-                        type="text"
-                        placeholder="Quantity"
-                        {...getFieldProps('quantity')}
-                        error={Boolean(touched.quantity && errors.quantity)}
-                        helperText={touched.quantity && errors.quantity}
-                        size="small"
-                      />
-                    </Grid>
-
-                    <Grid xs={12} item lg={12} md={12} justifyContent="center" container>
-                      <LoadingButton
-                        type="submit"
-                        variant="contained"
-                        color="warning"
-                        sx={{ background: '#f4621f', color: 'white' }}
-                        loading={isSubmitting}
+                    <Grid item xs={6} md={2}>
+                      <Tabs
+                        value={activeTab}
+                        onChange={handleTabChange}
+                        variant="fullWidth"
+                        indicatorColor="white"
+                        scrollButtons={false}
                       >
-                        Search Flight
-                      </LoadingButton>
+                        <Tab
+                          label="One Way"
+                          sx={{
+                            background: '#f4621f',
+                            px: 0,
+                            py: 0,
+                            minHeight: '40px'
+                            // fontSize: 18
+                          }}
+                          style={{ color: 'white' }}
+                        />
+                      </Tabs>
                     </Grid>
                   </Grid>
-                </Card>
-              </Form>
-            </FormikProvider>
-          </Container>
-        </Box>
-        <Box>
-          <Container sx={{ pt: 2 }}>
-            <Card sx={{ px: 0, pt: 0, pb: 2, background: '#ffffffb8' }}>
-              {/* <Grid container> */}
-              <Tabs
-                value={hotDealSelected}
-                onChange={handleHotDealChange}
-                variant="scrollable"
-                scrollButtons="auto"
-                indicatorColor="secondary"
-              >
-                {HotDeals &&
-                  Object.keys(HotDeals).map((key, i) => (
-                    <Tab
-                      label={`Ex ${key}`}
-                      sx={{
-                        background: hotDealsTabBgs[i],
-                        px: 8
-                      }}
-                      style={{ color: 'white' }}
-                      key={`tab-${i}-${key}`}
-                      value={i}
-                    />
-                  ))}
-              </Tabs>
-              {/* </Grid> */}
-              <Divider sx={{ mb: 5 }} />
-
-              <Box sx={{ px: 2, pb: 2 }}>
-                <Grid container spacing={2}>
-                  {deals &&
-                    !loadingHotDeals &&
-                    deals.map((sd, index) => (
-                      <Grid key={`openedtab-${index}-${hotDealSelected}`} item xs={4} md={3} lg={2}>
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          sx={{ py: 2, background: hotDealsTabBgs[index % 10], color: 'white' }}
-                          fullWidth
-                          onClick={() => searchHotDealTicketFlight({ ...sd })}
-                        >
-                          {getAirportNameById(sd.source)} - {getAirportNameById(sd.destination)}
-                        </Button>
+                  {/* <Divider sx={{ mb: 5 }} /> */}
+                  <Card sx={{ px: 2, py: 4, background: '#ffffff' }} className="custom-card">
+                    <Grid container spacing={2} justifyContent="center" sx={{ px: 1 }}>
+                      <Grid xs={12} item lg={6} md={6}>
+                        <Typography sx={{ mb: 1, pl: 1 }}>From</Typography>
+                        <AirportAutocomplete
+                          label="Source"
+                          value={values.source}
+                          onChange={(v) => setFieldValue('source', v)}
+                          error={Boolean(touched.source && errors.source)}
+                          helperText={touched.source && errors.source}
+                          size="small"
+                        />
                       </Grid>
-                    ))}
-                  {loadingHotDeals && <HotDealLoadingSkeleton />}
-                  {deals && deals.length <= 0 && !loadingHotDeals && (
-                    <Grid item xs={12}>
-                      <Typography textAlign="center">Not Found !</Typography>
+                      <Grid xs={12} item lg={6} md={6}>
+                        <Typography sx={{ mb: 1, pl: 1 }}>To</Typography>
+                        <AirportAutocomplete
+                          label="Destination"
+                          value={values.destination}
+                          onChange={(v) => setFieldValue('destination', v)}
+                          error={Boolean(touched.destination && errors.destination)}
+                          helperText={touched.destination && errors.destination}
+                          size="small"
+                        />
+                      </Grid>
+                      <Grid xs={12} item lg={6} md={6}>
+                        <Typography sx={{ mb: 1, pl: 1 }}>Departure Datetime</Typography>
+                        <LocalizationProvider dateAdapter={AdapterDateFns} locale={enLocale}>
+                          <DesktopDatePicker
+                            placeholder="Departure DateTime"
+                            minDate={new Date()}
+                            value={value}
+                            onChange={(newValue) => {
+                              setFieldValue('departureDateTime', formatISO(newValue));
+                              setValue(newValue);
+                            }}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                fullWidth
+                                error={Boolean(
+                                  touched.departureDateTime && errors.departureDateTime
+                                )}
+                                helperText={touched.departureDateTime && errors.departureDateTime}
+                                size="small"
+                              />
+                            )}
+                          />
+                        </LocalizationProvider>
+                      </Grid>
+                      <Grid xs={12} item lg={6} md={6}>
+                        <Typography sx={{ mb: 1, pl: 1 }}>Quantity</Typography>
+                        <TextField
+                          fullWidth
+                          type="text"
+                          placeholder="Quantity"
+                          {...getFieldProps('quantity')}
+                          error={Boolean(touched.quantity && errors.quantity)}
+                          helperText={touched.quantity && errors.quantity}
+                          size="small"
+                        />
+                      </Grid>
+                      <Grid xs={12} item lg={12} md={12} justifyContent="flex-end" container>
+                        <LoadingButton
+                          type="submit"
+                          variant="contained"
+                          color="warning"
+                          sx={{ background: '#f4621f', color: 'white', py: 1.5, px: 4, mt: 2 }}
+                          loading={isSubmitting}
+                        >
+                          Search Flight
+                        </LoadingButton>
+                      </Grid>
                     </Grid>
-                  )}
-                </Grid>
-              </Box>
-            </Card>
-          </Container>
-        </Box>
-      </Stack>
+                  </Card>
+                </Form>
+              </FormikProvider>
+            </Container>
+          </Grid>
+          {/* </Box>
+        <Box> */}
+          <Grid item xs={12} md={6}>
+            <Container sx={{ pt: 2, py: 6 }}>
+              <Card sx={{ px: 0, pt: 0, pb: 2, background: '#ffffff' }}>
+                <Typography variant="h5" color="black" sx={{ p: 3 }}>
+                  Hot Deals
+                </Typography>
+                {/* <Grid container> */}
+                <Tabs
+                  value={hotDealSelected}
+                  onChange={handleHotDealChange}
+                  variant="scrollable"
+                  scrollButtons="auto"
+                  indicatorColor="secondary"
+                >
+                  {HotDeals &&
+                    Object.keys(HotDeals).map((key, i) => (
+                      <Tab
+                        label={`Ex ${key}`}
+                        sx={{
+                          background: hotDealsTabBgs[i],
+                          px: 2
+                        }}
+                        style={{ color: 'white' }}
+                        key={`tab-${i}-${key}`}
+                        value={i}
+                      />
+                    ))}
+                </Tabs>
+                {/* </Grid> */}
+                <Divider sx={{ mb: 5 }} />
+
+                <Box sx={{ px: 2, pb: 2 }}>
+                  <Grid container spacing={2}>
+                    {deals &&
+                      !loadingHotDeals &&
+                      deals.map((sd, index) => (
+                        <Grid
+                          key={`openedtab-${index}-${hotDealSelected}`}
+                          item
+                          xs={4}
+                          md={3}
+                          lg={2}
+                        >
+                          <Button
+                            variant="contained"
+                            color="secondary"
+                            sx={{ py: 2, background: hotDealsTabBgs[index % 10], color: 'white' }}
+                            fullWidth
+                            onClick={() => searchHotDealTicketFlight({ ...sd })}
+                          >
+                            {getAirportNameById(sd.source)} - {getAirportNameById(sd.destination)}
+                          </Button>
+                        </Grid>
+                      ))}
+                    {loadingHotDeals && <HotDealLoadingSkeleton />}
+                    {deals && deals.length <= 0 && !loadingHotDeals && (
+                      <Grid item xs={12}>
+                        <Typography textAlign="center">No hot deal available now.</Typography>
+                      </Grid>
+                    )}
+                  </Grid>
+                </Box>
+              </Card>
+            </Container>
+          </Grid>
+          {/* </Box> */}
+        </Grid>
+      </Container>
     </Page>
   );
 }

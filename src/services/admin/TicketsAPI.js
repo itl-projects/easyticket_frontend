@@ -21,6 +21,15 @@ export default class TicketAPI {
     }
   }
 
+  async addBulkTicket(data) {
+    try {
+      const res = await axiosInstance.post(`${this.PATH}/create-bulk`, data);
+      return res;
+    } catch (err) {
+      return err;
+    }
+  }
+
   async updateTicket(id, data) {
     try {
       const res = await axiosInstance.patch(`${this.PATH}/${id}`, data);

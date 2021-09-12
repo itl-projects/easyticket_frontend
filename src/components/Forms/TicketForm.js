@@ -85,7 +85,9 @@ export default function TicketForm({ submitRef, closeModal }) {
       quantity: 1,
       isRefundable: false,
       isHotDeal: true,
-      note: ''
+      note: '',
+      createBulk: false,
+      forDays: 1
     };
   }, [showTicketModal]);
 
@@ -171,29 +173,6 @@ export default function TicketForm({ submitRef, closeModal }) {
               error={Boolean(touched.arrivalDateTime && errors.arrivalDateTime)}
               helperText={touched.arrivalDateTime && errors.arrivalDateTime}
             />
-            {/* <LocalizationProvider dateAdapter={AdapterDateFns} locale={enLocale}>
-              <DesktopDateTimePicker
-                label="Arrival DateTime"
-                value={value2}
-                ampm={false}
-                minDate={value}
-                ampmInClock={false}
-                onChange={(newValue) => {
-                  setFieldValue('arrivalDateTime', formatISO(newValue));
-                  setValue2(newValue);
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    fullWidth
-                    error={Boolean(touched.arrivalDateTime && errors.arrivalDateTime)}
-                    helperText={touched.arrivalDateTime && errors.arrivalDateTime}
-                    size="small"
-                  />
-                )}
-              />
-            </LocalizationProvider>
-           */}
           </Grid>
           <Grid item xs={12} lg={6}>
             <AirportAutocomplete
@@ -296,6 +275,24 @@ export default function TicketForm({ submitRef, closeModal }) {
               {...getFieldProps('isHotDeal')}
             />
           </Grid>
+          {/* <Grid item xs={6} lg={6}>
+            <FormControlLabel
+              control={<Switch checked={values.createBulk} />}
+              label="Create bulk ticket?"
+              {...getFieldProps('createBulk')}
+            />
+          </Grid>
+          {values.createBulk && (
+            <Grid item xs={12} lg={6}>
+              <TextField
+                fullWidth
+                type="text"
+                label="No. Of Days"
+                {...getFieldProps('forDays')}
+                size="small"
+              />
+            </Grid>
+          )} */}
         </Grid>
         <Button hidden ref={submitRef} type="submit" />
       </Form>

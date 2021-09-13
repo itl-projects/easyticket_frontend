@@ -213,8 +213,8 @@ export default function ConfirmBooking() {
                   <LoadingButton
                     type="submit"
                     variant="contained"
-                    color="warning"
-                    sx={{ background: '#f4621f', color: '#fff' }}
+                    color="secondary"
+                    sx={{ background: '#44af92', color: '#fff', py: 1 }}
                     loading={isSubmitting}
                     fullWidth
                   >

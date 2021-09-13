@@ -226,7 +226,7 @@ export default function ConfirmBooking() {
                   <CardHeader
                     subheader="Traveller Details - Kindly Fill Traveller Details as per ID"
                     subheaderTypographyProps={{ variant: 'body2', color: 'white' }}
-                    sx={{ p: 1, background: '#f4621f', color: '#fff' }}
+                    sx={{ p: 1, background: '#44af92', color: '#fff' }}
                   />
                   <CardContent>
                     <FieldArray
@@ -331,7 +331,7 @@ export default function ConfirmBooking() {
                   <CardHeader
                     subheader="Contact Information"
                     subheaderTypographyProps={{ variant: 'body2', color: 'white' }}
-                    sx={{ p: 1, background: '#f4621f', color: '#fff' }}
+                    sx={{ p: 1, background: '#44af92', color: '#fff' }}
                   />
                   <CardContent>
                     <Grid container spacing={2} justifyContent="center">
@@ -374,7 +374,7 @@ export default function ConfirmBooking() {
                   <CardHeader
                     subheader="Fare Summary"
                     subheaderTypographyProps={{ variant: 'body2', color: 'white' }}
-                    sx={{ p: 1, background: '#f4621f', color: '#fff' }}
+                    sx={{ p: 1, background: '#44af92', color: '#fff' }}
                   />
                   <CardContent sx={{ p: 0, py: 1 }}>
                     <Grid container sx={{ p: 1 }} alignItems="center">
@@ -444,8 +444,8 @@ export default function ConfirmBooking() {
                   <LoadingButton
                     type="submit"
                     variant="contained"
-                    color="warning"
-                    sx={{ background: '#f4621f', color: 'white', py: 2 }}
+                    color="secondary"
+                    sx={{ background: '#44af92', color: 'white', py: 2 }}
                     loading={isSubmitting}
                   >
                     CONFIRM BOOKING

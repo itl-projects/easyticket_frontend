@@ -95,7 +95,7 @@ export default function BookingPrintModal() {
                 <Text style={[styles.labelText, styles.light_text, { fontSize: 10 }]}>
                   AIRLINE PNR
                 </Text>
-                <Text style={[styles.labelText, { textTransform: 'uppercase', color: '#f4621f' }]}>
+                <Text style={[styles.labelText, { textTransform: 'uppercase', color: '#44af92' }]}>
                   {booking.pnr ? booking.pnr : 'Processing...'}
                 </Text>
               </View>
@@ -323,11 +323,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   orange_header: {
-    backgroundColor: '#f4621f'
+    backgroundColor: '#44af92'
   },
   border_box: {
     borderWidth: 1.5,
-    borderColor: '#f4621f',
+    borderColor: '#44af92',
     paddingHorizontal: 18,
     paddingVertical: 8
   },

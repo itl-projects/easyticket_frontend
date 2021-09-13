@@ -213,7 +213,7 @@ export default function EnhancedTable() {
                     <TableCell align="left">{row.name}</TableCell>
                     <TableCell align="left">
                       {row.status === 'pending' && (
-                        <LoadingButton size="small" variant="contained" color="warning">
+                        <LoadingButton size="small" variant="contained" color="secondary">
                           Approve
                         </LoadingButton>
                       )}

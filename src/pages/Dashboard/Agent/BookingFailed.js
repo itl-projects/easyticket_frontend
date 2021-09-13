@@ -37,7 +37,7 @@ export default function ConfirmBooking() {
                 </Typography>
                 <Grid container justifyContent="center" mt={2}>
                   <Button
-                    color="warning"
+                    color="secondary"
                     variant="contained"
                     disableElevation
                     sx={{ color: '#fff' }}

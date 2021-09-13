@@ -117,9 +117,9 @@ export default function AgentDashboard() {
       title="Dashboard | Agent"
       sx={{
         mt: -2,
-        background: 'url(/static/images/search_banner.png)',
+        background: 'url(/static/images/search_banner.jpg)',
         backgroundSize: 'cover',
-        height: '100%'
+        height: 'calc(100% + 16px)'
       }}
     >
       <Container maxWidth="lg">
@@ -146,7 +146,7 @@ export default function AgentDashboard() {
                         <Tab
                           label="One Way"
                           sx={{
-                            background: '#f4621f',
+                            background: '#44af92',
                             px: 0,
                             py: 0,
                             minHeight: '40px'
@@ -223,8 +223,8 @@ export default function AgentDashboard() {
                         <LoadingButton
                           type="submit"
                           variant="contained"
-                          color="warning"
-                          sx={{ background: '#f4621f', color: 'white', py: 1.5, px: 4, mt: 2 }}
+                          color="secondary"
+                          sx={{ color: 'white', py: 1.5, px: 6, mt: 2, fontSize: 18 }}
                           loading={isSubmitting}
                         >
                           Search Flight

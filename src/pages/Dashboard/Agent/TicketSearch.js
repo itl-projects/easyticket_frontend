@@ -255,8 +255,8 @@ export default function SearchTicket() {
                     <LoadingButton
                       type="submit"
                       variant="contained"
-                      color="warning"
-                      sx={{ background: '#f4621f', color: 'white' }}
+                      color="secondary"
+                      sx={{ background: '#44af92', color: 'white' }}
                       loading={isSubmitting}
                     >
                       Search Flight
@@ -355,8 +355,8 @@ export default function SearchTicket() {
                             </Card>
                             <Button
                               variant="contained"
-                              color="warning"
-                              sx={{ background: '#f4621f', color: 'white' }}
+                              color="secondary"
+                              sx={{ background: '#44af92', color: 'white' }}
                               onClick={() => goToConfirmBooking(item)}
                             >
                               BOOK

@@ -59,7 +59,7 @@ export default function ConfirmBooking() {
               variant="contained"
               sx={{ mr: 2, px: 4 }}
               onClick={() => navigate('/dashboard/bookedtickets', { replace: true })}
-              color="warning"
+              color="secondary"
               disableElevation
             >
               Go back
@@ -113,11 +113,11 @@ export default function ConfirmBooking() {
                 <Stack
                   dir="column"
                   alignItems="center"
-                  sx={{ border: 2, borderColor: '#f4621f', px: 3, py: 1 }}
+                  sx={{ border: 2, borderColor: '#44af92', px: 3, py: 1 }}
                 >
                   <Typography variant="caption">AIRLINE PNR</Typography>
                   <Typography
-                    color={booking.pnr ? '#f4621f' : 'red'}
+                    color={booking.pnr ? '#44af92' : 'red'}
                     variant="subtitle1"
                     sx={{ textTransform: 'uppercase' }}
                   >
@@ -140,7 +140,7 @@ export default function ConfirmBooking() {
                   </Typography>
                 </Grid>
               }
-              sx={{ p: 1, background: '#f4621f', color: '#fff' }}
+              sx={{ p: 1, background: '#44af92', color: '#fff' }}
             />
             <TableContainer>
               <Table sx={{ minWidth: 650 }}>

@@ -15,7 +15,7 @@ import {
 import { Icon } from '@iconify/react';
 import flightIcon from '@iconify/icons-ic/baseline-flight';
 import ticketIcon from '@iconify/icons-ic/baseline-airplane-ticket';
-import { formatISO } from 'date-fns';
+import { formatISO, addDays } from 'date-fns';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import AirportAutocomplete from '../FormComponents/AirportAutocomplete';
@@ -100,12 +100,29 @@ export default function TicketForm({ submitRef, closeModal }) {
         ...values,
         price: values.price || 0
       };
+      delete data.createBulk;
+      delete data.forDays;
       let res = null;
       if (showTicketModal !== null && Object.keys(showTicketModal).length)
         res = await ticketsAPI.updateTicket(showTicketModal.id, data);
-      else res = await ticketsAPI.addTicket(data);
+      else if (values.createBulk) {
+        const tickets = [];
+        for (let i = 0; i < values.forDays; i += 1) {
+          const info = {
+            ...values,
+            departureDateTime: addDays(new Date(values.departureDateTime), i),
+            arrivalDateTime: addDays(new Date(values.arrivalDateTime), i),
+            price: values.price || 0
+          };
+          delete info.createBulk;
+          delete info.forDays;
+          tickets.push(info);
+        }
+        res = await ticketsAPI.addBulkTicket(tickets);
+        console.log(tickets);
+      } else res = await ticketsAPI.addTicket(data);
       setSubmitting(false);
-      if ((res && res.status === 201) || res.status === 200) {
+      if ((res && res.status === 201) || (res && res.status === 200)) {
         successMessage(res.data.message);
         closeModal(true);
         return;
@@ -275,7 +292,7 @@ export default function TicketForm({ submitRef, closeModal }) {
               {...getFieldProps('isHotDeal')}
             />
           </Grid>
-          {/* <Grid item xs={6} lg={6}>
+          <Grid item xs={6} lg={6}>
             <FormControlLabel
               control={<Switch checked={values.createBulk} />}
               label="Create bulk ticket?"
@@ -292,7 +309,7 @@ export default function TicketForm({ submitRef, closeModal }) {
                 size="small"
               />
             </Grid>
-          )} */}
+          )}
         </Grid>
         <Button hidden ref={submitRef} type="submit" />
       </Form>

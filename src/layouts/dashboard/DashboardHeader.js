@@ -83,6 +83,11 @@ export default function DashboardHeader() {
             icon: listFill,
             linkTo: '/dashboard/bookedtickets'
           }
+          // {
+          //   label: 'Deposite Requests',
+          //   icon: listFill,
+          //   linkTo: '/dashboard/deposite-requests'
+          // }
         ];
       default:
         return [];

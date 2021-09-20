@@ -140,7 +140,7 @@ export default function AgentDashboard() {
                         value={activeTab}
                         onChange={handleTabChange}
                         variant="fullWidth"
-                        indicatorColor="white"
+                        indicatorColor="secondary"
                         scrollButtons={false}
                       >
                         <Tab

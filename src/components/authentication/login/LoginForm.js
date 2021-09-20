@@ -29,7 +29,7 @@ export default function LoginForm() {
   const [errorMessage, setErrorMessage] = useState('Invalid Login credentials !');
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
+    email: Yup.string().required('Email/Phone is required'),
     password: Yup.string().required('Password is required')
   });
 
@@ -73,8 +73,8 @@ export default function LoginForm() {
           <TextField
             fullWidth
             autoComplete="username"
-            type="email"
-            label="Email address"
+            type="text"
+            label="Enter email/phone"
             {...getFieldProps('email')}
             error={Boolean(touched.email && errors.email)}
             helperText={touched.email && errors.email}

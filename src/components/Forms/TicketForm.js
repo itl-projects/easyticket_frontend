@@ -119,7 +119,6 @@ export default function TicketForm({ submitRef, closeModal }) {
           tickets.push(info);
         }
         res = await ticketsAPI.addBulkTicket(tickets);
-        console.log(tickets);
       } else res = await ticketsAPI.addTicket(data);
       setSubmitting(false);
       if ((res && res.status === 201) || (res && res.status === 200)) {

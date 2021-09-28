@@ -50,6 +50,15 @@ export default class UserAPI {
     }
   }
 
+  async findUserByUsername(search) {
+    try {
+      const res = await axiosInstance.get(`${this.PATH}/match-user/${search}`);
+      return res;
+    } catch (err) {
+      return null;
+    }
+  }
+
   async removeUserMarkup(id) {
     try {
       const res = await axiosInstance.delete(`${this.PATH}/markup/${id}`);

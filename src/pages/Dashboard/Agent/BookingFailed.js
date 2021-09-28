@@ -17,7 +17,7 @@ export default function ConfirmBooking() {
   const navigate = useNavigate();
 
   return (
-    <Page title="Dashboard | Booking Detail">
+    <Page title="Dashboard | Booking Failed">
       <Container>
         <Grid lg={12} justifyContent="center" alignItems="center" display="flex">
           <Card variant="outlined" sx={{ width: '100%' }}>
@@ -30,9 +30,7 @@ export default function ConfirmBooking() {
                 <Grid container justifyContent="center" mt={2}>
                   <Icon icon={failedIcon} width={120} height={120} color="#ff0033" />
                 </Grid>
-
                 <Typography variant="overline" textAlign="center">
-                  {' '}
                   Sorry! Booking Failed
                 </Typography>
                 <Grid container justifyContent="center" mt={2}>

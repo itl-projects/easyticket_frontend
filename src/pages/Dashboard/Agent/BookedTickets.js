@@ -54,7 +54,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   }
 }));
 
-export default function ConfirmBooking() {
+export default function BookedTickets() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -132,7 +132,7 @@ export default function ConfirmBooking() {
   return (
     <Page title="Dashboard | Booking Detail">
       <Container>
-        <Stack>
+        <Stack sx={{ pt: 3, pb: 6 }}>
           <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
               <Grid

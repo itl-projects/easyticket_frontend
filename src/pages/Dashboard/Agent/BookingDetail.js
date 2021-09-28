@@ -53,7 +53,7 @@ export default function ConfirmBooking() {
   return (
     <Page title="Dashboard | Booking Detail">
       <Container>
-        <Stack>
+        <Stack sx={{ pt: 3, pb: 6 }}>
           <Grid display="flex" justifyContent="flex-end" container sx={{ my: 1, py: 1 }}>
             <Button
               variant="contained"

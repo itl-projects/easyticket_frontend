@@ -25,6 +25,7 @@ import FundTransferModal from '../../../components/Modals/FundTransferModal';
 // import AppActiveUsers from '../../../components/_dashboard/app/AppActiveUsers';
 import { CreditsListTable } from '../../../components/_adminDashboard/Credits';
 import { useAdminContext } from '../../../context/AdminContext';
+import CreditApproveModal from '../../../components/Modals/CreditApproveModal';
 // ----------------------------------------------------------------------
 
 export default function BookingsPage() {
@@ -134,6 +135,7 @@ export default function BookingsPage() {
         </Grid>
         <Card>
           <CreditsListTable />
+          <CreditApproveModal />
         </Card>
       </Container>
       <FundTransferModal />

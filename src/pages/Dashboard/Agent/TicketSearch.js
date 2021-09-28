@@ -3,7 +3,6 @@ import {
   Card,
   Grid,
   TextField,
-  Button,
   Stack,
   Typography,
   Alert,
@@ -23,18 +22,12 @@ import { formatISO, format, addDays, subDays, differenceInDays } from 'date-fns'
 import enLocale from 'date-fns/locale/en-IN';
 import { pillTabsStylesHook } from '@mui-treasury/styles/tabs';
 import AirportAutocomplete from '../../../components/FormComponents/AirportAutocomplete';
-import {
-  errorMessage,
-  getAirlineNameById,
-  getAirportNameById,
-  warningMessage,
-  getDateDuration,
-  formatPrice
-} from '../../../utils/helperFunctions';
+import { errorMessage, getAirportNameById, warningMessage } from '../../../utils/helperFunctions';
 import { flightsAPI } from '../../../services/agent';
 import { FlightListSpinner } from '../../../components/Spinners';
 import { setFlightData, removeFlightData } from '../../../store/actions/bookingAction';
 import Page from '../../../components/Page';
+import TicketListCard from '../../../components/TicketListCard';
 
 export default function SearchTicket() {
   const dispatch = useDispatch();
@@ -187,7 +180,7 @@ export default function SearchTicket() {
   return (
     <Page title="Dashboard | Agent">
       <Container>
-        <Stack>
+        <Stack sx={{ pt: 3, pb: 6 }}>
           <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
               <Card sx={{ p: 2, backgroundColor: '#31ca6eb8' }}>
@@ -292,94 +285,12 @@ export default function SearchTicket() {
             )}
             <Grid item lg={12} xs={12} md={12}>
               <Stack sx={{ mt: 2, px: 2 }}>
-                {flights.map((item) => (
-                  <Card sx={{ p: 1, mb: 2 }} key={item.id}>
-                    <Grid container justifyContent="space-between" alignItems="center">
-                      <Grid>
-                        <img
-                          src={`/static/airways-logo/${item.airline}.png`}
-                          alt={getAirlineNameById(item.airline)}
-                          height="72"
-                          width="72"
-                        />
-                      </Grid>
-                      <Grid item>
-                        <Stack dir="column" alignItems="center">
-                          <Typography variant="subtitle2">
-                            {getAirlineNameById(item.airline)}
-                          </Typography>
-                          <Typography>{item.flightNumber}</Typography>
-                        </Stack>
-                      </Grid>
-                      <Grid>
-                        <Stack dir="column" alignItems="center">
-                          <Typography variant="subtitle2">
-                            {getAirportNameById(item.source)}
-                          </Typography>
-                          <Typography>
-                            {format(new Date(item.departureDateTime), 'HH:mm', {
-                              timeZone: 'Asia/Kolkata'
-                            })}
-                          </Typography>
-                        </Stack>
-                      </Grid>
-                      <Grid>
-                        <Typography>
-                          {getDateDuration(
-                            new Date(item.departureDateTime),
-                            new Date(item.arrivalDateTime)
-                          )}
-                        </Typography>
-                      </Grid>
-                      <Grid>
-                        <Stack dir="column" alignItems="center">
-                          <Typography variant="subtitle2">
-                            {getAirportNameById(item.destination)}
-                          </Typography>
-                          <Typography>{format(new Date(item.arrivalDateTime), 'HH:mm')}</Typography>
-                        </Stack>
-                      </Grid>
-                      <Grid>
-                        <Typography>
-                          {item.isRefundable ? 'Refundable' : 'Non-Refundable'}
-                        </Typography>
-                      </Grid>
-                      <Grid xs={2} item>
-                        {item.price ? (
-                          <Stack dir="column" spacing={1}>
-                            <Card
-                              sx={{ p: 1, textAlign: 'center', backgroundColor: '#f4f4f4f0' }}
-                              elevation={0}
-                            >
-                              ₹ {formatPrice(item.price)}
-                            </Card>
-                            <Button
-                              variant="contained"
-                              color="secondary"
-                              sx={{ background: '#44af92', color: 'white' }}
-                              onClick={() => goToConfirmBooking(item)}
-                            >
-                              BOOK
-                            </Button>
-                          </Stack>
-                        ) : (
-                          <Stack dir="column" spacing={1}>
-                            <Card
-                              sx={{
-                                p: 1,
-                                textAlign: 'center',
-                                backgroundColor: 'orange',
-                                maxWidth: 240
-                              }}
-                              elevation={0}
-                            >
-                              <Typography color="white">{item.note}</Typography>
-                            </Card>
-                          </Stack>
-                        )}
-                      </Grid>
-                    </Grid>
-                  </Card>
+                {flights.map((item, i) => (
+                  <TicketListCard
+                    item={item}
+                    onClick={goToConfirmBooking}
+                    key={`ticket-card-${i}`}
+                  />
                 ))}
               </Stack>
             </Grid>

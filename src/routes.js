@@ -24,6 +24,7 @@ import TicketSearch from './pages/Dashboard/Agent/TicketSearch';
 import ConfirmBooking from './pages/Dashboard/Agent/ConfirmBooking';
 import BookingDetail from './pages/Dashboard/Agent/BookingDetail';
 import BookedTickets from './pages/Dashboard/Agent/BookedTickets';
+import DepositeRequests from './pages/Dashboard/Agent/DepositeRequests';
 import BookingSuccess from './pages/Dashboard/Agent/BookingSuccess';
 import BookingFailed from './pages/Dashboard/Agent/BookingFailed';
 import AgentProfile from './pages/Dashboard/Agent/Profile';
@@ -76,6 +77,10 @@ export default function Router() {
             user.role === USER_ROLES.USER && {
               path: '/confirmBooking',
               element: <ConfirmBooking />
+            },
+            user.role === USER_ROLES.USER && {
+              path: '/deposite-requests',
+              element: <DepositeRequests />
             },
             user.role === USER_ROLES.USER && {
               path: '/bookingdetail',

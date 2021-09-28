@@ -66,7 +66,7 @@ export default function AgentProfile() {
 
   return (
     <Page title="Dashboard | Agent" sx={{ mt: -2 }}>
-      <Stack>
+      <Stack sx={{ pt: 3, pb: 6 }}>
         <Box>
           <Container sx={{ pt: 6 }}>
             <FormikProvider value={formik}>

@@ -123,9 +123,9 @@ export default function ConfirmBooking() {
             });
             return;
           }
-          warningMessage(res.data.message);
-          return;
         }
+        warningMessage(res.data.message);
+        return;
       }
       navigate('/dashboard/bookingfailed', { replace: true });
     }
@@ -158,7 +158,7 @@ export default function ConfirmBooking() {
   return (
     <Page title="Dashboard | Confirm Booking">
       <Container>
-        <Stack>
+        <Stack sx={{ pt: 3, pb: 6 }}>
           <Card sx={{ p: 0 }}>
             <Typography textAlign="center" sx={{ m: 0, py: 1 }}>
               {getAirportNameById(flight.source)}-{getAirportNameById(flight.destination)}&nbsp;

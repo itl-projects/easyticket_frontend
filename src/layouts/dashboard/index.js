@@ -3,7 +3,9 @@ import { Outlet, Navigate } from 'react-router-dom';
 // material
 import { Stack } from '@material-ui/core';
 import { styled } from '@material-ui/core/styles';
+
 //
+import AlertInfoDialog from '../../components/dialogs/AlertInfoDialog';
 // import DashboardNavbar from './DashboardNavbar';
 import DashboardSidebar from './DashboardSidebar';
 import { useAuth } from '../../context/AuthContext';
@@ -53,6 +55,7 @@ export default function DashboardLayout() {
             <MainStyle>
               <Outlet />
             </MainStyle>
+            <AlertInfoDialog />
           </AdminProvider>
         </DashboardBody>
         {user.role !== 2 && <DashboardFooter />}

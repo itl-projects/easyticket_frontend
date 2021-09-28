@@ -4,12 +4,15 @@ const adminContext = createContext();
 
 // eslint-disable-next-line
 export default function AdminProvider({ children }) {
+  const [showAlertInfo, setShowAlertInfo] = useState(null);
   const [showAgentModal, setShowAgentModal] = useState(false);
   const [showTicketModal, setShowTicketModal] = useState(null);
   const [showFundTransferModal, setShowFundTransferModal] = useState(false);
   const [showUpdatePNRModal, setShowUpdatePNRModal] = useState(null);
   const [bookingPrint, setBookingPrint] = useState(false);
   const [showUserMarkupModal, setShowUserMarkupModal] = useState(null);
+  const [showCreditApproveModal, toggleShowCreditApproveModal] = useState(null);
+  const [showCreditRequestModal, toggleShowCreditRequestModal] = useState(false);
 
   const toggleShowAgentModal = () => {
     setShowAgentModal(!showAgentModal);
@@ -42,12 +45,18 @@ export default function AdminProvider({ children }) {
     showUpdatePNRModal,
     bookingPrint,
     showUserMarkupModal,
+    showCreditApproveModal,
+    showCreditRequestModal,
+    showAlertInfo,
+    setShowAlertInfo,
     toggleShowAgentModal,
     toggleShowTicketModal,
     toggleShowFundTransferModal,
     toggleShowUpdatePNRModal,
     toggleShowBookingPrintModal,
-    toggleShowUserMarkupModal
+    toggleShowUserMarkupModal,
+    toggleShowCreditApproveModal,
+    toggleShowCreditRequestModal
   };
   return <adminContext.Provider value={values}>{children}</adminContext.Provider>;
 }

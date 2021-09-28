@@ -1,4 +1,4 @@
-import { SET_USER_DATA, REMOVE_USER_DATA } from '../actions/authAction';
+import { SET_USER_DATA, REMOVE_USER_DATA, UPDATE_USER_DATA } from '../actions/authAction';
 
 const initialState = {
   user: null,
@@ -12,6 +12,11 @@ export default function AuthReducer(state = initialState, action) {
         ...state,
         user: action.data.user,
         idToken: action.data.token
+      };
+    case UPDATE_USER_DATA:
+      return {
+        ...state,
+        user: action.data
       };
     case REMOVE_USER_DATA:
       return {

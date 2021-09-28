@@ -1,10 +1,12 @@
-import { useState, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { Icon } from '@iconify/react';
 // import personFill from '@iconify/icons-eva/person-fill';
 import settings2Fill from '@iconify/icons-eva/settings-2-fill';
 import logoutIcon from '@iconify/icons-eva/power-fill';
 import listFill from '@iconify-icons/tabler/list-check';
+import creditFill from '@iconify-icons/tabler/currency-rupee';
+import reloadFill from '@iconify-icons/tabler/rotate-clockwise';
 import { Link as RouterLink, NavLink, useNavigate } from 'react-router-dom';
 // material
 import { styled, alpha } from '@material-ui/core/styles';
@@ -22,13 +24,17 @@ import {
   MenuItem,
   Box
 } from '@material-ui/core';
+import { LoadingButton } from '@material-ui/lab';
+
 // components
 import { DrawerLogo } from '../../components/Logos';
-import { removeUserData } from '../../store/actions/authAction';
+import { removeUserData, updateUserData } from '../../store/actions/authAction';
 import { useAuth } from '../../context/AuthContext';
 // components
 import MenuPopover from '../../components/MenuPopover';
 import { USER_ROLES } from '../../utils/constants';
+import { formatPrice } from '../../utils/helperFunctions';
+import { getUserData } from '../../services/auth';
 // ----------------------------------------------------------------------
 const APPBAR_MOBILE = 64;
 const APPBAR_DESKTOP = 92;
@@ -59,6 +65,7 @@ export default function DashboardHeader() {
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
   const [logoutDialog, setLogoutDialog] = useState(false);
+  const [reloadStart, setReloadStart] = useState(false);
 
   const logoutUser = () => {
     dispatch(removeUserData());
@@ -82,12 +89,12 @@ export default function DashboardHeader() {
             label: 'My Bookings',
             icon: listFill,
             linkTo: '/dashboard/bookedtickets'
+          },
+          {
+            label: 'Deposite Requests',
+            icon: creditFill,
+            linkTo: '/dashboard/deposite-requests'
           }
-          // {
-          //   label: 'Deposite Requests',
-          //   icon: listFill,
-          //   linkTo: '/dashboard/deposite-requests'
-          // }
         ];
       default:
         return [];
@@ -100,6 +107,23 @@ export default function DashboardHeader() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const getUpdatedUserData = async () => {
+    if (!auth.user) return;
+    setReloadStart(true);
+    const res = await getUserData(auth.user.id);
+    setReloadStart(false);
+    if (res && res.status === 200) {
+      if (res.data && res.data.success) {
+        dispatch(updateUserData(res.data.user));
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (auth.user) getUpdatedUserData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <RootStyle>
@@ -135,9 +159,23 @@ export default function DashboardHeader() {
           <Grid item xs={8} md={9} lg={10} sx={{ pt: 0 }}>
             <Grid display="flex" justifyContent="flex-end" columnGap={2} alignItems="center">
               {auth && auth.user.role !== 2 && (
-                <Typography color="black">
-                  Welcome {auth?.user.profile?.company} :: {auth?.user.username}
-                </Typography>
+                <>
+                  <Typography color="black">
+                    Welcome {auth?.user.profile?.company}&nbsp;::&nbsp;{auth?.user.username}&nbsp;::
+                  </Typography>
+                  <LoadingButton
+                    endIcon={<Icon icon={reloadFill} color="#000" />}
+                    loading={reloadStart}
+                    onClick={getUpdatedUserData}
+                    color="secondary"
+                    loadingPosition="end"
+                    variant="outlined"
+                  >
+                    <Typography color="black" variant="h5">
+                      ₹&nbsp;{formatPrice(auth?.user.commision)}&nbsp;&nbsp;
+                    </Typography>
+                  </LoadingButton>
+                </>
               )}
               <Button
                 ref={anchorRef}

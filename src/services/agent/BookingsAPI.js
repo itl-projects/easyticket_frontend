@@ -1,6 +1,6 @@
 import axiosInstance from '../../config/axiosConfig';
 
-export default class FlightsAPI {
+export default class BookingsAPI {
   PATH = 'bookings';
 
   async getBookings(data) {

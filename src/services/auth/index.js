@@ -19,3 +19,12 @@ export async function registerUser(data) {
     return null;
   }
 }
+
+export async function getUserData(id) {
+  try {
+    const res = await axiosInstance.get(`${PATH}/${id}`);
+    return res;
+  } catch (err) {
+    return null;
+  }
+}

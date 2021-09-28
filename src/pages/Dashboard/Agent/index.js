@@ -269,16 +269,16 @@ export default function AgentDashboard() {
                 <Divider sx={{ mb: 5 }} />
 
                 <Box sx={{ px: 2, pb: 2 }}>
-                  <Grid container spacing={2}>
+                  <Grid container spacing={2} flexWrap>
                     {deals &&
                       !loadingHotDeals &&
                       deals.map((sd, index) => (
                         <Grid
                           key={`openedtab-${index}-${hotDealSelected}`}
                           item
-                          xs={4}
-                          md={3}
-                          lg={2}
+                          xs={6}
+                          md={4}
+                          lg={3}
                         >
                           <Button
                             variant="contained"

@@ -253,7 +253,6 @@ export default function AgentProfile() {
 
                     <Grid xs={12} item lg={12} my={6} justifyContent="center" container>
                       <LoadingButton
-                        type="submit"
                         variant="contained"
                         color="primary"
                         loading={isSubmitting}

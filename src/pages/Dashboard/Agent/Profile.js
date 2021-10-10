@@ -293,7 +293,7 @@ export default function AgentProfile() {
                           {loadingToggleTicketLogo && <CircularProgress size={20} />}
                         </Stack>
 
-                        <FormControlLabel
+                        {/* <FormControlLabel
                           control={
                             <Checkbox
                               {...getFieldProps('toggleAmount')}
@@ -301,7 +301,7 @@ export default function AgentProfile() {
                             />
                           }
                           label="Hide Amount"
-                        />
+                        /> */}
                       </Stack>
                     </Card>
                     {/* </Grid> */}

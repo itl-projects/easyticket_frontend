@@ -8,6 +8,7 @@ import ThemeConfig from './theme';
 import ScrollToTop from './components/ScrollToTop';
 
 import AuthProvider from './context/AuthContext';
+
 import { store, persistor } from './store';
 import './index.css';
 // ----------------------------------------------------------------------

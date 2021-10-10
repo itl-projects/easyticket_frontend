@@ -1,9 +1,11 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   Grid,
   Card,
   Stack,
   Box,
+  Button,
   Container,
   Avatar,
   Typography,
@@ -12,7 +14,8 @@ import {
   Badge,
   FormControlLabel,
   Checkbox,
-  IconButton
+  IconButton,
+  CircularProgress
 } from '@material-ui/core';
 import { Icon } from '@iconify/react';
 import editFill from '@iconify/icons-eva/edit-fill';
@@ -22,45 +25,113 @@ import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider } from 'formik';
 import Page from '../../../components/Page';
 import { useAuth } from '../../../context/AuthContext';
+import { profileAPI } from '../../../services/agent';
+import { successMessage, errorMessage } from '../../../utils/helperFunctions';
+import AgentChangePasswordModal from '../../../components/Modals/AgentChangePasswordModal';
+import AgentInfoEditModal from '../../../components/Modals/AgentInfoEditModal';
+import { updateUserData } from '../../../store/actions/authAction';
 
 export default function AgentProfile() {
   const navigate = useNavigate();
   const fileRef = useRef();
+  const dispatch = useDispatch();
   const { user } = useAuth();
 
-  const [image, setImage] = useState('/static/images/avatar/1.svg');
+  useEffect(() => {
+    if (user && user.profile) {
+      if (user.profile.profile_image) {
+        const URL = process.env.REACT_APP_ASSET_ENDPOINT;
+        setImage(URL + user.profile.profile_image);
+      }
+    }
+  }, [user]);
 
-  const filterSchema = Yup.object().shape({
-    departureDateTime: Yup.date().required('Departure datetime is required'),
-    source: Yup.number().required('Source is required'),
-    destination: Yup.number()
-      .required('Destination is required')
-      .notOneOf([Yup.ref('source'), null], 'Source and destination cannot be same'),
-    quantity: Yup.number().typeError('Please enter only numbers').positive()
-  });
+  const [image, setImage] = useState('/static/images/avatar/1.svg');
+  const [uploadingProfileImage, setUploadingProfileImage] = useState(false);
+  const [loadingToggleTicketLogo, setLoadingToggleTicketLogo] = useState(false);
+  // const [loadingToggleTicketAmount, setLoadingToggleTicketAmount] = useState(false);
+  const [showPasswordChangeModal, setShowPasswordChangeModal] = useState(false);
+  const [showInfoEditModal, setShowInfoEditModal] = useState(false);
+
+  const filterSchema = Yup.object().shape({});
+
+  const _inititalValues = useMemo(() => {
+    if (user) {
+      return {
+        toggleLogo: user.ticketLogoEnabled,
+        toggleAmount: user.ticketAmountEnabled
+      };
+    }
+    return {
+      toggleLogo: false,
+      toggleAmount: false
+    };
+  }, [user]);
 
   const formik = useFormik({
-    initialValues: {
-      source: '',
-      destination: '',
-      quantity: '1'
-    },
+    initialValues: _inititalValues,
     validationSchema: filterSchema,
     onSubmit: async () => {
       navigate('/dashboard/searchTicket', { replace: false, state: { ...values } });
     }
   });
 
-  const { values, isSubmitting, handleSubmit, getFieldProps } = formik;
+  const { values, isSubmitting, handleSubmit, getFieldProps, setFieldValue } = formik;
 
-  const profileImageChanged = (e) => {
+  const profileImageChanged = async (e) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setImage(e.target.result);
-      };
-      reader.readAsDataURL(file);
+      const fd = new FormData();
+      fd.append('file', file);
+      try {
+        setUploadingProfileImage(true);
+        const res = await profileAPI.changeProfileImage(fd);
+        setUploadingProfileImage(false);
+        if (res && res.status === 201) {
+          if (res.data && res.data.success) {
+            successMessage(res.data.message);
+            // const reader = new FileReader();
+            // reader.onload = (e) => {
+            //   setImage(e.target.result);
+            // };
+            // reader.readAsDataURL(file);
+            dispatch(updateUserData(res.data.user));
+            return;
+          }
+        }
+        errorMessage(res.data?.message || 'Sorry! failed to change profile image');
+      } catch (err) {
+        setUploadingProfileImage(false);
+        errorMessage('Sorry! failed to change profile image');
+      }
+    }
+  };
+
+  const changeTicketLogoStatus = async () => {
+    const currStatus = values.toggleLogo;
+    try {
+      setLoadingToggleTicketLogo(true);
+      const res = await profileAPI.toggleTicketLogo();
+      setLoadingToggleTicketLogo(false);
+      if (res && res.status === 200) {
+        if (res.data && res.data.success) {
+          successMessage(res.data.message);
+          dispatch(
+            updateUserData({
+              ...user,
+              ticketLogoEnabled: res.data.ticketLogoStatus
+            })
+          );
+          setFieldValue('toggleLogo', res.data.ticketLogoStatus);
+          return;
+        }
+      }
+      errorMessage(res.data?.message || 'Sorry! something went wrong');
+      setFieldValue('toggleLogo', currStatus);
+    } catch (err) {
+      setLoadingToggleTicketLogo(false);
+      errorMessage('Sorry! something went wrong');
+      setFieldValue('toggleLogo', currStatus);
     }
   };
 
@@ -71,22 +142,27 @@ export default function AgentProfile() {
           <Container sx={{ pt: 6 }}>
             <FormikProvider value={formik}>
               <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-                <Typography variant="h3" textAlign="center" sx={{ mb: 4 }}>
-                  My Profile
-                </Typography>
                 <Grid container>
                   <Grid item xs={12} md={4} mt={4} textAlign="center">
                     <Badge
                       overlap="circular"
                       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                       badgeContent={
-                        <IconButton centerRipple onClick={() => fileRef.current.click()}>
-                          <Icon
-                            icon={editFill}
-                            color="#ffffff"
-                            style={{ backgroundColor: '#323232', borderRadius: '50%', padding: 2 }}
-                          />
-                        </IconButton>
+                        !uploadingProfileImage ? (
+                          <IconButton centerRipple onClick={() => fileRef.current.click()}>
+                            <Icon
+                              icon={editFill}
+                              color="#ffffff"
+                              style={{
+                                backgroundColor: '#323232',
+                                borderRadius: '50%',
+                                padding: 2
+                              }}
+                            />
+                          </IconButton>
+                        ) : (
+                          <CircularProgress size={20} />
+                        )
                       }
                     >
                       <Avatar alt="profile image" src={image} sx={{ width: 180, height: 180 }} />
@@ -100,6 +176,14 @@ export default function AgentProfile() {
                     </Badge>
                   </Grid>
                   <Grid item xs={12} md={6}>
+                    <Grid container sx={{ mb: 1 }} alignItems="flex-end">
+                      <Grid item xs={6}>
+                        <Typography variant="h3">My Profile</Typography>
+                      </Grid>
+                      <Grid item xs={6} textAlign="right">
+                        <Button onClick={() => setShowInfoEditModal(true)}>Edit Info</Button>
+                      </Grid>
+                    </Grid>
                     <Divider sx={{ borderBottomWidth: 2, mb: 1 }} />
 
                     <Grid container>
@@ -110,7 +194,7 @@ export default function AgentProfile() {
                       </Grid>
                       <Grid item xs={6} md={8}>
                         <Typography sx={{ mb: 1, pl: 1, fontSize: 20 }} color="#8b8b8b">
-                          Biswajit Saha
+                          {user?.firstName}&nbsp; {user?.lastName}
                         </Typography>
                       </Grid>
                     </Grid>
@@ -123,7 +207,7 @@ export default function AgentProfile() {
                       </Grid>
                       <Grid item xs={6} md={8}>
                         <Typography sx={{ mb: 1, pl: 1, fontSize: 20 }} color="#8b8b8b">
-                          EASYTICKET
+                          {user?.profile.company}
                         </Typography>
                       </Grid>
                     </Grid>
@@ -162,7 +246,7 @@ export default function AgentProfile() {
                       </Grid>
                       <Grid item xs={6} md={8}>
                         <Typography sx={{ mb: 1, pl: 1, fontSize: 20 }} color="#8b8b8b">
-                          address info
+                          {user?.profile?.address}
                         </Typography>
                       </Grid>
                     </Grid>
@@ -174,6 +258,7 @@ export default function AgentProfile() {
                         color="primary"
                         loading={isSubmitting}
                         fullWidth
+                        onClick={() => setShowPasswordChangeModal(true)}
                       >
                         CHANGE PASSWORD
                       </LoadingButton>
@@ -194,12 +279,27 @@ export default function AgentProfile() {
                       />
 
                       <Stack sx={{ pl: 4, py: 1 }}>
+                        <Stack direction="row" alignItems="center">
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                {...getFieldProps('toggleLogo')}
+                                checked={values.toggleLogo}
+                                onClick={changeTicketLogoStatus}
+                              />
+                            }
+                            label="Hide Logo"
+                          />
+                          {loadingToggleTicketLogo && <CircularProgress size={20} />}
+                        </Stack>
+
                         <FormControlLabel
-                          control={<Checkbox {...getFieldProps('agree')} checked={values.agree} />}
-                          label="Hide Logo"
-                        />
-                        <FormControlLabel
-                          control={<Checkbox {...getFieldProps('agree')} checked={values.agree} />}
+                          control={
+                            <Checkbox
+                              {...getFieldProps('toggleAmount')}
+                              checked={values.toggleAmount}
+                            />
+                          }
                           label="Hide Amount"
                         />
                       </Stack>
@@ -212,6 +312,11 @@ export default function AgentProfile() {
           </Container>
         </Box>
       </Stack>
+      <AgentChangePasswordModal
+        show={showPasswordChangeModal}
+        onClose={() => setShowPasswordChangeModal(false)}
+      />
+      <AgentInfoEditModal show={showInfoEditModal} onClose={() => setShowInfoEditModal(false)} />
     </Page>
   );
 }

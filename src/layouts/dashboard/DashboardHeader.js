@@ -7,6 +7,7 @@ import logoutIcon from '@iconify/icons-eva/power-fill';
 import listFill from '@iconify-icons/tabler/list-check';
 import creditFill from '@iconify-icons/tabler/currency-rupee';
 import reloadFill from '@iconify-icons/tabler/rotate-clockwise';
+import userFill from '@iconify/icons-eva/settings-2-outline';
 import { Link as RouterLink, NavLink, useNavigate } from 'react-router-dom';
 // material
 import { styled, alpha } from '@material-ui/core/styles';
@@ -94,6 +95,11 @@ export default function DashboardHeader() {
             label: 'Deposite Requests',
             icon: creditFill,
             linkTo: '/dashboard/deposite-requests'
+          },
+          {
+            label: 'Profile Setting',
+            icon: userFill,
+            linkTo: '/dashboard/profile'
           }
         ];
       default:
@@ -198,6 +204,7 @@ export default function DashboardHeader() {
                     to={option.linkTo}
                     component={NavLink}
                     sx={{ typography: 'body2', py: 1, px: 2.5 }}
+                    onClick={handleClose}
                   >
                     <Box
                       component={Icon}

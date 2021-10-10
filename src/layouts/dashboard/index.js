@@ -12,6 +12,7 @@ import { useAuth } from '../../context/AuthContext';
 import AdminProvider from '../../context/AdminContext';
 import DrawerHeader from './DashboardHeader';
 import DashboardFooter from './DashboardFooter';
+import GlobalLogoutAlertModal from '../../components/Modals/GlobalLogoutAlertModal';
 
 // ----------------------------------------------------------------------
 
@@ -55,6 +56,7 @@ export default function DashboardLayout() {
             <MainStyle>
               <Outlet />
             </MainStyle>
+            <GlobalLogoutAlertModal />
             <AlertInfoDialog />
           </AdminProvider>
         </DashboardBody>

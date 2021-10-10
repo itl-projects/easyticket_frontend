@@ -199,7 +199,7 @@ export default function BookedTickets() {
                   <LocalizationProvider dateAdapter={AdapterDateFns} locale={enLocale}>
                     <DesktopDatePicker
                       placeholder="Travel Date"
-                      minDate={new Date()}
+                      // minDate={new Date()}
                       value={travelDate}
                       onChange={(newValue) => {
                         setFieldValue('travelDate', newValue);

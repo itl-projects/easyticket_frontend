@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -102,7 +103,11 @@ function EnhancedTableHead() {
   );
 }
 
-export default function EnhancedTable() {
+EnhancedTable.propTypes = {
+  filters: PropTypes.object
+};
+
+export default function EnhancedTable({ filters }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [rows, setRows] = React.useState([]);
@@ -119,12 +124,19 @@ export default function EnhancedTable() {
 
   const getBookings = async () => {
     setLoading(true);
-    const res = await bookingsAPI.listBookings(page + 1, rowsPerPage);
+    const data = {
+      page: page + 1,
+      limit: rowsPerPage,
+      ...filters
+    };
+    const res = await bookingsAPI.listBookings(data);
     setLoading(false);
-    if (res && res.status === 200) {
+    if (res && res.status === 201) {
       if (res.data && res.data.data) {
-        setRows(res.data.data.items);
-        setTotal(res.data.data.meta.totalItems);
+        if (res.data.success) {
+          setRows(res.data.data.items);
+          setTotal(res.data.data.meta.totalItems);
+        }
       }
     }
   };
@@ -132,7 +144,7 @@ export default function EnhancedTable() {
   React.useEffect(() => {
     getBookings();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, rowsPerPage]);
+  }, [page, rowsPerPage, filters]);
 
   return (
     <Paper sx={{ width: '100%' }}>

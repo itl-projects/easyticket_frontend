@@ -11,13 +11,15 @@ import {
   Typography,
   Button
 } from '@material-ui/core';
+import { styled } from '@material-ui/system';
+import BadgeUnstyled from '@material-ui/unstyled/BadgeUnstyled';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider } from 'formik';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
-import { DesktopDatePicker, LoadingButton } from '@material-ui/lab';
+import { DesktopDatePicker, LoadingButton, PickersDay } from '@material-ui/lab';
 import { formatISO } from 'date-fns';
 import enLocale from 'date-fns/locale/en-IN';
 import AirportAutocomplete from '../../../components/FormComponents/AirportAutocomplete';
@@ -39,6 +41,61 @@ const hotDealsTabBgs = [
   'rgba(98, 13, 37, 0.9)',
   'rgba(98, 13, 37, 0.9)	rgba(62, 30, 85, 0.9)'
 ];
+
+const StyledBadge = styled(BadgeUnstyled)`
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+  font-variant: tabular-nums;
+  list-style: none;
+  font-feature-settings: 'tnum';
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  position: relative;
+  display: inline-block;
+  line-height: 1;
+
+  & .MuiBadge-badge {
+    z-index: auto;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    color: #fff;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 20px;
+    white-space: nowrap;
+    text-align: center;
+    background: #ff4d4f;
+    border-radius: 10px;
+    box-shadow: 0 0 0 1px #fff;
+  }
+
+  & .MuiBadge-dot {
+    padding: 0;
+    z-index: auto;
+    min-width: 6px;
+    width: 6px;
+    height: 6px;
+    background: #00ff00;
+    border-radius: 100%;
+    box-shadow: 0 0 0 1px #fff;
+    transform: translate(0%, -50%);
+    position: 'absolute';
+    bottom: -10px;
+    left: 50%;
+  }
+
+  & .MuiBadge-anchorOriginTopRightCircular {
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    // transform-origin: 50% 50%;
+  }
+`;
 
 export default function AgentDashboard() {
   const dispatch = useDispatch();
@@ -74,6 +131,7 @@ export default function AgentDashboard() {
   const [hotDealSelected, setHotDealSelected] = useState(0);
   const [deals, setDeals] = useState(null);
   const [loadingHotDeals, setHotDealLoading] = useState(false);
+  const [ticketDates, setTicketDates] = useState([]);
 
   useEffect(() => {
     dispatch(removeFlightData());
@@ -110,6 +168,37 @@ export default function AgentDashboard() {
     };
     navigate('/dashboard/searchTicket', { replace: false, state: { ...data } });
   };
+
+  const getTicketDates = async () => {
+    try {
+      setTicketDates([]);
+      if (values.source && values.destination) {
+        const res = await flightsAPI.getAvailableTicketDates(values.source, values.destination);
+        if (res && res.status === 200) {
+          if (res.data && res.data.success) {
+            setTicketDates(
+              res.data.data.map((el) => {
+                if (Date.now() < new Date(el.departureDateTime)) {
+                  return new Date(el.departureDateTime).toLocaleDateString();
+                }
+                return undefined;
+              })
+            );
+          }
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    if (values.source && values.destination) {
+      getTicketDates();
+    }
+    setTicketDates([]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [values.source, values.destination]);
 
   return (
     <Page
@@ -203,6 +292,25 @@ export default function AgentDashboard() {
                                 size="small"
                               />
                             )}
+                            renderDay={(day, _value, DayComponentProps) => {
+                              const isSelected =
+                                !DayComponentProps.outsideCurrentMonth &&
+                                ticketDates.indexOf(day.toLocaleDateString()) !== -1;
+                              if (isSelected) {
+                                return (
+                                  <StyledBadge
+                                    key={day.toString()}
+                                    color="primary"
+                                    variant="dot"
+                                    overlap="circular"
+                                    badgeContent=" "
+                                  >
+                                    <PickersDay {...DayComponentProps} />
+                                  </StyledBadge>
+                                );
+                              }
+                              return <PickersDay {...DayComponentProps} />;
+                            }}
                           />
                         </LocalizationProvider>
                       </Grid>

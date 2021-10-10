@@ -19,6 +19,7 @@ import {
 import logo from '../../assets/images/easyticketlogo.png';
 import { useAdminContext } from '../../context/AdminContext';
 import { getAirlineNameById, getAirportNameById } from '../../utils/helperFunctions';
+import { useAuth } from '../../context/AuthContext';
 
 Font.register({
   family: 'Roboto',
@@ -43,6 +44,7 @@ Font.register({
 
 export default function BookingPrintModal() {
   const adminContext = useAdminContext();
+  const { user } = useAuth();
   const { bookingPrint, toggleShowBookingPrintModal } = adminContext;
   const { booking } = useSelector((state) => state.booking);
 
@@ -70,7 +72,7 @@ export default function BookingPrintModal() {
         >
           <Page size="A4" style={styles.page} orientation="portrait">
             <View style={styles.section1}>
-              <Image style={styles.image} src={logo} />
+              {!user?.ticketLogoEnabled && <Image style={styles.image} src={logo} />}
               <Text style={styles.labelText}>Booking ID: &nbsp;{booking?.bookingRef}</Text>
               <Text style={styles.labelText}>
                 Booked On:{' '}

@@ -29,4 +29,13 @@ export default class FlightsAPI {
       return err;
     }
   }
+
+  async getAvailableTicketDates(source, destination) {
+    try {
+      const res = await axiosInstance.get(`${this.PATH}/get-ticket-dates/${source}/${destination}`);
+      return res;
+    } catch (err) {
+      return err;
+    }
+  }
 }

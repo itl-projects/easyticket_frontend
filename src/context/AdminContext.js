@@ -13,6 +13,7 @@ export default function AdminProvider({ children }) {
   const [showUserMarkupModal, setShowUserMarkupModal] = useState(null);
   const [showCreditApproveModal, toggleShowCreditApproveModal] = useState(null);
   const [showCreditRequestModal, toggleShowCreditRequestModal] = useState(false);
+  const [showGlobalLogoutModal, toggleShowGlobalLogoutModal] = useState(false);
 
   const toggleShowAgentModal = () => {
     setShowAgentModal(!showAgentModal);
@@ -48,6 +49,8 @@ export default function AdminProvider({ children }) {
     showCreditApproveModal,
     showCreditRequestModal,
     showAlertInfo,
+    showGlobalLogoutModal,
+    toggleShowGlobalLogoutModal,
     setShowAlertInfo,
     toggleShowAgentModal,
     toggleShowTicketModal,

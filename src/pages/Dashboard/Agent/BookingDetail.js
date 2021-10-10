@@ -24,6 +24,7 @@ import { getAirlineNameById, getAirportNameById } from '../../../utils/helperFun
 import Page from '../../../components/Page';
 import BookingPrintModal from '../../../components/Modals/BookingPrintModal';
 import { useAdminContext } from '../../../context/AdminContext';
+import { useAuth } from '../../../context/AuthContext';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -44,9 +45,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 export default function ConfirmBooking() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const { booking } = useSelector((state) => state.booking);
   const adminContext = useAdminContext();
   const { toggleShowBookingPrintModal } = adminContext;
+
+  // ticketLogoEnabled
 
   if (!booking) window.history.back();
 
@@ -77,11 +81,13 @@ export default function ConfirmBooking() {
           </Grid>
           <Card sx={{ py: 1, px: 2 }}>
             <Grid container alignItems="flex-end" flexDirection="column">
-              <Box
-                component="img"
-                src="/static/images/easyticketlogo.png"
-                sx={{ width: 120, height: 28, mb: 1 }}
-              />
+              {!user?.ticketLogoEnabled && (
+                <Box
+                  component="img"
+                  src="/static/images/easyticketlogo.png"
+                  sx={{ width: 120, height: 28, mb: 1 }}
+                />
+              )}
               <Typography variant="body2">Booking Id:&nbsp;{booking.bookingRef}</Typography>
               <Typography variant="body2">
                 Booked On:{' '}

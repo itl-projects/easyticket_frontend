@@ -3,9 +3,9 @@ import axiosInstance from '../../config/axiosConfig';
 export default class TicketAPI {
   PATH = 'tickets';
 
-  async listTickets(page, rowsPerPage) {
+  async listTickets(data) {
     try {
-      const res = await axiosInstance.get(`${this.PATH}?page=${page}&limit=${rowsPerPage}`);
+      const res = await axiosInstance.post(`${this.PATH}/list-tickets`, data);
       return res;
     } catch (err) {
       return null;

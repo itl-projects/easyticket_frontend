@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableContainer from '@material-ui/core/TableContainer';
@@ -18,7 +19,11 @@ import { formatPrice, successMessage, errorMessage } from '../../../utils/helper
 import { useAdminContext } from '../../../context/AdminContext';
 import SettleCreditRequestDialog from './SettleCreditRequestDialog';
 
-export default function EnhancedTable() {
+CreditListTable.propTypes = {
+  filters: PropTypes.object
+};
+
+export default function CreditListTable({ filters }) {
   const adminContext = useAdminContext();
   const { showCreditApproveModal, showFundTransferModal, toggleShowCreditApproveModal } =
     adminContext;
@@ -43,7 +48,8 @@ export default function EnhancedTable() {
     setLoading(true);
     const data = {
       page: page + 1,
-      limit: rowsPerPage
+      limit: rowsPerPage,
+      ...filters
     };
     const res = await creditRequestAPI.getCreditRequests(data);
     setLoading(false);
@@ -56,7 +62,7 @@ export default function EnhancedTable() {
   useEffect(() => {
     if (showCreditApproveModal === null && showCreditApproveModal === null) getMyCreditRequests();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, rowsPerPage, showCreditApproveModal, showFundTransferModal]);
+  }, [page, rowsPerPage, showCreditApproveModal, showFundTransferModal, filters]);
 
   const getStatusColor = (status) => {
     if (status === 'cancelled') return 'error';

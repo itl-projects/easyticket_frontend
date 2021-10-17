@@ -1,6 +1,5 @@
 // material
-import * as Yup from 'yup';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, Container, Typography, Grid, TextField, Stack } from '@material-ui/core';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
@@ -12,20 +11,19 @@ import Page from '../../../components/Page';
 import TicketModal from '../../../components/Modals/TicketModal';
 import AppActiveUsers from '../../../components/_dashboard/app/AppActiveUsers';
 import { BookingsListTable } from '../../../components/_adminDashboard/Bookings';
+import AirlineAutocomplete from '../../../components/FormComponents/AirlineAutocomplete';
+import { bookingsAPI } from '../../../services/admin';
 
 // ----------------------------------------------------------------------
 
 export default function BookingsPage() {
-  const changePasswordSchema = Yup.object().shape({
-    firstName: Yup.string().required('Please enter first Name'),
-    lastName: Yup.string().required('Please enter last name'),
-    company: Yup.string().required('Please enter company name'),
-    address: Yup.string()
-  });
-
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
   const [travelDate, setTravelDate] = useState(null);
+  const [bookingCount, setBookingCounts] = useState({
+    booked: 0,
+    total: 0
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -33,13 +31,26 @@ export default function BookingsPage() {
       fromDate: '',
       toDate: '',
       travelDate: '',
-      pnr: ''
+      pnr: '',
+      airline: 0
     },
-    validationSchema: changePasswordSchema,
     onSubmit: async () => {}
   });
 
   const { values, getFieldProps, setFieldValue } = formik;
+
+  const getBookingCounts = async () => {
+    const res = await bookingsAPI.getBookingCounts();
+    if (res && res.status === 200) {
+      if (res.data && res.data.success) {
+        setBookingCounts(res.data.data);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getBookingCounts();
+  }, []);
 
   return (
     <Page title="Dashboard | Bookings">
@@ -63,15 +74,6 @@ export default function BookingsPage() {
                         label="PNR"
                         size="small"
                         {...getFieldProps('pnr')}
-                        // InputProps={{
-                        //   endAdornment: (
-                        //     <InputAdornment position="end">
-                        //       <IconButton edge="end">
-                        //         <Icon icon={pnrIcon} />
-                        //       </IconButton>
-                        //     </InputAdornment>
-                        //   )
-                        // }}
                       />
                     </Grid>
                     <Grid item xs={12} md={6} lg={4}>
@@ -132,20 +134,10 @@ export default function BookingsPage() {
                       </LocalizationProvider>
                     </Grid>
                     <Grid item xs={12} md={6} lg={4}>
-                      <TextField
-                        fullWidth
-                        type="text"
+                      <AirlineAutocomplete
                         label="Airline"
-                        size="small"
-                        // InputProps={{
-                        //   endAdornment: (
-                        //     <InputAdornment position="end">
-                        //       <IconButton edge="end">
-                        //         <Icon icon={flightIcon} />
-                        //       </IconButton>
-                        //     </InputAdornment>
-                        //   )
-                        // }}
+                        value={values.airline}
+                        onChange={(v) => setFieldValue('airline', v)}
                       />
                     </Grid>
                   </Grid>
@@ -162,7 +154,11 @@ export default function BookingsPage() {
                 rowGap={1}
               >
                 <Grid xs={12}>
-                  <AppActiveUsers title="Bookings" accualCount={24} totalCount={67} />
+                  <AppActiveUsers
+                    title="Bookings"
+                    accualCount={bookingCount.booked}
+                    totalCount={bookingCount.total}
+                  />
                 </Grid>
               </Grid>
             </Card>

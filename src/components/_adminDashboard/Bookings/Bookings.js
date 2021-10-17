@@ -103,11 +103,11 @@ function EnhancedTableHead() {
   );
 }
 
-EnhancedTable.propTypes = {
+BookingListTable.propTypes = {
   filters: PropTypes.object
 };
 
-export default function EnhancedTable({ filters }) {
+export default function BookingListTable({ filters }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [rows, setRows] = React.useState([]);
@@ -132,8 +132,8 @@ export default function EnhancedTable({ filters }) {
     const res = await bookingsAPI.listBookings(data);
     setLoading(false);
     if (res && res.status === 201) {
-      if (res.data && res.data.data) {
-        if (res.data.success) {
+      if (res.data && res.data.success) {
+        if (res.data.data) {
           setRows(res.data.data.items);
           setTotal(res.data.data.meta.totalItems);
         }

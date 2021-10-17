@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import { sentenceCase } from 'change-case';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -86,7 +87,7 @@ const headCells = [
   }
 ];
 
-function EnhancedTableHead() {
+function UserListTableHead() {
   return (
     <TableHead>
       <TableRow>
@@ -103,7 +104,10 @@ function EnhancedTableHead() {
   );
 }
 
-export default function EnhancedTable() {
+UserListTable.propTypes = {
+  filters: PropTypes.object
+};
+export default function UserListTable({ filters }) {
   const adminContext = useAdminContext();
   const { showAgentModal, showUserMarkupModal, toggleShowUserMarkupModal } = adminContext;
   const [page, setPage] = React.useState(0);
@@ -127,13 +131,18 @@ export default function EnhancedTable() {
   const getUsers = React.useCallback(async () => {
     setData([]);
     setLoading(true);
-    const res = await usersAPI.listUsers(page + 1, rowsPerPage);
+    const data = {
+      page: page + 1,
+      limit: rowsPerPage,
+      ...filters
+    };
+    const res = await usersAPI.listUsers(data);
     setLoading(false);
-    if (res && res.status === 200) {
+    if (res && res.status === 201) {
       setTotalItems(res.data.meta.totalItems);
       setData(res.data.items);
     }
-  }, [page, rowsPerPage]);
+  }, [page, rowsPerPage, filters]);
 
   React.useEffect(() => {
     if (!showAgentModal && !showUserMarkupModal) getUsers();
@@ -179,7 +188,7 @@ export default function EnhancedTable() {
     <Paper sx={{ width: '100%' }}>
       <TableContainer>
         <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size="small">
-          <EnhancedTableHead />
+          <UserListTableHead />
           <TableBody>
             {!loading &&
               data.map((row, index) => {

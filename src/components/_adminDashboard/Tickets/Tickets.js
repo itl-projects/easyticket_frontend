@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -93,7 +94,7 @@ const headCells = [
   }
 ];
 
-function EnhancedTableHead() {
+function TicketListTableHead() {
   return (
     <TableHead>
       <TableRow>
@@ -107,7 +108,11 @@ function EnhancedTableHead() {
   );
 }
 
-export default function EnhancedTable() {
+TicketListTable.propTypes = {
+  filters: PropTypes.object
+};
+
+export default function TicketListTable({ filters }) {
   const adminContext = useAdminContext();
   const { showTicketModal, toggleShowTicketModal } = adminContext;
 
@@ -137,10 +142,15 @@ export default function EnhancedTable() {
 
   const getTickets = async () => {
     setLoading(true);
-    const res = await ticketsAPI.listTickets(page + 1, rowsPerPage);
+    const data = {
+      page: page + 1,
+      limit: rowsPerPage,
+      ...filters
+    };
+    const res = await ticketsAPI.listTickets(data);
     setLoading(false);
-    if (res && res.status === 200) {
-      if (res.status) {
+    if (res && res.status === 201) {
+      if (res.data && res.data.success) {
         setTickets(res.data.data);
         setTotalTickets(res.data.meta.totalItems);
       }
@@ -150,7 +160,7 @@ export default function EnhancedTable() {
   React.useEffect(() => {
     if (!showTicketModal) getTickets();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, rowsPerPage, showTicketModal]);
+  }, [page, rowsPerPage, showTicketModal, filters]);
 
   const onDeleteConfirm = async (status) => {
     if (currentTicket && status) {
@@ -176,7 +186,7 @@ export default function EnhancedTable() {
     <Paper>
       <TableContainer component={Paper}>
         <Table size="small">
-          <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
+          <TicketListTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
           <TableBody>
             {!loading &&
               tickets &&
@@ -229,6 +239,11 @@ export default function EnhancedTable() {
           <Stack px={2}>
             <TableSkeleton />
           </Stack>
+        )}
+        {!loading && tickets.length <= 0 && (
+          <Typography sx={{ my: 3 }} textAlign="center" variant="h5">
+            No tickets found !
+          </Typography>
         )}
       </TableContainer>
 

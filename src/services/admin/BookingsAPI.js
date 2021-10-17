@@ -12,6 +12,15 @@ export default class BookingsAPI {
     }
   }
 
+  async getBookingCounts() {
+    try {
+      const res = await axiosInstance.get(`${this.PATH}/get-booking-counts`);
+      return res;
+    } catch (err) {
+      return null;
+    }
+  }
+
   async listBookings(data) {
     try {
       const res = await axiosInstance.post(`${this.PATH}/updated`, data);

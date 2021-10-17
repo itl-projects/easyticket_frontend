@@ -3,9 +3,9 @@ import axiosInstance from '../../config/axiosConfig';
 export default class UserAPI {
   PATH = 'users';
 
-  async listUsers(page, rowsPerPage) {
+  async listUsers(data) {
     try {
-      const res = await axiosInstance.get(`${this.PATH}?page=${page}&limit=${rowsPerPage}`);
+      const res = await axiosInstance.post(`${this.PATH}/list-users`, data);
       return res;
     } catch (err) {
       return null;
@@ -62,6 +62,24 @@ export default class UserAPI {
   async removeUserMarkup(id) {
     try {
       const res = await axiosInstance.delete(`${this.PATH}/markup/${id}`);
+      return res;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  async getCities() {
+    try {
+      const res = await axiosInstance.get(`${this.PATH}/get-cities`);
+      return res;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  async getStates() {
+    try {
+      const res = await axiosInstance.get(`${this.PATH}/get-states`);
       return res;
     } catch (err) {
       return null;

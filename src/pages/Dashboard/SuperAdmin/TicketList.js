@@ -105,7 +105,7 @@ export default function TicketListPage() {
                                 endAdornment: (
                                   <InputAdornment position="end">
                                     <IconButton edge="end">
-                                      <Icon icon={flightLandIcon} />
+                                      <Icon icon={flightTackoffIcon} />
                                     </IconButton>
                                   </InputAdornment>
                                 )
@@ -133,7 +133,7 @@ export default function TicketListPage() {
                                 endAdornment: (
                                   <InputAdornment position="end">
                                     <IconButton edge="end">
-                                      <Icon icon={flightTackoffIcon} />
+                                      <Icon icon={flightLandIcon} />
                                     </IconButton>
                                   </InputAdornment>
                                 )

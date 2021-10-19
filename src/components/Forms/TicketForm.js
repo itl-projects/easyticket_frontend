@@ -57,7 +57,7 @@ export default function TicketForm({ submitRef, closeModal }) {
   });
 
   const _initialValues = useMemo(() => {
-    if (showTicketModal !== null && Object.keys(showTicketModal).length) {
+    if (showTicketModal && Object.keys(showTicketModal).length) {
       setValue(new Date(showTicketModal.departureDateTime));
       setValue2(new Date(showTicketModal.arrivalDateTime));
       return {

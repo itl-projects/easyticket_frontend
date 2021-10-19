@@ -29,6 +29,7 @@ import TicketModal from '../../../components/Modals/TicketModal';
 import AppActiveUsers from '../../../components/_dashboard/app/AppActiveUsers';
 import { Tickets } from '../../../components/_adminDashboard/Tickets';
 import AirlineAutocomplete from '../../../components/FormComponents/AirlineAutocomplete';
+import AirportAutocomplete from '../../../components/FormComponents/AirportAutocomplete';
 
 // ----------------------------------------------------------------------
 
@@ -37,8 +38,8 @@ export default function TicketListPage() {
   const { toggleShowTicketModal } = adminContext;
 
   const bookingFilterSchema = Yup.object().shape({
-    to: Yup.string(),
-    from: Yup.string(),
+    source: Yup.string(),
+    destination: Yup.string(),
     uploadedBy: Yup.number(),
     departureDate: Yup.string(),
     arrivalDate: Yup.string(),
@@ -46,15 +47,13 @@ export default function TicketListPage() {
     status: Yup.string()
   });
 
-  const [toDate, setToDate] = useState(null);
-  const [fromDate, setFromDate] = useState(null);
   const [departureDate, setDepartureDate] = useState(null);
   const [arrivalDate, setArrivalDate] = useState(null);
 
   const formik = useFormik({
     initialValues: {
-      to: '',
-      from: '',
+      source: 0,
+      destination: 0,
       uploadedBy: 0,
       departureDate: '',
       arrivalDate: '',
@@ -91,53 +90,35 @@ export default function TicketListPage() {
                     <Grid item xs={12} md={6} lg={4}>
                       <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DatePicker
-                          label="Start Date"
-                          value={fromDate}
+                          label="Departure Date"
+                          value={departureDate}
                           onChange={(newValue) => {
-                            setFieldValue('from', newValue);
-                            setFromDate(newValue);
+                            setFieldValue('departureDate', newValue);
+                            setDepartureDate(newValue);
                           }}
-                          renderInput={(params) => <TextField size="small" {...params} fullWidth />}
+                          renderInput={(params) => (
+                            <TextField
+                              size="small"
+                              {...params}
+                              fullWidth
+                              InputProps={{
+                                endAdornment: (
+                                  <InputAdornment position="end">
+                                    <IconButton edge="end">
+                                      <Icon icon={flightLandIcon} />
+                                    </IconButton>
+                                  </InputAdornment>
+                                )
+                              }}
+                            />
+                          )}
                         />
                       </LocalizationProvider>
                     </Grid>
                     <Grid item xs={12} md={6} lg={4}>
                       <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DatePicker
-                          label="End Date"
-                          value={toDate}
-                          onChange={(newValue) => {
-                            setFieldValue('to', newValue);
-                            setToDate(newValue);
-                          }}
-                          renderInput={(params) => <TextField size="small" {...params} fullWidth />}
-                        />
-                      </LocalizationProvider>
-                    </Grid>
-                    <Grid item xs={12} md={6} lg={4}>
-                      <TextField
-                        size="small"
-                        label="Uploaded By"
-                        select
-                        fullWidth
-                        {...getFieldProps('uploadedBy')}
-                      >
-                        <MenuItem value={0}>All</MenuItem>
-                        <MenuItem value={2}>Admin</MenuItem>
-                        <MenuItem value={3}>Supplier</MenuItem>
-                      </TextField>
-                    </Grid>
-                    <Grid item xs={12} md={6} lg={4}>
-                      <AirlineAutocomplete
-                        label="Airline"
-                        value={values.airline}
-                        onChange={(v) => setFieldValue('airline', v)}
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={6} lg={4}>
-                      <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <DatePicker
-                          label="From Date"
+                          label="Arrival Date"
                           value={arrivalDate}
                           onChange={(newValue) => {
                             setFieldValue('arrivalDate', newValue);
@@ -163,32 +144,40 @@ export default function TicketListPage() {
                       </LocalizationProvider>
                     </Grid>
                     <Grid item xs={12} md={6} lg={4}>
-                      <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <DatePicker
-                          label="To Date"
-                          value={departureDate}
-                          onChange={(newValue) => {
-                            setFieldValue('departureDate', newValue);
-                            setDepartureDate(newValue);
-                          }}
-                          renderInput={(params) => (
-                            <TextField
-                              size="small"
-                              {...params}
-                              fullWidth
-                              InputProps={{
-                                endAdornment: (
-                                  <InputAdornment position="end">
-                                    <IconButton edge="end">
-                                      <Icon icon={flightLandIcon} />
-                                    </IconButton>
-                                  </InputAdornment>
-                                )
-                              }}
-                            />
-                          )}
-                        />
-                      </LocalizationProvider>
+                      <TextField
+                        size="small"
+                        label="Uploaded By"
+                        select
+                        fullWidth
+                        {...getFieldProps('uploadedBy')}
+                      >
+                        <MenuItem value={0}>All</MenuItem>
+                        <MenuItem value={2}>Admin</MenuItem>
+                        <MenuItem value={3}>Supplier</MenuItem>
+                      </TextField>
+                    </Grid>
+                    <Grid item xs={12} md={6} lg={4}>
+                      <AirlineAutocomplete
+                        label="Airline"
+                        value={values.airline}
+                        onChange={(v) => setFieldValue('airline', v)}
+                      />
+                    </Grid>
+                    <Grid item xs={12} md={6} lg={4}>
+                      <AirportAutocomplete
+                        label="Source"
+                        value={values.source}
+                        onChange={(v) => setFieldValue('source', v)}
+                        size="small"
+                      />
+                    </Grid>
+                    <Grid item xs={12} md={6} lg={4}>
+                      <AirportAutocomplete
+                        label="Destination"
+                        value={values.destination}
+                        onChange={(v) => setFieldValue('destination', v)}
+                        size="small"
+                      />
                     </Grid>
                   </Grid>
                 </Card>

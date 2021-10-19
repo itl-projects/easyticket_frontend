@@ -20,7 +20,9 @@ export default function AdminProvider({ children }) {
   };
 
   const toggleShowTicketModal = (_, editItem = null) => {
-    setShowTicketModal(editItem);
+    if (editItem === 'backdropClick') {
+      setShowTicketModal(null);
+    } else setShowTicketModal(editItem);
   };
 
   const toggleShowFundTransferModal = () => {

@@ -84,6 +84,14 @@ export default function DashboardHeader() {
             linkTo: '/dashboard/settings'
           }
         ];
+      case USER_ROLES.SUPPLIER:
+        return [
+          {
+            label: 'Profile Setting',
+            icon: userFill,
+            linkTo: '/dashboard/profile'
+          }
+        ];
       case USER_ROLES.USER:
         return [
           {

@@ -2,7 +2,10 @@ import { useEffect, useRef, useState, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   Grid,
-  Card,
+  // Card,
+  // CardHeader,
+  // FormControlLabel,
+  // Checkbox,
   Stack,
   Box,
   Button,
@@ -10,17 +13,14 @@ import {
   Avatar,
   Typography,
   Divider,
-  CardHeader,
   Badge,
-  FormControlLabel,
-  Checkbox,
   IconButton,
   CircularProgress
 } from '@material-ui/core';
 import { Icon } from '@iconify/react';
 import editFill from '@iconify/icons-eva/edit-fill';
 import { LoadingButton } from '@material-ui/lab';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider } from 'formik';
 import Page from '../../../components/Page';
@@ -32,7 +32,7 @@ import ProfileEditModal from '../../../components/Modals/ProfileEditModal';
 import { updateUserData } from '../../../store/actions/authAction';
 
 export default function AgentProfile() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const fileRef = useRef();
   const dispatch = useDispatch();
   const { user } = useAuth();
@@ -48,7 +48,7 @@ export default function AgentProfile() {
 
   const [image, setImage] = useState('/static/images/avatar/1.svg');
   const [uploadingProfileImage, setUploadingProfileImage] = useState(false);
-  const [loadingToggleTicketLogo, setLoadingToggleTicketLogo] = useState(false);
+  // const [loadingToggleTicketLogo, setLoadingToggleTicketLogo] = useState(false);
   // const [loadingToggleTicketAmount, setLoadingToggleTicketAmount] = useState(false);
   const [showPasswordChangeModal, setShowPasswordChangeModal] = useState(false);
   const [showInfoEditModal, setShowInfoEditModal] = useState(false);
@@ -70,13 +70,10 @@ export default function AgentProfile() {
 
   const formik = useFormik({
     initialValues: _inititalValues,
-    validationSchema: filterSchema,
-    onSubmit: async () => {
-      navigate('/dashboard/searchTicket', { replace: false, state: { ...values } });
-    }
+    validationSchema: filterSchema
   });
 
-  const { values, isSubmitting, handleSubmit, getFieldProps, setFieldValue } = formik;
+  const { isSubmitting } = formik;
 
   const profileImageChanged = async (e) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -90,11 +87,6 @@ export default function AgentProfile() {
         if (res && res.status === 201) {
           if (res.data && res.data.success) {
             successMessage(res.data.message);
-            // const reader = new FileReader();
-            // reader.onload = (e) => {
-            //   setImage(e.target.result);
-            // };
-            // reader.readAsDataURL(file);
             dispatch(updateUserData(res.data.user));
             return;
           }
@@ -107,41 +99,41 @@ export default function AgentProfile() {
     }
   };
 
-  const changeTicketLogoStatus = async () => {
-    const currStatus = values.toggleLogo;
-    try {
-      setLoadingToggleTicketLogo(true);
-      const res = await profileAPI.toggleTicketLogo();
-      setLoadingToggleTicketLogo(false);
-      if (res && res.status === 200) {
-        if (res.data && res.data.success) {
-          successMessage(res.data.message);
-          dispatch(
-            updateUserData({
-              ...user,
-              ticketLogoEnabled: res.data.ticketLogoStatus
-            })
-          );
-          setFieldValue('toggleLogo', res.data.ticketLogoStatus);
-          return;
-        }
-      }
-      errorMessage(res.data?.message || 'Sorry! something went wrong');
-      setFieldValue('toggleLogo', currStatus);
-    } catch (err) {
-      setLoadingToggleTicketLogo(false);
-      errorMessage('Sorry! something went wrong');
-      setFieldValue('toggleLogo', currStatus);
-    }
-  };
+  // const changeTicketLogoStatus = async () => {
+  //   const currStatus = values.toggleLogo;
+  //   try {
+  //     setLoadingToggleTicketLogo(true);
+  //     const res = await profileAPI.toggleTicketLogo();
+  //     setLoadingToggleTicketLogo(false);
+  //     if (res && res.status === 200) {
+  //       if (res.data && res.data.success) {
+  //         successMessage(res.data.message);
+  //         dispatch(
+  //           updateUserData({
+  //             ...user,
+  //             ticketLogoEnabled: res.data.ticketLogoStatus
+  //           })
+  //         );
+  //         setFieldValue('toggleLogo', res.data.ticketLogoStatus);
+  //         return;
+  //       }
+  //     }
+  //     errorMessage(res.data?.message || 'Sorry! something went wrong');
+  //     setFieldValue('toggleLogo', currStatus);
+  //   } catch (err) {
+  //     setLoadingToggleTicketLogo(false);
+  //     errorMessage('Sorry! something went wrong');
+  //     setFieldValue('toggleLogo', currStatus);
+  //   }
+  // };
 
   return (
-    <Page title="Dashboard | Agent" sx={{ mt: -2 }}>
+    <Page title="Dashboard | Supplier" sx={{ mt: -2 }}>
       <Stack sx={{ pt: 3, pb: 6 }}>
         <Box>
           <Container sx={{ pt: 6 }}>
             <FormikProvider value={formik}>
-              <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+              <Form autoComplete="off" noValidate>
                 <Grid container>
                   <Grid item xs={12} md={4} mt={4} textAlign="center">
                     <Badge
@@ -263,7 +255,7 @@ export default function AgentProfile() {
                       </LoadingButton>
                     </Grid>
 
-                    <Card>
+                    {/* <Card>
                       <CardHeader
                         title="Invoice Setting"
                         titleTypographyProps={{
@@ -291,18 +283,8 @@ export default function AgentProfile() {
                           />
                           {loadingToggleTicketLogo && <CircularProgress size={20} />}
                         </Stack>
-
-                        {/* <FormControlLabel
-                          control={
-                            <Checkbox
-                              {...getFieldProps('toggleAmount')}
-                              checked={values.toggleAmount}
-                            />
-                          }
-                          label="Hide Amount"
-                        /> */}
                       </Stack>
-                    </Card>
+                    </Card> */}
                     {/* </Grid> */}
                   </Grid>
                 </Grid>

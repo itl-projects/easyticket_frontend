@@ -23,7 +23,7 @@ import CreditRequestModal from '../../../components/Modals/CreditRequestModal';
 import { formatPrice } from '../../../utils/helperFunctions';
 import StyledTableCell from '../../../components/core/StyledTableCell';
 
-export default function DepositeRequests() {
+export default function Credits() {
   const adminContext = useAdminContext();
   const { showCreditRequestModal, toggleShowCreditRequestModal } = adminContext;
 
@@ -69,7 +69,7 @@ export default function DepositeRequests() {
   };
 
   return (
-    <Page title="Dashboard | Deposite Requests">
+    <Page title="Dashboard | Credits">
       <Container>
         <Stack>
           {/* <FormikProvider value={formik}>
@@ -82,7 +82,7 @@ export default function DepositeRequests() {
             alignItems="flex-end"
           >
             <Grid xs={12} item lg={6}>
-              <Typography variant="h4">My Deposite Requests</Typography>
+              <Typography variant="h4">My Credits Requests</Typography>
             </Grid>
             {/* <Grid xs={12} item lg={2} md={2}>
                   <Typography sx={{ mb: 1, pl: 1 }}>From</Typography>
@@ -211,7 +211,7 @@ export default function DepositeRequests() {
             />
           </Card>
         </Stack>
-        <CreditRequestModal title="New Withdrawal Request" />
+        <CreditRequestModal title="New Credit Request" />
       </Container>
     </Page>
   );

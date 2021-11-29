@@ -294,7 +294,8 @@ const styles = StyleSheet.create({
     borderColor: '#e4e4e4',
     borderWidth: 1,
     paddingRight: 12,
-    paddingBottom: 5
+    paddingBottom: 5,
+    paddingTop: 5
   },
   header_section: {
     display: 'flex',

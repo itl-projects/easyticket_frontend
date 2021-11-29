@@ -49,7 +49,7 @@ export default function DashboardLayout() {
         <DashboardBody>
           <DrawerHeader />
           {/* <DashboardNavbar onOpenSidebar={() => setOpen(true)} /> */}
-          {user.role === 2 && (
+          {user.role !== 1 && (
             <DashboardSidebar isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
           )}
           <AdminProvider>

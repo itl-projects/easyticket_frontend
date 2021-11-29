@@ -13,7 +13,7 @@ import { styled, alpha } from '@material-ui/core/styles';
 // material
 import { TextField, Grid, Typography } from '@material-ui/core';
 import { LoadingButton } from '@material-ui/lab';
-import { profileAPI } from '../../services/agent';
+import { profileAPI } from '../../services/common';
 import { successMessage, errorMessage, warningMessage } from '../../utils/helperFunctions';
 import { useAuth } from '../../context/AuthContext';
 import { updateUserData } from '../../store/actions/authAction';
@@ -29,12 +29,12 @@ const TextArea = styled(TextareaAutosize)(({ theme }) => ({
   width: '100%'
 }));
 
-AgentInfoEditForm.propTypes = {
+ProfileEditForm.propTypes = {
   show: PropTypes.bool,
   onClose: PropTypes.func
 };
 
-export default function AgentInfoEditForm({ show, onClose }) {
+export default function ProfileEditForm({ show, onClose }) {
   const { user } = useAuth();
   const dispatch = useDispatch();
 

@@ -6,9 +6,12 @@ import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
 import { useAdminContext } from '../../context/AdminContext';
 import TicketForm from '../Forms/TicketForm';
+import SupplierTicketForm from '../Forms/SupplierTicketForm';
+import { useAuth } from '../../context/AuthContext';
 
 export default function TicketModalModal() {
   const adminContext = useAdminContext();
+  const { user } = useAuth();
   const { showTicketModal, toggleShowTicketModal } = adminContext;
   const submitRef = useRef(null);
 
@@ -33,7 +36,12 @@ export default function TicketModalModal() {
             : 'Create Ticket'}
         </MuiDialogTitle>
         <MuiDialogContent dividers>
-          <TicketForm submitRef={submitRef} closeModal={toggleShowTicketModal} />
+          {user.role === 3 && (
+            <SupplierTicketForm submitRef={submitRef} closeModal={toggleShowTicketModal} />
+          )}
+          {user.role === 2 && (
+            <TicketForm submitRef={submitRef} closeModal={toggleShowTicketModal} />
+          )}
         </MuiDialogContent>
         <MuiDialogActions>
           <Button color="error" variant="outlined" onClick={toggleShowTicketModal}>

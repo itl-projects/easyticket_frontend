@@ -5,7 +5,7 @@ export default class CreditRequestAPI {
 
   async getCreditRequests(data) {
     try {
-      const res = await axiosInstance.post(`${this.PATH}/agent-credits`, data);
+      const res = await axiosInstance.post(`${this.PATH}/get-credits`, data);
       return res;
     } catch (err) {
       return null;

@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -26,11 +27,15 @@ const TextArea = styled(TextareaAutosize)(({ theme }) => ({
   width: '100%'
 }));
 
-export default function CreditRequestModal() {
+CreditRequestModal.propTypes = {
+  title: PropTypes.string.isRequired
+};
+
+export default function CreditRequestModal({ title }) {
   const adminContext = useAdminContext();
   const { showCreditRequestModal, toggleShowCreditRequestModal } = adminContext;
 
-  const userAddSchema = Yup.object().shape({
+  const creditRequestSchema = Yup.object().shape({
     amount: Yup.number().required('Amount is required'),
     remark: Yup.string()
   });
@@ -40,7 +45,7 @@ export default function CreditRequestModal() {
       amount: '',
       remark: ''
     },
-    validationSchema: userAddSchema,
+    validationSchema: creditRequestSchema,
     onSubmit: async () => {
       try {
         setSubmitting(true);
@@ -95,9 +100,7 @@ export default function CreditRequestModal() {
       maxWidth="sm"
       fullWidth
     >
-      <MuiDialogTitle onClose={() => toggleShowCreditRequestModal(false)}>
-        New Credit Request
-      </MuiDialogTitle>
+      <MuiDialogTitle onClose={() => toggleShowCreditRequestModal(false)}>{title}</MuiDialogTitle>
       <MuiDialogContent dividers>
         <FormikProvider value={formik}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
@@ -134,8 +137,6 @@ export default function CreditRequestModal() {
                   type="text"
                   placeholder="Remarks"
                   {...getFieldProps('remark')}
-                  error={Boolean(touched.remark && errors.remark)}
-                  helperText={touched.remark && errors.remark}
                   minRows={3}
                 />
               </Grid>

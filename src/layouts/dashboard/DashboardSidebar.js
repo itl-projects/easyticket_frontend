@@ -9,8 +9,8 @@ import Scrollbar from '../../components/Scrollbar';
 import NavSection from '../../components/NavSection';
 import { MHidden } from '../../components/@material-extend';
 //
-import sidebarConfig from './SidebarConfig';
-
+import { sidebarConfig, supplierSidebarConfig } from './SidebarConfig';
+import { useAuth } from '../../context/AuthContext';
 // ----------------------------------------------------------------------
 
 const DRAWER_WIDTH = 280;
@@ -40,6 +40,7 @@ DashboardSidebar.propTypes = {
 
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useLocation();
+  const { user } = useAuth();
 
   useEffect(() => {
     if (isOpenSidebar) {
@@ -55,7 +56,8 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         '& .simplebar-content': { height: '100%', display: 'flex', flexDirection: 'column' }
       }}
     >
-      <NavSection navConfig={sidebarConfig} />
+      {user.role === 2 && <NavSection navConfig={sidebarConfig} />}
+      {user.role === 3 && <NavSection navConfig={supplierSidebarConfig} />}
 
       <Box sx={{ flexGrow: 1 }} />
 

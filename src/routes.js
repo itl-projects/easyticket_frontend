@@ -29,6 +29,12 @@ import BookingSuccess from './pages/Dashboard/Agent/BookingSuccess';
 import BookingFailed from './pages/Dashboard/Agent/BookingFailed';
 import AgentProfile from './pages/Dashboard/Agent/Profile';
 
+// supplier
+import SupplierDashboard from './pages/Dashboard/Supplier';
+import SupplierTickets from './pages/Dashboard/Supplier/TicketList';
+import SupplierCredits from './pages/Dashboard/Supplier/Credits';
+import SupplierProfile from './pages/Dashboard/Supplier/Profile';
+
 import { USER_ROLES } from './utils/constants';
 
 // ----------------------------------------------------------------------
@@ -42,6 +48,8 @@ export default function Router() {
         return <AdminDashboard />;
       case USER_ROLES.USER:
         return <AgentDashboard />;
+      case USER_ROLES.SUPPLIER:
+        return <Navigate to="/dashboard/bookings" replace />;
       default:
         return null;
     }
@@ -71,9 +79,15 @@ export default function Router() {
             // Admin Routes
             user.role === USER_ROLES.ADMIN && { path: 'agents', element: <UsersListPage /> },
             user.role === USER_ROLES.ADMIN && { path: 'bookings', element: <BookingsPage /> },
+            user.role === USER_ROLES.SUPPLIER && {
+              path: 'bookings',
+              element: <SupplierDashboard />
+            },
             user.role === USER_ROLES.ADMIN && { path: 'credits', element: <Credits /> },
+            user.role === USER_ROLES.SUPPLIER && { path: 'credits', element: <SupplierCredits /> },
             user.role === USER_ROLES.ADMIN && { path: 'settings', element: <AdminSetting /> },
             user.role === USER_ROLES.ADMIN && { path: 'tickets', element: <TicketList /> },
+            user.role === USER_ROLES.SUPPLIER && { path: 'tickets', element: <SupplierTickets /> },
             user.role === USER_ROLES.USER && {
               path: '/confirmBooking',
               element: <ConfirmBooking />
@@ -102,7 +116,8 @@ export default function Router() {
               path: '/searchTicket',
               element: <TicketSearch />
             },
-            user.role === USER_ROLES.USER && { path: '/profile', element: <AgentProfile /> }
+            user.role === USER_ROLES.USER && { path: '/profile', element: <AgentProfile /> },
+            user.role === USER_ROLES.SUPPLIER && { path: '/profile', element: <SupplierProfile /> }
           ]
         }
       : { path: '*', element: <Navigate to="/login" replace /> }

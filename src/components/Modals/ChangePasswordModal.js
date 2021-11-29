@@ -10,16 +10,16 @@ import { useFormik, Form, FormikProvider } from 'formik';
 // material
 import { TextField, Grid, Typography } from '@material-ui/core';
 import { LoadingButton } from '@material-ui/lab';
-import { profileAPI } from '../../services/agent';
+import { profileAPI } from '../../services/common';
 import { successMessage, errorMessage, warningMessage } from '../../utils/helperFunctions';
 import { useAdminContext } from '../../context/AdminContext';
 
-AgentChangePasswordModal.propTypes = {
+ChangePasswordModal.propTypes = {
   show: PropTypes.bool,
   onClose: PropTypes.func
 };
 
-export default function AgentChangePasswordModal({ show, onClose }) {
+export default function ChangePasswordModal({ show, onClose }) {
   const adminContext = useAdminContext();
   const { toggleShowGlobalLogoutModal } = adminContext;
 

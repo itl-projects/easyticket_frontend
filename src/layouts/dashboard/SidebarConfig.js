@@ -10,7 +10,7 @@ import settings2Fill from '@iconify/icons-eva/settings-2-fill';
 
 const getIcon = (name) => <Icon icon={name} width={22} height={22} />;
 
-const sidebarConfig = [
+export const sidebarConfig = [
   {
     title: 'dashboard',
     path: '/dashboard',
@@ -43,4 +43,20 @@ const sidebarConfig = [
   }
 ];
 
-export default sidebarConfig;
+export const supplierSidebarConfig = [
+  {
+    title: 'bookings',
+    path: '/dashboard/bookings',
+    icon: getIcon(listFill)
+  },
+  {
+    title: 'Tickets',
+    path: '/dashboard/tickets',
+    icon: getIcon(ticketFill)
+  },
+  {
+    title: 'Credits',
+    path: '/dashboard/credits',
+    icon: getIcon(ruppeFill)
+  }
+];
